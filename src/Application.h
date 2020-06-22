@@ -14,8 +14,8 @@ protected:
 
     virtual void processFrame() = 0;
 private:
-    static constexpr int GL_CONTEXT_VERSION_MAJOR = 3;
-    static constexpr int GL_CONTEXT_VERSION_MINOR = 3;
+    static constexpr int GL_CONTEXT_VERSION_MAJOR = 4;
+    static constexpr int GL_CONTEXT_VERSION_MINOR = 5;
 
 
     void processInput();
