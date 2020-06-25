@@ -1,5 +1,9 @@
 #pragma once
 
+#include <vector>
+
+#include "RoadMapGenNode.h"
+
 class RoadMap;
 
 class RoadMapGen
