@@ -17,7 +17,7 @@ void Renderer::operator() (const glm::mat4& viewMatrix, const glm::mat4& projMat
         {
             //set color white by default
             glm::vec3 color(0.0f, 1.0f, 1.0f);
-            if( roadmap.getFieldState( glm::vec2i(x, y) ) == RoadMap::ON ) //i.e it is black
+            if( roadmap.getFieldState( glm::vec2i(x, y) ) ) //i.e it is black
                 color = glm::vec3(0.0f, 0.0f, 0.0f);
 
             squareRenderer(viewMatrix, projMatrix, glm::vec2(x, y), 1.0f, color);
