@@ -13,8 +13,8 @@ public:
     inline const RoadMap* getRoadMap() const { return &roadMap; }
     inline RoadMap* getRoadMap() {return &roadMap;}
 private:
-    static constexpr int width = 20;
-    static constexpr int height = 20;
+    static constexpr int width = 50;
+    static constexpr int height = 50;
 
     RoadMap roadMap;
     RoadMapGen roadGenerator;
