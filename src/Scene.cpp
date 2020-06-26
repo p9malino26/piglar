@@ -2,10 +2,12 @@
 
 #include "Input.h"
 
+void generateTree(RoadMap* roadmap, const glm::vec2i& startpos);
+
 Scene::Scene()
     :roadMap(width, height), roadGenerator(&roadMap)
 {
-    //roadGenerator.generate();
+    generateTree(&roadMap, glm::vec2i(25, 5));
 }
 
 void Scene::update()

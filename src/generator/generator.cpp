@@ -1,3 +1,5 @@
+#include<iostream>
+
 #include "../RoadMap.h"
 #include "../GLMIncludes.h"
 #include "../Random.h"
@@ -16,8 +18,9 @@ void generateTree(RoadMap* roadmap, const glm::vec2i& startpos)
 
     for (glm::vec2i pos = startpos; ; pos.y++)
     {
+        std::cout << "Pos: " << pos << std::endl;
         roadmap->setFieldState(pos, true);
-        if (startpos == endPos)
+        if (pos.y == endPos.y)
             break;
     }
 }
