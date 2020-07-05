@@ -9,6 +9,7 @@
 #include <stdexcept>
 
 #include "GLMIncludes.h"
+#include "Util.h"
 
 //all rendering function deprecated
 
@@ -45,7 +46,7 @@ public:
         return data[getIndexFromCoord(coord)];
     }
 
-    void setLine(const glm::vec2i& startPos, )
+    void setLine(const glm::vec2i& startPos, CompassDirection direction, int length, bool state);
 
 
 private:
