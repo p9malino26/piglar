@@ -1,8 +1,7 @@
 #include "Scene.h"
 
 #include "Input.h"
-
-void generateTree(RoadMap& roadmap, const glm::vec2i& startpos);
+#include "generator/generator.h"
 
 Scene::Scene()
     :roadMap(width, height), roadGenerator(&roadMap)

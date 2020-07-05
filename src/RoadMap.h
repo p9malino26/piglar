@@ -45,6 +45,8 @@ public:
         return data[getIndexFromCoord(coord)];
     }
 
+    void setLine(const glm::vec2i& startPos, )
+
 
 private:
 
