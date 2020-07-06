@@ -28,25 +28,30 @@ void generateTree(RoadMap& roadmap, const glm::vec2i& startpos)
     }
 
     auto genBranch = [&roadmap](bool direction, const glm::vec2i& pos) {
-        bool x = Random::fractionChance({2,3}); // choose whether to generate branch
-        if (x)
-        {
-            int linelength = Random::randInt(3, 7); // branch length
-            roadmap.setLine(pos, direction ? CompassDirection::WEST : CompassDirection::EAST, linelength, 1);
-        }
-
+        
+        int linelength = Random::randInt(3, 7); // branch length
+        roadmap.setLine(pos, direction ? CompassDirection::WEST : CompassDirection::EAST, linelength, 1);
+        
     };
 
     //for branches:
     for (glm::vec2i pos = startpos; pos.y <= endPos.y ;)
     {
-        std::cout << pos << std::endl;
-        genBranch(0, pos);
-        genBranch(1, pos);
+        int junctionChoice = Random::randInt(0,2);
+        /*
+            0: left
+            1: right
+            2: both left and right
+        */
+
+        if (junctionChoice == 0 || junctionChoice == 2) // left
+            genBranch(0, pos);
+
+        if(junctionChoice == 1 || junctionChoice == 2) // right
+            genBranch(1, pos);
 
         //end steps:
         pos.y += Random::randInt(2, 4);
-        std::cout << "New pos: " << pos << std::endl;
     }
 
 }
