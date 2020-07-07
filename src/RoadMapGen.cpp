@@ -13,5 +13,5 @@ RoadMapGen::RoadMapGen(RoadMap* roadMap)
 
 void RoadMapGen::generate()
 {
-    roadMap->setFieldState(glm::vec2i(2,3), RoadMap::ON);
+    roadMap->setFieldState(glm::vec2i(2,3), true);
 }

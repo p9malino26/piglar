@@ -9,13 +9,14 @@
 #include <stdexcept>
 
 #include "GLMIncludes.h"
+#include "Util.h"
 
 //all rendering function deprecated
 
 class RoadMap
 {
 public:
-    enum State {OFF, ON};
+    //enum State {OFF, ON};
 
 
 	RoadMap(int width, int height);
@@ -29,32 +30,32 @@ public:
         return coord.x >= getWidth() || coord.y >= getHeight();
     }
     
-    inline void setFieldState(const glm::vec2i& coord, State state)
+    inline void setFieldState(const glm::vec2i& coord, bool state)
     {
-        data[getIndexFromCoord(coord)] = ON;
+        data[getIndexFromCoord(coord)] = state;
     }
 
     inline void toggleFieldState(const glm::vec2i& coord)
     {
-        auto& celldata = data[getIndexFromCoord(coord)];
-        celldata = (celldata == State::OFF) ? (State::ON) : (State::OFF);
+        bool celldata = data[getIndexFromCoord(coord)];
+        data[getIndexFromCoord(coord)] = !celldata;
     }
 
-    inline State getFieldState(const glm::vec2i& coord) const
+    inline bool getFieldState(const glm::vec2i& coord) const
     {
         return data[getIndexFromCoord(coord)];
     }
 
+    void setLine(const glm::vec2i& startPos, CompassDirection direction, int length, bool state);
+
 
 private:
 
-
-    
 	int width;
 	int height;
 
 
-    std::vector<State> data;
+    std::vector<bool> data;
 
 
     inline void ensurePositionIsInside(const glm::vec2i& coord) const

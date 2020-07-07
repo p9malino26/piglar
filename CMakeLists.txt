@@ -28,6 +28,8 @@ FILE(GLOB source_files
 "${source_dir}/Input.cpp"
 "${source_dir}/Util.cpp"
 
+"${source_dir}/generator/generator.cpp"
+
 "${source_dir}/opengl/Display.cpp"
 "${source_dir}/opengl/Buffer.cpp"
 "${source_dir}/opengl/VertexArray.cpp"
