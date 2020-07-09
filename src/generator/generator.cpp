@@ -10,13 +10,11 @@ static constexpr EXPR;
 namespace Generator
 {
 
-    void generateTree(RoadMap& roadmap, const glm::vec2i& startpos)
+    void generateTree(RoadMap& roadmap, const glm::vec2i& startpos, const Params& params)
     {
         assert(!roadmap.isPositionOutside(startpos));
-        CONSTANT(int MIN_MAINROAD_LENGTH = 4)
-        CONSTANT(int MAX_MAINROAD_LENGTH = 15)
 
-        int mainRoadLength = Random::randInt(MIN_MAINROAD_LENGTH, MAX_MAINROAD_LENGTH);
+        int mainRoadLength = Random::randInt(params.mainRoadLengthRange.first, params.mainRoadLengthRange.second);
         glm::vec2i endPos = startpos + glm::vec2i(0, mainRoadLength);
         assert(!roadmap.isPositionOutside(endPos));
 
@@ -29,9 +27,9 @@ namespace Generator
                 break;
         }
 
-        auto genBranch = [&roadmap](bool direction, const glm::vec2i& pos) {
+        auto genBranch = [&roadmap, &params](bool direction, const glm::vec2i& pos) {
 
-            int linelength = Random::randInt(3, 7); // branch length
+            int linelength = Random::randInt(params.branchRoadLengthRange.first, params.branchRoadLengthRange.second); // branch length
             roadmap.setLine(pos, direction ? CompassDirection::WEST : CompassDirection::EAST, linelength, 1);
 
         };
@@ -53,7 +51,7 @@ namespace Generator
                 genBranch(1, pos);
 
             //end steps:
-            pos.y += Random::randInt(2, 4);
+            pos.y += Random::randInt(params.branchStepRange.first, params.branchStepRange.second);
         }
 
     }
