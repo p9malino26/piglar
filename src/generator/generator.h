@@ -1,3 +1,5 @@
 #pragma once
 
-void generateTree(RoadMap& roadmap, const glm::vec2i& startpos);
+namespace Generator {
+    void generateTree(RoadMap& roadmap, const glm::vec2i& startpos);
+}

@@ -6,7 +6,7 @@
 Scene::Scene()
     :roadMap(width, height), roadGenerator(&roadMap)
 {
-    generateTree(roadMap, glm::vec2i(25, 5));
+    Generator::generateTree(roadMap, glm::vec2i(25, 5));
 }
 
 void Scene::update()
