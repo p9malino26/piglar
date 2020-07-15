@@ -2,16 +2,18 @@
 
 #include "Input.h"
 #include "generator/generator.h"
-#include "generator/Params.h"
+
+#include "util/printVar.h"
 
 Scene::Scene()
     :roadMap(width, height), roadGenerator(&roadMap)
 {
-    Generator::Params params;
+    Generator::TreeGenParams params;
     params.mainRoadLengthRange = {10,15};
     params.branchRoadLengthRange = {4, 6};
     params.branchStepRange = {2, 3};
-    Generator::generateTree(roadMap, glm::vec2i(25, 5), params);
+    auto rectSize = Generator::generateTree(roadMap, glm::vec2i(25, 5), params);
+    PRINTVAR(rectSize);
 }
 
 void Scene::update()
