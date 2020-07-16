@@ -69,18 +69,17 @@ namespace Generator {
     }
 
     TreeGenerator::TreeGenerator(const TreeGenParams &params)
-        :treeData(1 + 2 * params.branchRoadLengthRange.second, params.mainRoadLengthRange.second)
+        :treeData(1 + 2 * params.branchRoadLengthRange.second, params.mainRoadLengthRange.second), params(params)
     {
 
     }
 
     glm::vec2i TreeGenerator::generate()
     {
-        auto pos = generateTree(treeData, {0, params.branchRoadLengthRange.second + 1}, params);
-        std::cout << pos << std::endl;
+        return generateTree(treeData, {params.branchRoadLengthRange.second, 0}, params);
     }
 
-    void TreeGenerator::writeToMap(glm::vec2i startPos, RoadMap &roadMap)
+    void TreeGenerator::writeToMap(glm::vec2i startPos, RoadMap &roadMap, bool orientation)
     {
         std::cout << "Not implemented yet\n";
     }

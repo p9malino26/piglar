@@ -11,7 +11,6 @@ namespace Generator {
     {
         std::pair<int, int> mainRoadLengthRange, branchRoadLengthRange, branchStepRange;
     };
-    glm::vec2i generateTree(RoadMap& roadmap, const glm::vec2i& startpos, const TreeGenParams& params);
 
     class TreeGenerator
     {
@@ -23,10 +22,10 @@ namespace Generator {
          * Prepares a tree inside. Returns the rectangular width and height of the tree
          */
         glm::vec2i generate();
-        void writeToMap(glm::vec2i startPos, RoadMap& roadMap);
+        void writeToMap(glm::vec2i startPos, RoadMap& roadMap, bool orientation);
 
-    private:
         RoadMap treeData;
+    private:
         TreeGenParams params;
     };
 }

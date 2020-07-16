@@ -12,8 +12,11 @@ Scene::Scene()
     params.mainRoadLengthRange = {10,15};
     params.branchRoadLengthRange = {4, 6};
     params.branchStepRange = {2, 3};
-    auto rectSize = Generator::generateTree(roadMap, glm::vec2i(25, 5), params);
-    PRINTVAR(rectSize);
+    treeGen = std::make_unique<Generator::TreeGenerator>(params);
+    //Generator::TreeGenerator treeGen(params);
+    treeGen->generate();
+    //auto rectSize = Generator::generateTree(roadMap, glm::vec2i(25, 5), params);
+    //PRINTVAR(rectSize);
 }
 
 void Scene::update()
