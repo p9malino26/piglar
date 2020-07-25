@@ -10,7 +10,12 @@ static constexpr EXPR;
 
 namespace Generator {
 
-    glm::vec2i generateTree(RoadMap& roadmap, const glm::vec2i& startpos, const TreeGenParams& params)
+    struct TreeGenData {
+        glm::vec2 dims;
+        int maxLBranchLength, maxRBranchLength;
+    };
+
+    TreeGenData generateTree(RoadMap& roadmap, const glm::vec2i& startpos, const TreeGenParams& params)
     {
         std::cout << "Generate tree started\n";
         assert(!roadmap.isPositionOutside(startpos));
@@ -63,27 +68,67 @@ namespace Generator {
         }
         std::cout << "Generate tree finished\n";
 
+        TreeGenData returnData;
+        returnData.dims = {maxLBranchLength + 1 + maxRBranchLength, mainRoadLength};
+        returnData.maxLBranchLength = maxLBranchLength;
+        returnData.maxRBranchLength = maxRBranchLength;
+        return returnData;
 
-        return {maxLBranchLength + 1 + maxRBranchLength, mainRoadLength};
+    }
 
+    std::pair<glm::vec2i, glm::vec2i> treePosToBufferAndGlobal(
+            bool orientation,
+            const glm::vec2i& placePos,
+            const glm::vec2i& treePos,
+            int treeWidth,
+            int bufferMaxBranchLength,
+            int maxLBranchLength)
+    {
+        glm::vec2i bufferPos = treePos;
+        bufferPos.x += bufferMaxBranchLength - maxLBranchLength;
+
+        glm::vec2i globalPos;
+        if(orientation == 1) // horizontal
+        {
+            globalPos = {treePos.y, -treePos.x + treeWidth - 1};
+            globalPos += placePos;
+        } else {//vertical
+            globalPos = treePos + placePos;
+        }
+
+        return {bufferPos, globalPos};
     }
 
     TreeGenerator::TreeGenerator(const TreeGenParams &params)
         :treeData(1 + 2 * params.branchRoadLengthRange.second, params.mainRoadLengthRange.second), params(params)
-    {
+    {}
 
-    }
-
-    glm::vec2i TreeGenerator::generate()
+    glm::vec2i TreeGenerator::generateAndWrite(const glm::vec2i& startPos, RoadMap& roadMap, bool orientation)
     {
-        return generateTree(treeData, {params.branchRoadLengthRange.second, 0}, params);
-    }
+        //generate
+        auto treeDescription = generateTree(treeData, {params.branchRoadLengthRange.second, 0}, params);
+        const glm::vec2i& dims = treeDescription.dims;
 
-    void TreeGenerator::writeToMap(glm::vec2i startPos, RoadMap &roadMap, bool orientation)
-    {
-        std::cout << "Not implemented yet\n";
+        //write#
+
+        //go through every logical tree position
+        PRINTVAR(dims);
+        glm::vec2i treePos{0,0};
+        for (; treePos.x < dims.x; treePos.x++)
+        {
+            for(treePos.y = 0; treePos.y < dims.y; treePos.y++)
+            {
+                //find out different coordinates
+                auto tmp = treePosToBufferAndGlobal(orientation, startPos, treePos, dims.x, params.branchRoadLengthRange.second, treeDescription.maxLBranchLength);
+                glm::vec2i& bufferPos = tmp.first;
+                glm::vec2i& globalPos = tmp.second;
+
+                roadMap.setFieldState(globalPos, treeData.getFieldState(bufferPos));
+            }
+        }
+
+        return dims;
+
     }
 
 }
-
-

@@ -6,15 +6,15 @@
 #include "util/printVar.h"
 
 Scene::Scene()
-    :roadMap(width, height), roadGenerator(&roadMap)
+    :roadMap(width, height)
 {
     Generator::TreeGenParams params;
+
     params.mainRoadLengthRange = {10,15};
     params.branchRoadLengthRange = {4, 6};
     params.branchStepRange = {2, 3};
-    treeGen = std::make_unique<Generator::TreeGenerator>(params);
-    //Generator::TreeGenerator treeGen(params);
-    treeGen->generate();
+    Generator::TreeGenerator treeGen(params);
+    treeGen.generateAndWrite({10,10}, roadMap, 1);
     //auto rectSize = Generator::generateTree(roadMap, glm::vec2i(25, 5), params);
     //PRINTVAR(rectSize);
 }

@@ -21,7 +21,7 @@ namespace Generator {
         /**
          * Prepares a tree inside. Returns the rectangular width and height of the tree
          */
-        glm::vec2i generate();
+        glm::vec2i generateAndWrite(const glm::vec2i& startPos, RoadMap& roadMap, bool orientation);
         void writeToMap(glm::vec2i startPos, RoadMap& roadMap, bool orientation);
 
         RoadMap treeData;
