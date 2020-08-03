@@ -6,18 +6,12 @@
 
 #include "util/printVar.h"
 
+void generateRoadMap(RoadMap* roadMap);
+
 Scene::Scene()
     :roadMap(new RoadMap(width, height))
 {
-    Generator::TreeGenParams params;
-
-    params.mainRoadLengthRange = {10,15};
-    params.branchRoadLengthRange = {4, 6};
-    params.branchStepRange = {2, 3};
-    Generator::TreeGenerator treeGen(params);
-    treeGen.generateAndWrite({10,10}, *roadMap, 1);
-    //auto rectSize = Generator::generateTree(roadMap, glm::vec2i(25, 5), params);
-    //PRINTVAR(rectSize);
+    generateRoadMap(roadMap.get());
 }
 
 void Scene::update()
@@ -28,3 +22,17 @@ void Scene::update()
 }
 
 Scene::~Scene() = default;
+
+void generateRoadMap(RoadMap* roadMap)
+{
+    Generator::TreeGenParams params;
+
+    params.mainRoadLengthRange = {10,15};
+    params.branchRoadLengthRange = {4, 6};
+    params.branchStepRange = {2, 3};
+    Generator::TreeGenerator treeGen(params);
+    treeGen.generateAndWrite({10,10}, *roadMap, 1);
+    //auto rectSize = Generator::generateTree(roadMap, glm::vec2i(25, 5), params);
+    //PRINTVAR(rectSize);
+
+}

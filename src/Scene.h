@@ -10,8 +10,8 @@ class Scene
 public:
     Scene();
     void update();
-    inline const RoadMap* getRoadMap() const { return roadMap.operator->(); }
-    inline RoadMap* getRoadMap() {return roadMap.operator->();}
+    inline const RoadMap* getRoadMap() const { return roadMap.get(); }
+    inline RoadMap* getRoadMap() {return roadMap.get();}
     ~Scene();
 private:
     static constexpr int width = 50;
