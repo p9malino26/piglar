@@ -31,8 +31,8 @@ void generateRoadMap(RoadMap* roadMap)
     params.branchRoadLengthRange = {4, 6};
     params.branchStepRange = {2, 3};
     Generator::TreeGenerator treeGen(params);
-    treeGen.generateAndWrite({10,10}, *roadMap, 1);
-    //auto rectSize = Generator::generateTree(roadMap, glm::vec2i(25, 5), params);
-    //PRINTVAR(rectSize);
+    glm::vec2 dims = treeGen.generate();
+    PRINTVAR(dims);
+    treeGen.writeTo(*roadMap,{10,10}, 0);
 
 }

@@ -1,8 +1,11 @@
 #pragma once
 
+#include <memory>
+
 #include "../GLMIncludes.h"
 
 class RoadMap;
+struct TreeGenData;
 
 namespace Generator {
 
@@ -21,12 +24,15 @@ namespace Generator {
         /**
          * Prepares a tree inside. Returns the rectangular width and height of the tree
          */
-        glm::vec2i generateAndWrite(const glm::vec2i& startPos, RoadMap& roadMap, bool orientation);
-        void writeToMap(glm::vec2i startPos, RoadMap& roadMap, bool orientation);
+        glm::vec2i generate();
+        void writeTo(RoadMap& roadMap, glm::vec2i startPos, bool orientation);
 
-        RoadMap treeData;
+
+        std::unique_ptr<RoadMap> treeData;
+        ~TreeGenerator();
     private:
         TreeGenParams params;
+        std::unique_ptr<TreeGenData> lastGenData;
     };
 }
 
