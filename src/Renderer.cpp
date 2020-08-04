@@ -1,7 +1,5 @@
 #include "Renderer.h"
 
-#include "ResourceManager.h"
-
 #include "RoadMap.h"
 
 Renderer::Renderer(const Scene* _scene)
