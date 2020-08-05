@@ -14,8 +14,8 @@ public:
     inline RoadMap* getRoadMap() {return roadMap.get();}
     ~Scene();
 private:
-    static constexpr int width = 50;
-    static constexpr int height = 50;
+    static constexpr int width = 100;
+    static constexpr int height = 100;
 
     std::unique_ptr<RoadMap> roadMap;
 };
