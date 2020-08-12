@@ -19,7 +19,7 @@ void Game::processFrame()
         glm::vec2i intMouseWorldPos = glm::vec2i((int)mouseWorldPos.x, (int)mouseWorldPos.y);
         scene->getRoadMap()->toggleFieldState(intMouseWorldPos);
     }
-    (*renderer)(camera.getViewMatrix(), display.getProjectionMatrix());
+    renderer->render(camera.getViewMatrix(), display.getProjectionMatrix());
 }
 
 Game::~Game() = default;

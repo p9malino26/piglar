@@ -8,7 +8,9 @@ Renderer::Renderer(const Scene* _scene)
 
 }
 
-void Renderer::operator() (const glm::mat4& viewMatrix, const glm::mat4& projMatrix) const
+
+
+void Renderer::render (const glm::mat4& viewMatrix, const glm::mat4& projMatrix) const
 {
     const RoadMap& roadmap = *(this->scene->getRoadMap());
     for (int x = 0; x < roadmap.getWidth(); x++)

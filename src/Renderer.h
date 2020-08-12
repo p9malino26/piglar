@@ -12,11 +12,11 @@ class Renderer
 
     const Scene* scene;
 public:
-    Renderer(const Scene*);
+    explicit Renderer(const Scene*);
     /**
      * renders the scene
      */
-    void operator() (const glm::mat4& viewMatrix, const glm::mat4& projMatrix) const;
+    void render (const glm::mat4& viewMatrix, const glm::mat4& projMatrix) const;
 };
 
 #endif
