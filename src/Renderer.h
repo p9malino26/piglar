@@ -1,22 +1,55 @@
-#ifndef RENDERER_H 
-#define RENDERER_H
+#pragma once
 
-#include <glad/glad.h>
+#include "GLMIncludes.h"
 
-#include "SquareRenderer.h"
-#include "Scene.h"
+//TODO possibly delete
+#include "opengl/VertexArray.h"
+#include "opengl/Buffer.h"
+#include "opengl/Shader.h"
 
-class Renderer
-{
-    SquareRenderer squareRenderer;
 
-    const Scene* scene;
+#include "Util.h"
+
+class Camera;
+class Display;
+
+
+class Renderer {
+    Shader shader;
+    Buffer vbo;
+    Buffer ebo;
+    VertexArray vao;
+
+    Camera* camera;
+    Display* display;
+
+    static constexpr char* vertexShaderSource = "res/shaders/vertexShader.glsl";
+    static constexpr char* fragmentShaderSource = "res/shaders/fragmentShader.glsl";
+    
+    //singleton
+    static Renderer* instance;
+    
 public:
-    explicit Renderer(const Scene*);
+    Renderer(Camera* camera, Display* display);
     /**
-     * renders the scene
+     * Renders a square 
      */
-    void render (const glm::mat4& viewMatrix, const glm::mat4& projMatrix) const;
-};
+    void drawSquare(const glm::vec2& pos,float sideLength, const glm::vec3& color) const;
+    void drawLine(const glm::vec2& pos, float length, CompassDirection dir);
 
-#endif
+    //singleton
+    template<typename ... Args>
+    static void init(Args&&... args) {
+        instance = new Renderer(std::forward<Args>(args) ...);
+    }
+
+    static inline Renderer* get()
+    {
+        return instance;
+    }
+
+    static inline void destroy()
+    {
+        delete instance;
+    }
+};

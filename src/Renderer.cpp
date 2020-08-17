@@ -1,32 +1,60 @@
 #include "Renderer.h"
 
-#include "RoadMap.h"
+#include "Camera.h"
+#include "GLMIncludes.h"
+#include "opengl/Display.h"
 
-Renderer::Renderer(const Scene* _scene)
-    :scene(_scene)
+Renderer* Renderer::instance;
+
+Renderer::Renderer(Camera* camera, Display* display)
+    :shader(vertexShaderSource, fragmentShaderSource), camera(camera), display(display)
 {
+    float vertices[] = {
+        // positions
+         1.0f,  1.0f,  // top right
+         1.0f,  0.0f,  // bottom right
+         0.0f,  0.0f,  // bottom left
+         0.0f,  1.0f  // top left 
+    };
 
+    unsigned int eboVertices[] = {
+        1, 0, 3,
+        1, 2, 3
+    };
+
+    int offsets[2] = {2};
+
+    vbo.init(GL_ARRAY_BUFFER, vertices, sizeof(vertices));
+    ebo.init(GL_ELEMENT_ARRAY_BUFFER, eboVertices, sizeof(eboVertices));
+    
+    vao.bind();
+    vbo.bind();
+    vao.specifyVertexAttributes(offsets, 1);
+    ebo.bind();
+    vao.unbind();
 }
 
-
-
-void Renderer::render (const glm::mat4& viewMatrix, const glm::mat4& projMatrix) const
+//@todo sort out implementation
+void Renderer::drawSquare (const glm::vec2& pos, float sideLength, const glm::vec3& color) const
 {
-    const RoadMap& roadmap = *(this->scene->getRoadMap());
-    for (int x = 0; x < roadmap.getWidth(); x++)
-    {
-        for (int y = 0; y < roadmap.getHeight() ; y++)
-        {
-            //set color white by default
-            glm::vec3 color(0.0f, 1.0f, 1.0f);
-            if( roadmap.getFieldState( glm::vec2i(x, y) ) ) //i.e it is black
-                color = glm::vec3(0.0f, 0.0f, 0.0f);
+    glm::mat4 modelMatrix(1.0f);
+    modelMatrix = glm::translate(modelMatrix, glm::vec3(pos, 0.0f));
+    modelMatrix = glm::scale(modelMatrix, glm::vec3(sideLength, sideLength, 1.0f));
+    
+    const auto& viewMatrix = camera->getViewMatrix();
+    const auto& projMatrix = display->getProjectionMatrix();
 
-            squareRenderer(viewMatrix, projMatrix, glm::vec2(x, y), 1.0f, color);
+    shader.use();
+    shader.uniformMat4("model", modelMatrix);
+    shader.uniformMat4("view", viewMatrix);
+    shader.uniformMat4("proj", projMatrix);
 
-        }
+    shader.uniformVec3("uColor", color);
 
-    }
+    vao.bind();
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    vao.unbind();
+    shader.unUse();
+
+    
 }
-
-

@@ -3,22 +3,21 @@
 #include <glad/glad.h>
 
 #include "Application.h"
-#include "Camera.h"
-#include "CameraManager.h"
 #include "MouseManager.h"
 
 #include <memory>
 
-class Renderer;
+class CameraManager;
+class SceneRenderer;
 class Scene;
 
 class Game: public Application
 {
-    Camera camera;
-    CameraManager cameraManager;
+    std::unique_ptr<Camera> camera;
+    std::unique_ptr<CameraManager> cameraManager;
 
     std::unique_ptr<Scene> scene;
-    std::unique_ptr<Renderer> renderer;
+    std::unique_ptr<SceneRenderer> renderer;
 
     MouseManager mouseManager;
 

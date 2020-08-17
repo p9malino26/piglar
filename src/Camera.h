@@ -11,6 +11,7 @@ class Camera
 public:
     Camera();
     Camera(const glm::vec2& position, float zoom);
+
     inline void changeXpos(float delta)
     {
         position.x += delta;
@@ -31,6 +32,7 @@ public:
     }
 
     glm::mat4 getViewMatrix() const;
+
 
 };
 
