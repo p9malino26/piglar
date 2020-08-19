@@ -8,8 +8,8 @@
 #include "opengl/Shader.h"
 
 
-#include "Util.h"
 #include "util/line.h"
+#include "util/CompassDirection.h"
 
 class Camera;
 class Display;

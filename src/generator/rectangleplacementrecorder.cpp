@@ -1,5 +1,5 @@
 #include "rectangleplacementrecorder.h"
-#include "../Util.h"
+#include "../util/CompassDirection.h"
 
 namespace Generator {
 

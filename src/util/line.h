@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../Util.h"
+#include "../GLMIncludes.h"
+#include "compassUtil.h"
 
 struct Line{
     glm::vec2i pos;

@@ -9,7 +9,7 @@
 #include <stdexcept>
 
 #include "GLMIncludes.h"
-#include "Util.h"
+#include "util/CompassDirection.h"
 
 //all rendering function deprecated
 

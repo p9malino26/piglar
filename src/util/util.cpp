@@ -1,14 +1,13 @@
-#include "GLMIncludes.h"
+//this file contains all the definitions of Util.
 
-#include "Util.h"
-
+//COMPASS
+#include "compassVec.h"
 const glm::vec2i NORTH_VEC =   glm::vec2i(0, 1);
 const glm::vec2i EAST_VEC  =   glm::vec2i(1, 0);
 const glm::vec2i SOUTH_VEC =  -NORTH_VEC;
 const glm::vec2i WEST_VEC  =  -EAST_VEC;
 
-
-const glm::vec2i & directionVec ( CompassDirection direction)
+const glm::vec2i& directionVec ( CompassDirection direction)
 {
 
     switch(direction)
@@ -24,6 +23,7 @@ const glm::vec2i & directionVec ( CompassDirection direction)
     }
 }
 
+#include "compassUtil.h"
 CompassDirection compassDirFromRelative ( CompassDirection compDir, RelativeDirection relDir )
 {
     switch (compDir)
@@ -33,12 +33,12 @@ CompassDirection compassDirFromRelative ( CompassDirection compDir, RelativeDire
             else return CompassDirection::WEST;
         case CompassDirection::EAST:
             if (relDir == RelativeDirection::RIGHT) return CompassDirection::SOUTH;
-            else return CompassDirection::NORTH;            
+            else return CompassDirection::NORTH;
         case CompassDirection::SOUTH:
             if (relDir == RelativeDirection::RIGHT) return CompassDirection::WEST;
-            else return CompassDirection::EAST;            
+            else return CompassDirection::EAST;
         case CompassDirection::WEST:
             if (relDir == RelativeDirection::RIGHT) return CompassDirection::NORTH;
-            else return CompassDirection::SOUTH;            
+            else return CompassDirection::SOUTH;
     }
 }

@@ -5,10 +5,10 @@
 
 
 
-#include "Util.h"
+//#include "Util.h"
 #include "TimeManager.h"
 #include "Input.h"
-#include "Random.h"
+#include "util/Random.h"
 
 Application::Application(const std::string& title, int windowWidth, int windowHeight)
     :display(title, windowWidth, windowHeight, GL_CONTEXT_VERSION_MAJOR, GL_CONTEXT_VERSION_MINOR)

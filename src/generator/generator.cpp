@@ -1,7 +1,7 @@
 #include <iostream>
 #include "../RoadMap.h"
 #include "../GLMIncludes.h"
-#include "../Random.h"
+#include "../util/Random.h"
 #include "../util/printVar.h"
 #include "treeGenData.h"
 #include "generator.h"
@@ -10,7 +10,6 @@
 static constexpr EXPR;
 
 namespace Generator {
-
 
 
     TreeGenData generateTree(RoadMap& roadmap, const glm::vec2i& startpos, const TreeGenParams& params)

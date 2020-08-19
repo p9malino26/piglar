@@ -1,5 +1,6 @@
 #include "RoadMap.h"
 
+#include "util/compassVec.h"
 
 RoadMap::RoadMap(int width, int height)
     :width(width), height(height), data(width * height)

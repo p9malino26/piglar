@@ -12,7 +12,7 @@ public:
         instance = new T(std::forward<Args>(args) ...);
     }
 
-    static T* get()map
+    static T* get()
     {
         return instance;
     }
