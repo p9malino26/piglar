@@ -12,7 +12,8 @@ void generateRoadMap(RoadMap* roadMap);
 Scene::Scene()
     :roadMap(new RoadMap(width, height))
 {
-    generateRoadMap(roadMap.get());
+    rpr = new Generator::RectanglePlacementRecorder();
+    generateRoadMap();
 }
 
 void Scene::update()
@@ -22,9 +23,11 @@ void Scene::update()
         this->roadMap->toggleFieldState(glm::vec2i(1,1));
 }
 
-Scene::~Scene() = default;
+Scene::~Scene() {
+    delete rpr;
+}
 
-void generateRoadMap(RoadMap* roadMap)
+void Scene::generateRoadMap()
 {
     Generator::TreeGenParams params;
 
@@ -39,15 +42,13 @@ void generateRoadMap(RoadMap* roadMap)
     };
 
 
-    Generator::RectanglePlacementRecorder rpr;
-
     //generate and write
     auto dims = treeGen.generate();
     auto placePos = getStartPos({roadMap->getWidth(), roadMap->getHeight()}, dims);
     treeGen.writeTo(*roadMap, placePos, 0);
 
     //record
-    rpr.placeRectangle(placePos, dims);
+    rpr->placeRectangle(placePos, dims);
 
     //new code
     /*

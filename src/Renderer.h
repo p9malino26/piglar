@@ -9,6 +9,7 @@
 
 
 #include "Util.h"
+#include "util/line.h"
 
 class Camera;
 class Display;
@@ -35,7 +36,7 @@ public:
      * Renders a square 
      */
     void drawSquare(const glm::vec2& pos,float sideLength, const glm::vec3& color) const;
-    void drawLine(const glm::vec2& pos, float length, CompassDirection dir);
+    void drawLine(const Line &line);
 
     //singleton
     template<typename ... Args>

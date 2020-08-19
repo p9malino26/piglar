@@ -55,6 +55,34 @@ void Renderer::drawSquare (const glm::vec2& pos, float sideLength, const glm::ve
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     vao.unbind();
     shader.unUse();
+}
 
-    
+void Renderer::drawLine(const Line &line)
+{
+    //TODO this contains duplicated code and needs tidying
+    glm::vec3 color {0.871f,0.278f,0.886f};
+
+    glm::mat4 modelMatrix(1.0f);
+    //model matrix: scale for length, rotate and place
+    //place
+    modelMatrix = glm::translate(modelMatrix, glm::vec3(line.pos, 0.0f));
+    //rotate
+    modelMatrix = glm::rotate(modelMatrix, -glm::radians(static_cast<float>(clockwiseDirectionAngle(line.direction))), glm::vec3(0.f,0.f,1.f));
+    //scale
+    modelMatrix = glm::scale(modelMatrix, glm::vec3(line.length, line.length, 1.0f));
+
+    const auto& viewMatrix = camera->getViewMatrix();
+    const auto& projMatrix = display->getProjectionMatrix();
+
+    shader.use();
+    shader.uniformMat4("model", modelMatrix);
+    shader.uniformMat4("view", viewMatrix);
+    shader.uniformMat4("proj", projMatrix);
+
+    shader.uniformVec3("uColor", color);
+
+
+    vao.bind();
+    glDrawArrays(GL_LINES, 2, 2);
+
 }

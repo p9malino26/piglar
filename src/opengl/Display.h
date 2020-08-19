@@ -11,7 +11,7 @@
 class Display
 {
 public:
-    Display( const std::string& title, int width = 800, int height = 600, int contextVersionMajor = 3, int contextVersionMinor = 3);
+    Display( const std::string& title, int width = 800, int height = 600, int contextVersionMajor = 3, int contextVersionMinor = 2);
     ~Display();
     void checkEvents() const;
     //void clearColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) const; // deprecated
@@ -28,8 +28,8 @@ public:
     
     inline int width() const {return m_width; }
     inline int height() const {return m_height; }
-	inline GLFWwindow* getRaw() const {return m_window; }
-	inline bool good() const {return m_good; }    
+    inline GLFWwindow* getRaw() const {return m_window; }
+    inline bool good() const {return m_good; }
 
 
 private:

@@ -1,5 +1,3 @@
-
-#include "line.h"
 #include "rectangleplacementrecorder.h"
 #include "../Util.h"
 
@@ -32,5 +30,3 @@ namespace Generator {
     }
 
 }
-
-

@@ -27,7 +27,6 @@ namespace Generator {
         glm::vec2i generate();
         void writeTo(RoadMap& roadMap, glm::vec2i startPos, bool orientation);
 
-
         std::unique_ptr<RoadMap> treeData;
         ~TreeGenerator();
     private:

@@ -2,10 +2,19 @@
 #include <memory>
 
 class RoadMap;
-class RectanglePlacementRecorder;
+namespace Generator {
+    class RectanglePlacementRecorder;
+
+}
 
 class Scene
 {
+    static constexpr int width = 100;
+    static constexpr int height = 100;
+
+    std::unique_ptr<RoadMap> roadMap;
+    Generator::RectanglePlacementRecorder* rpr;
+
 public:
     Scene();
     void update();
@@ -17,11 +26,7 @@ public:
     }*/
     ~Scene();
 
-    friend class Renderer;
+    friend class SceneRenderer;
 private:
-    static constexpr int width = 100;
-    static constexpr int height = 100;
-
-    std::unique_ptr<RoadMap> roadMap;
-    RectanglePlacementRecorder* rpr;
+    void generateRoadMap() ;
 };

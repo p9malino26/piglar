@@ -30,6 +30,8 @@ void Game::processFrame()
         glm::vec2i intMouseWorldPos = glm::vec2i((int)mouseWorldPos.x, (int)mouseWorldPos.y);
         scene->getRoadMap()->toggleFieldState(intMouseWorldPos);
     }
+    glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
     renderer->render();
 }
 

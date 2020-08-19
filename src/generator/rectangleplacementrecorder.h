@@ -2,7 +2,8 @@
 
 #include <list>
 
-struct Line;
+#include "../GLMIncludes.h"
+#include "../util/line.h"
 
 namespace Generator {
 
@@ -12,8 +13,10 @@ namespace Generator {
     };
 
     class RectanglePlacementRecorder
-    {
+    {        
     public:
+        std::list<Line> lines;
+
         RectanglePlacementRecorder();
 
         //api
@@ -21,14 +24,6 @@ namespace Generator {
         void seclude(const glm::vec2i& pos);
         ClosestPointInfo getClosestPoint();
         ~RectanglePlacementRecorder();
-
-        //for rendering
-        inline const auto& getBoundaryLines()
-        {
-            return lines;
-        }
-    private:
-        std::list<Line> lines;
     };
 }
 
