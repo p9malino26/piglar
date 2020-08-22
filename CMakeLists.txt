@@ -26,10 +26,12 @@ FILE(GLOB source_files
 "${source_dir}/CameraManager.cpp"
 "${source_dir}/MouseManager.cpp"
 "${source_dir}/Input.cpp"
+
 "${source_dir}/util/util.cpp"
 
 "${source_dir}/generator/generator.cpp"
 "${source_dir}/generator/rectangleplacementrecorder.cpp"
+"${source_dir}/generator/lineFunc.cpp"
 
 "${source_dir}/opengl/Display.cpp"
 "${source_dir}/opengl/Buffer.cpp"
