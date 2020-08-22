@@ -9,15 +9,16 @@ namespace Generator {
 
     struct ClosestPointInfo {
         glm::vec2i pos;
-        int spaceInfo[4]; //north, east, south, west
+        //int spaceInfo[4]; //north, east, south, west
     };
 
     class RectanglePlacementRecorder
-    {        
+    {
+        glm::vec2i origin;
     public:
         std::list<Line> lines;
 
-        RectanglePlacementRecorder();
+        RectanglePlacementRecorder(const glm::vec2i& origin);
 
         //api
         void placeRectangle(const glm::vec2i& pos, const glm::vec2i& dims);

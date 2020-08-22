@@ -28,6 +28,7 @@ void Game::processFrame()
     if (Input::mouseHasClicked()) {
         glm::vec2 mouseWorldPos = mouseManager.getWorldMousePos();
         glm::vec2i intMouseWorldPos = glm::vec2i((int)mouseWorldPos.x, (int)mouseWorldPos.y);
+        std::cout << "Mouse position: " << intMouseWorldPos << std::endl;
         scene->getRoadMap()->toggleFieldState(intMouseWorldPos);
     }
     glClearColor(0.0f, 1.0f, 0.0f, 1.0f);

@@ -6,13 +6,14 @@
 #include "generator/rectangleplacementrecorder.h"
 
 #include "util/rangeFor.h"
+#include "util/printVar.h"
 
 void generateRoadMap(RoadMap* roadMap);
 
 Scene::Scene()
     :roadMap(new RoadMap(width, height))
 {
-    rpr = new Generator::RectanglePlacementRecorder();
+    rpr = new Generator::RectanglePlacementRecorder(roadMap->getSize() / 2);
     generateRoadMap();
 }
 
@@ -32,7 +33,7 @@ void Scene::generateRoadMap()
     Generator::TreeGenParams params;
 
     params.mainRoadLengthRange = {10,15};
-    params.branchRoadLengthRange = {4, 6};
+    params.branchRoadLengthRange = {10, 14};
     params.branchStepRange = {2, 3};
     Generator::TreeGenerator treeGen(params);
 
@@ -49,6 +50,7 @@ void Scene::generateRoadMap()
 
     //record
     rpr->placeRectangle(placePos, dims);
+    PRINTVAR(rpr->getClosestPoint().pos);
 
     //new code
     /*

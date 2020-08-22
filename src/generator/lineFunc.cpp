@@ -1,10 +1,11 @@
 #include "lineFunc.h"
 #include <algorithm>
 
-glm::vec2i getClosestPointToPoint(const Line& line)
+glm::vec2i getClosestPointOnLineToOtherPoint(const Line& line, const glm::vec2i& point)
 {
-    int varComponent; // x= -4
-    bool sign; // +
+    int linePos_varComponent;
+    int pos_compComponent;
+    bool sign;
 
     auto& x = line.pos.x;
     auto& y = line.pos.y;
@@ -12,30 +13,37 @@ glm::vec2i getClosestPointToPoint(const Line& line)
     switch (line.direction)
     {
     case CompassDirection::NORTH:
-        varComponent = y;
+        linePos_varComponent = y;
+        pos_compComponent = point.y;
         sign = 1;
         break;
     case CompassDirection::EAST:
-        varComponent = x;
+        linePos_varComponent = x;
+        pos_compComponent = point.x;
         sign = 1;
         break;
     case CompassDirection::SOUTH:
-        varComponent = y;
+        linePos_varComponent = y;
+        pos_compComponent = point.y;
         sign = 0;
         break;
 
     case CompassDirection::WEST:
-        varComponent = x;
+        linePos_varComponent = x;
+        pos_compComponent = point.y;
         sign = 0;
         break;
     }
 
     int closest;
     if (sign == 1){
-        closest = std::clamp(0, varComponent, varComponent + line.length);
+        /*if north:
+         *
+        */
+        closest = std::clamp(pos_compComponent, linePos_varComponent, linePos_varComponent + line.length);
     } else
     {
-        closest = std::clamp(0, varComponent - line.length, varComponent);
+        closest = std::clamp(pos_compComponent, linePos_varComponent - line.length, linePos_varComponent);
     }
 
     if (line.direction == CompassDirection::NORTH || line.direction == CompassDirection::SOUTH)

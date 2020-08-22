@@ -23,7 +23,7 @@ public:
     
     inline int getWidth() const {return width;}
     inline int getHeight() const {return height;}
-    
+    inline glm::vec2i getSize() const {return {width, height};}
 
     inline bool isPositionOutside(const glm::vec2i& coord) const
     {
