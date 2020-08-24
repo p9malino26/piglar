@@ -29,7 +29,7 @@ FILE(GLOB source_files
 
 "${source_dir}/util/util.cpp"
 
-"${source_dir}/generator/generator.cpp"
+"${source_dir}/generator/TreeGenerator.cpp"
 "${source_dir}/generator/rectangleplacementrecorder.cpp"
 "${source_dir}/generator/lineFunc.cpp"
 

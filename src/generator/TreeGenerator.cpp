@@ -4,7 +4,7 @@
 #include "../util/Random.h"
 #include "../util/printVar.h"
 #include "treeGenData.h"
-#include "generator.h"
+#include "TreeGenerator.h"
 
 #define CONSTANT(EXPR) \
 static constexpr EXPR;

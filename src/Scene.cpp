@@ -2,7 +2,7 @@
 #include "Scene.h"
 
 #include "Input.h"
-#include "generator/generator.h"
+#include "generator/TreeGenerator.h"
 #include "generator/rectangleplacementrecorder.h"
 
 #include "util/rangeFor.h"
