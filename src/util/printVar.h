@@ -1,3 +1,3 @@
 #pragma once
 
-#define PRINTVAR(X) std::cout << #X" :" << X << std::endl;
+#define PRINTVAR(X) std::cout << #X": " << X << std::endl;
