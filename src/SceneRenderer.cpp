@@ -5,6 +5,8 @@
 #include "Renderer.h"
 #include "generator/rectangleplacementrecorder.h"
 
+#include "RoadMapGen.h"
+
 SceneRenderer::SceneRenderer(const Scene* scene)
     :scene(scene)
 {
@@ -40,5 +42,5 @@ namespace  {
 void SceneRenderer::render () const
 {
     drawRoadMap(*(this->scene->getRoadMap()));
-    drawLines(scene->rpr->lines);
+    drawLines(scene->roadMapGen->rpr->lines);
 }
