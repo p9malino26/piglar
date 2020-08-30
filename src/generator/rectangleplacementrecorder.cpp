@@ -4,6 +4,7 @@
 #include "../util/CompassDirection.h"
 #include "lineFunc.h"
 #include "../util/printVar.h"
+#include "../util/rangeFor.h"
 
 template<typename T>
 struct Square
@@ -12,7 +13,18 @@ struct Square
     glm::vec2i dims;
 };
 
+
 namespace Generator {
+
+    struct LineTouchInfo
+    {
+        enum {GOOD_CONTACT, NO_CONTACT, BAD_CONTACT} contact;
+        int newLineCount;
+        int lines[2];
+    };
+
+    //for every of those lines, 'subtract' the portion which meets the line of the square
+    LineTouchInfo getLineTouchInfo(const Line& ll1, const Line& ll2);
 
     RectanglePlacementRecorder::RectanglePlacementRecorder(const glm::vec2i& origin)
         :origin(origin)
@@ -52,11 +64,37 @@ namespace Generator {
 
         } else
         {
-            std::list<Line> newLines; // the lines for the new square
-            getLinesForSquare(lines, square);
+            // get list of lines for the new square
+            std::list<Line> squareLines;
+            getLinesForSquare(squareLines, square);
 
-            //find lines already in the envelope, which contact with lines in square. If there are none, complain
-            //for every of those lines, 'subtract' the portion which meets the line of the square
+            //find lines already in the envelope, which contact with lines in square.
+            for (auto squareLineIt = squareLines.begin(); squareLineIt != squareLines.end(); squareLineIt++)
+            {
+                //TODO exception handling??
+                for (auto mainLineIt = lines.begin(); mainLineIt != lines.end(); mainLineIt++)
+                {
+                    //check how the two lines interact
+                    auto lineTouchInfo = getLineTouchInfo(*squareLineIt, *mainLineIt);
+                    //when they touch correctly
+                    if (lineTouchInfo.contact == LineTouchInfo::GOOD_CONTACT)
+                    {
+                        //make copy of main lines iterator
+                        auto newLinesInsertPos = mainLineIt;
+                        newLinesInsertPos++;
+                        //remove contacting lines from both square lines and main lines
+                        squareLines.erase(squareLineIt);
+                        lines.erase(mainLineIt);
+                        //insert the new lines resulting form the contact
+                        lines.insert(newLinesInsertPos, lineTouchInfo.lines, lineTouchInfo.lines + lineTouchInfo.newLineCount);
+                        //and the remaining lines for the square
+
+                    }
+                }
+            }
+
+            //
+
 
         }
     }
@@ -64,7 +102,7 @@ namespace Generator {
     ClosestPointInfo RectanglePlacementRecorder::getClosestPoint()
     {
 #define LINE_DISTANCE(l) glm::length(static_cast<glm::vec2>(getClosestPointOnLineToOtherPoint(l, origin)))
-        auto closestLineIt = std::min_element(lines.begin(), lines.end(),[this](const Line& l1, const Line& l2) -> bool {
+        auto closestLineIt = std::min_element(mainLines.begin(), mainLines.end(),[this](const Line& l1, const Line& l2) -> bool {
 
             return LINE_DISTANCE(l1) < LINE_DISTANCE(l2);
         } );
