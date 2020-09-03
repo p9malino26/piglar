@@ -32,6 +32,7 @@ FILE(GLOB source_files
 "${source_dir}/generator/TreeGenerator.cpp"
 "${source_dir}/generator/rectangleplacementrecorder.cpp"
 "${source_dir}/generator/lineFunc.cpp"
+"${source_dir}/generator/placeRectangle.cpp"
 
 "${source_dir}/opengl/Display.cpp"
 "${source_dir}/opengl/Buffer.cpp"
