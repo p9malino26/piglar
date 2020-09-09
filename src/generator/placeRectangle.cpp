@@ -1,6 +1,9 @@
 #include "rectangleplacementrecorder.h"
 
 #include <tuple>
+#include <optional>
+
+#include "findFirstContact.h"
 
 struct Square
 {
@@ -28,19 +31,38 @@ namespace Generator {
 
     struct LineTouchInfo
     {
-        enum {GOOD_CONTACT, NO_CONTACT, BAD_CONTACT} contact;
         int newLineCount;
-        int lines[2];
+        int resultingLines[2];
     };
 
-    //for every of those lines, 'subtract' the portion which meets the line of the square
-    LineTouchInfo getLineTouchInfo(const Line& ll1, const Line& ll2);
+    std::optional<LineTouchInfo> getLineTouchInfo(const Line& ll1, const Line& ll2);
 
     typedef std::list<Line>::iterator LinePtr;
 
     void transposeLinesToEnvelope(std::list<Line>& lines, const glm::vec2& origin);
-    std::tuple<LinePtr, LinePtr, LineTouchInfo> getFirstContactPoint(const std::list<Line>& envelopeLines, const std::list<Line>& squareLines);
-    LineTouchInfo findContact(const Line& line, const std::list<Line>& envelopeLines);
+
+    /** finds first line from envelope going clockwise that contacts with the square
+    */
+    std::tuple<LinePtr, LinePtr, LineTouchInfo> getFirstContactPoint(const std::list<Line>& envelopeLines, const std::list<Line>& squareLines)
+    {
+        auto checkSquareLines = [&squareLines] (LinePtr envelopeIterator) -> std::optional<LineTouchInfo> {
+            for (auto squareIterator = squareLines.begin(); squareIterator != squareLines.end(); squareIterator++)
+            {
+                auto possibleTouchInfo = getLineTouchInfo(*envelopeIterator, *squareIterator);
+                if (possibleTouchInfo.has_value())
+                {
+                    return possibleTouchInfo;
+                }
+            }
+            return std::optional<LineTouchInfo>();
+        };
+
+
+
+        LineTouchInfo getFirstPointOfContact(envelopeLines.begin(), envelopeLines.end(), checkSquareLines);
+    }
+
+    std::optional<LineTouchInfo> findContact(const Line& line, const std::list<Line>& envelopeLines);
     void mergeIfNecessary(const Line& line, const std::list<Line>& envelopeLines);
 
     void RectanglePlacementRecorder::placeRectangle(const glm::vec2i &pos, const glm::vec2i &dims)
@@ -60,24 +82,34 @@ namespace Generator {
             /*LinePtr envelepePtr, squarePtr;
             LineTouchInfo contactInfo;*/
             auto [envelepePtr, squarePtr, contactInfo] = getFirstContactPoint(lines, squareLines);
-            bool contactFound = true;
+            bool contactProcessed = true;
 
             int squareLineCount = 4;
+            //for every line in the square
             for (; squareLineCount > 0; squareLineCount--, squarePtr++)
             {
                 //see if square line contacts anything
-                if(! contactFound)
+                bool contactFound = true;
+                if(!contactProcessed)
                 {
                     //find a contact !!
-                    contactInfo = findContact(*squarePtr, lines);
-                    contactFound = false;
+                    auto possibleContactInfo = findContact();
+                    if (possibleContactInfo.has_value())
+                    {
+                        contactInfo = possibleContactInfo.value();
+                        contactFound = true;
+                    }
+                    else
+                        contactFound = false;
+
+                    contactProcessed = false;
                 }
 
-                if (contactInfo.contact == LineTouchInfo::GOOD_CONTACT)
+                if (contactFound)
                 {
                     lines.erase(envelepePtr);
                     //TODO move the pointer to the back
-                    lines.insert(envelepePtr, contactInfo.lines, contactInfo.lines + contactInfo.newLineCount);
+                    lines.insert(envelepePtr, contactInfo.resultingLines, contactInfo.resultingLines + contactInfo.newLineCount);
                 } else {
                     lines.insert(envelepePtr, *squarePtr);
                     mergeIfNecessary(*squarePtr, lines);
@@ -88,10 +120,7 @@ namespace Generator {
                 {
                     squarePtr++;
                 }
-
-
             }
-
         }
     }
 }
