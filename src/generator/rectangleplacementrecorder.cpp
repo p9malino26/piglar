@@ -10,13 +10,6 @@
 
 namespace Generator {
 
-    struct LineTouchInfo
-    {
-        enum {GOOD_CONTACT, NO_CONTACT, BAD_CONTACT} contact;
-        int newLineCount;
-        int lines[2];
-    };
-
     //for every of those lines, 'subtract' the portion which meets the line of the square
     LineTouchInfo getLineTouchInfo(const Line& ll1, const Line& ll2);
 
