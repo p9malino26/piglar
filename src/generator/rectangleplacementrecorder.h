@@ -9,7 +9,8 @@ namespace Generator {
 
     struct ClosestPointInfo {
         glm::vec2i pos;
-        //int spaceInfo[4]; //north, east, south, west
+        CompassDirection normalDirection;
+        int leftSpace, rightSpace;
     };
 
     class RectanglePlacementRecorder
