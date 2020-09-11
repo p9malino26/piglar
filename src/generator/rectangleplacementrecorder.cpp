@@ -11,7 +11,6 @@
 namespace Generator {
 
     //for every of those lines, 'subtract' the portion which meets the line of the square
-    LineTouchInfo getLineTouchInfo(const Line& ll1, const Line& ll2);
 
     RectanglePlacementRecorder::RectanglePlacementRecorder(const glm::vec2i& origin)
         :origin(origin)
