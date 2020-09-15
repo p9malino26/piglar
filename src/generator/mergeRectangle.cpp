@@ -1,7 +1,7 @@
-#include "rectangleplacementrecorder.h"
-
 #include <tuple>
 #include <optional>
+
+#include "mergeRectangle.h"
 
 #include "findFirstContact.h"
 
@@ -65,23 +65,30 @@ namespace Generator {
     std::optional<LineTouchInfo> findContact(const Line& line, const std::list<Line>& envelopeLines);
     void mergeIfNecessary(const Line& line, const std::list<Line>& envelopeLines);
 
-    void RectanglePlacementRecorder::placeRectangle(const glm::vec2i &pos, const glm::vec2i &dims)
-    {
-        Square square{pos, dims};
-        if (lines.size() == 0)
-        {
-            getLinesForSquare(lines, square);
 
-        } else
+
+    /**
+     * Finds closest point to origin outside group of rectangles, attempts to place rectangle there
+     */
+    void mergeRectangle(std::list<Line>& envelopeLines, const glm::vec2i& origin, const glm::vec2i& pos, const glm::vec2i& dims)
+    {
+
+        Square square{pos, dims};
+        if (envelopeLines.size() == 0)
         {
-            // get list of lines for the new square
+            getLinesForSquare(envelopeLines, square);
+
+        }
+        else
+        {
+            // get list of envelopeLines for the new square
             std::list<Line> squareLines;
             getLinesForSquare(squareLines, square);
             transposeLinesToEnvelope(squareLines, origin);
 
             /*LinePtr envelepePtr, squarePtr;
             LineTouchInfo contactInfo;*/
-            auto [envelepePtr, squarePtr, contactInfo] = getFirstContactPoint(lines, squareLines);
+            auto [envelepePtr, squarePtr, contactInfo] = getFirstContactPoint(envelopeLines, squareLines);
             bool contactProcessed = true;
 
             int squareLineCount = 4;
@@ -107,12 +114,12 @@ namespace Generator {
 
                 if (contactFound)
                 {
-                    lines.erase(envelepePtr);
+                    envelopeLines.erase(envelepePtr);
                     //TODO move the pointer to the back
-                    lines.insert(envelepePtr, contactInfo.resultingLines, contactInfo.resultingLines + contactInfo.newLineCount);
+                    envelopeLines.insert(envelepePtr, contactInfo.resultingLines, contactInfo.resultingLines + contactInfo.newLineCount);
                 } else {
-                    lines.insert(envelepePtr, *squarePtr);
-                    mergeIfNecessary(*squarePtr, lines);
+                    envelopeLines.insert(envelepePtr, *squarePtr);
+                    mergeIfNecessary(*squarePtr, envelopeLines);
                 }
 
                 envelepePtr++;
