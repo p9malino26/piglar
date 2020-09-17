@@ -1,45 +1,33 @@
 #include <iostream>
-#include "util/rangeFor.h"
 
 int findFirstContact(bool* contacts, int length)
 {
-    bool checkingBack = false;
-    int i = 0;
-    while (true)
+    int index;
+    if (contacts[0]){
+        index = length;
+        while (contacts[index - 1] == 1)
+        {
+            index--;
+        }
+
+
+        return index % length;
+    } else
     {
-        if (contacts[i])
+        index = 1;
+        for(; index < length; index++)
         {
-            if(i == 0)
-            {
-                if (!checkingBack)
-                {
-                    i = length - 1;
-                    checkingBack = true;
-                    continue;
-                }
-            }
-            
-            return i;
+            if (contacts[index])
+                return index;
         }
-
-        if (i == length - 1)
-        {
-            if (checkingBack)
-            {
-                i = 0;
-                continue;
-            }
-            else
-                return -1;
-        }
-
-        i++;
     }
+
+    return -1;
 }
 
 int main()
 {
-    bool contacts[] {0,1, 0, 0,1};
-    std::cout << findFirstContact(contacts, 5) << std::endl;
+    bool contactInfo[]{1, 0, 0, 1, 1};
+    std::cout << findFirstContact(contactInfo, 5) << std::endl;
     return 0;
 }
