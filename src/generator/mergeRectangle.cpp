@@ -1,19 +1,15 @@
 #include <tuple>
 #include <optional>
+#include <algorithm>
 
 #include "mergeRectangle.h"
 
 #include "findFirstContact.h"
-
-struct Square
-{
-    glm::vec2i pos;
-    glm::vec2i dims;
-};
+#include "../util/Rectangle.h"
 
 namespace Generator {
 
-    void getLinesForSquare(std::list<Line>& lineList, const Square& square){
+    void getLinesForRectangle(std::list<Line>& lineList, const Rectangle& square){
         auto varPos = square.pos;
         auto& dims = square.dims;
         //left
@@ -37,57 +33,103 @@ namespace Generator {
 
     std::optional<LineTouchInfo> getLineTouchInfo(const Line& ll1, const Line& ll2);
 
-    typedef std::list<Line>::iterator LinePtr;
-
-    void transposeLinesToEnvelope(std::list<Line>& lines, const glm::vec2& origin);
+    typedef std::list<Line>::const_iterator ConstLineItr;
+    typedef std::list<Line>::iterator LineItr;
 
     /** finds first line from envelope going clockwise that contacts with the square
     */
-    std::tuple<LinePtr, LinePtr, LineTouchInfo> getFirstContactPoint(const std::list<Line>& envelopeLines, const std::list<Line>& squareLines)
+
+    std::tuple<LineItr, LineItr, LineTouchInfo> getFirstContactPoint(std::list<Line>& envelopeLines, std::list<Line>& squareLines)
     {
-        auto checkSquareLines = [&squareLines] (LinePtr envelopeIterator) -> std::optional<LineTouchInfo> {
-            for (auto squareIterator = squareLines.begin(); squareIterator != squareLines.end(); squareIterator++)
+        struct EnvelopeContactInfo {LineTouchInfo lineTouchInfo; LineItr squareLine;};
+        //this lambda checks if an envelope line contacts with a square line and returns the relevant info if yes
+        auto checkEnvelopeContact = [&squareLines] (const Line& envelopeLine) -> std::optional<EnvelopeContactInfo> {};
+
+        //LineItr envelopeItr;
+        //std::optional<EnvelopeContactInfo> possibleEnvelopeContactInfo;
+        //auto& contactInfo = possibleEnvelopeContactInfo.value();
+        EnvelopeContactInfo* envelopeContactInfo;
+
+        //is there contact at the front?
+        auto optFrontContact = checkEnvelopeContact(*envelopeLines.begin());
+        //yes
+        if (optFrontContact.has_value())
+        {
+            auto& frontContact = optFrontContact.value();
+
+            //if there is a contact at the end, keep going back the chain of contacts until you find a contactless line
+            auto goingBackContactInfo = checkEnvelopeContact(*envelopeLines.end());
+            auto& backContactInfo = goingBackContactInfo;
+
+            if(backContactInfo.has_value())
             {
-                auto possibleTouchInfo = getLineTouchInfo(*envelopeIterator, *squareIterator);
-                if (possibleTouchInfo.has_value())
+                auto& _goingBackContactInfo = goingBackContactInfo.value();
+                auto envelopeItr = envelopeLines.end();
+                do
                 {
-                    return possibleTouchInfo;
+                    envelopeItr--;
+                } while (checkEnvelopeContact(*envelopeItr).has_value());
+
+                //start off at penultimate
+                while (true)
+                {
+                    //check the one before
+                    envelopeItr--;
+                    auto backOneContactInfo = checkEnvelopeContact(*envelopeItr);
+                    if (backOneContactInfo.has_value())
+                    {
+                        goingBackContactInfo = backOneContactInfo;
+                    //keep doing this until you find one where there is no contact before
+                    } else {
+                        envelopeItr++;
+                        return {envelopeItr, _goingBackContactInfo.squareLine, _goingBackContactInfo.lineTouchInfo};
+                    }
                 }
+
+            //yes contact at the front,no contact at the end:
+            } else {
+
+                return std::make_tuple(envelopeLines.begin(), frontContact.squareLine, frontContact.lineTouchInfo);
             }
-            return std::optional<LineTouchInfo>();
-        };
-
-
-
-        LineTouchInfo getFirstPointOfContact(envelopeLines.begin(), envelopeLines.end(), checkSquareLines);
+        }
+        //no contact at the front
+        else {
+            auto envelopeItr = envelopeLines.begin();
+            envelopeItr++;
+            while (true)
+            {
+                if(checkEnvelopeContact(*envelopeItr).has_value())
+                {
+                    return envelopeItr;
+                }
+                envelopeItr++;
+            }
+        }
     }
 
     std::optional<LineTouchInfo> findContact(const Line& line, const std::list<Line>& envelopeLines);
     void mergeIfNecessary(const Line& line, const std::list<Line>& envelopeLines);
 
-
+    inline void mergeLines(const std::list<Line>& envelopeLines, const std::list<Line>& squareLines);
+    void transposeLinesToEnvelope(std::list<Line>& lines, const glm::vec2& origin);
 
     /**
      * Finds closest point to origin outside group of rectangles, attempts to place rectangle there
      */
-    void mergeRectangle(std::list<Line>& envelopeLines, const glm::vec2i& origin, const glm::vec2i& pos, const glm::vec2i& dims)
+    void mergeRectangle(std::list<Line>& envelopeLines, const Rectangle& rectangle)
     {
-
-        Square square{pos, dims};
         if (envelopeLines.size() == 0)
         {
-            getLinesForSquare(envelopeLines, square);
+            getLinesForRectangle(envelopeLines, rectangle);
 
         }
         else
         {
             // get list of envelopeLines for the new square
             std::list<Line> squareLines;
-            getLinesForSquare(squareLines, square);
-            transposeLinesToEnvelope(squareLines, origin);
+            getLinesForRectangle(squareLines, rectangle);
 
-            /*LinePtr envelepePtr, squarePtr;
-            LineTouchInfo contactInfo;*/
+
             auto [envelepePtr, squarePtr, contactInfo] = getFirstContactPoint(envelopeLines, squareLines);
             bool contactProcessed = true;
 
@@ -129,5 +171,15 @@ namespace Generator {
                 }
             }
         }
+    }
+
+    void mergeLines(std::list<Line>& envelopeLines, std::list<Line>& squareLines)
+    {
+        envelopeLines.merge(squareLines, [] (const Line& l1, const Line& l2) {return true;});
+    }
+
+    void transposeLinesToEnvelope(std::list<Line>& lines, const glm::vec2& origin)
+    {
+        std::for_each(lines.begin(), lines.end(), [&origin] (Line& l) {l.pos += origin;});
     }
 }
