@@ -45,11 +45,6 @@ namespace Generator {
         //this lambda checks if an envelope line contacts with a square line and returns the relevant info if yes
         auto checkEnvelopeContact = [&squareLines] (const Line& envelopeLine) -> std::optional<EnvelopeContactInfo> {};
 
-        //LineItr envelopeItr;
-        //std::optional<EnvelopeContactInfo> possibleEnvelopeContactInfo;
-        //auto& contactInfo = possibleEnvelopeContactInfo.value();
-        EnvelopeContactInfo* envelopeContactInfo;
-
         //is there contact at the front?
         auto optFrontContact = checkEnvelopeContact(*envelopeLines.begin());
         //yes
@@ -96,11 +91,15 @@ namespace Generator {
         else {
             auto envelopeItr = envelopeLines.begin();
             envelopeItr++;
+            //start from second
             while (true)
             {
-                if(checkEnvelopeContact(*envelopeItr).has_value())
+                //if it contacts, stop
+                auto optContact = checkEnvelopeContact(*envelopeItr);
+                if(optContact.has_value())
                 {
-                    return envelopeItr;
+                    auto& contact = optContact.value();
+                    return {envelopeItr, contact.squareLine, contact.lineTouchInfo};
                 }
                 envelopeItr++;
             }
