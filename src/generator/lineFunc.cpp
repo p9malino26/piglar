@@ -30,7 +30,7 @@ glm::vec2i getClosestPointOnLineToOtherPoint(const Line& line, const glm::vec2i&
 
     case CompassDirection::WEST:
         linePos_varComponent = x;
-        pos_compComponent = point.y;
+        pos_compComponent = point.x;
         sign = 0;
         break;
     }
