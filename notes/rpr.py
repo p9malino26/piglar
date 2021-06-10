@@ -30,61 +30,67 @@ class RPR:
 
         rectLines = getRectLines(rect)
         while True:
-            minimumLine, leftOfMinimum, rightOfMinimum = self.getMinimumLine()
+            contactingLines = self.getMinimumLine()
+            minimumLine, _, _ = contactingLines
             #insert top before minimumline
 
             if (minimumLine.pos.y + rect.height > self.height): return None #out of space
 
             if minimumLine.length < rectLines["bottom"].length:
-                if (leftOfMinimum != None):
-                    if (rightOfMinimum != None):
-                        touchingLine = leftOfMinimum if leftOfMinimum.pos.y <= tip(rightOfMinimum).y else rightOfMinimum
-                    else:
-                        touchingLine = leftOfMinimum
-                elif (rightOfMinimum != None):
-                    touchingLine = rightOfMinimum
-                else:
-                    panic()
-
-                if touchingLine is leftOfMinimum:#todo checkjoin
-                    minimumLine.pos.y = leftOfMinimum.pos.y
-                    if (rightOfMinimum != None): replace(self.envelope, rightOfMinimum, lineBetween(tip(minimumLine), tip(rightOfMinimum)))
-                elif touchingLine is rightOfMinimum:
-                    minimumLine.pos.y = tip(rightOfMinimum).y
-                    if (leftOfMinimum != None): replace(self.envelope, leftOfMinimum, lineBetween(leftOfMinimum.pos, minimumLine.pos))
-                else:
-                    panic()
-
-                self.envelope.remove(touchingLine)
-                self.checkForSplitLines(minimumLine)
+                self.seclude(*contactingLines, rectLines)
                 continue        
 
+            return self.placeRectangleFinal(*contactingLines, rectLines)
+            
 
-
-            def lineTransform(l):
+    def placeRectangleFinal(self, minimumLine, leftOfMinimum, rightOfMinimum, rectLines):
+        def lineTransform(l):
             
                 l.pos.x *= rect.width
                 l.pos.y*=rect.height
                 l.pos += minimumLine.pos
 
-            for l in rectLines.values(): lineTransform(l)
+        for l in rectLines.values(): lineTransform(l)
 
-            insertBefore(self.envelope, minimumLine, rectLines["top"])
-            #merge rect.left with previous
-            if leftOfMinimum != None:
-                self.mergeLines(leftOfMinimum, rectLines["left"]) #bug
+        insertBefore(self.envelope, minimumLine, rectLines["top"])
+        #merge rect.left with previous
+        if leftOfMinimum != None:
+            self.mergeLines(leftOfMinimum, rectLines["left"]) #bug
 
-            #merge rect.bottom with lowestLine
-            newBottom = self.mergeLines(minimumLine, rectLines["bottom"])
+        #merge rect.bottom with lowestLine
+        newBottom = self.mergeLines(minimumLine, rectLines["bottom"])
 
-            if rect.width == minimumLine.length:
-                if rightOfMinimum != None: #bug
-                    self.mergeLines(rightOfMinimum, rectLines["right"])
+        if rect.width == minimumLine.length:
+            if rightOfMinimum != None: #bug
+                self.mergeLines(rightOfMinimum, rectLines["right"])
+        else:
+            insertBefore(self.envelope, newBottom, rectLines["right"])
+        #    merge them
+        self.checkForSplitLines(rectLines["top"])
+        return minimumLine.pos
+
+    def seclude(self, minimumLine, leftOfMinimum, rightOfMinimum, rectLines):
+        if (leftOfMinimum != None):
+            if (rightOfMinimum != None):
+                touchingLine = leftOfMinimum if leftOfMinimum.pos.y <= tip(rightOfMinimum).y else rightOfMinimum
             else:
-                insertBefore(self.envelope, newBottom, rectLines["right"])
-            #    merge them
-            self.checkForSplitLines(rectLines["top"])
-            return minimumLine.pos
+                touchingLine = leftOfMinimum
+        elif (rightOfMinimum != None):
+            touchingLine = rightOfMinimum
+        else:
+            panic()
+
+        if touchingLine is leftOfMinimum:#todo checkjoin
+            minimumLine.pos.y = leftOfMinimum.pos.y
+            if (rightOfMinimum != None): replace(self.envelope, rightOfMinimum, lineBetween(tip(minimumLine), tip(rightOfMinimum)))
+        elif touchingLine is rightOfMinimum:
+            minimumLine.pos.y = tip(rightOfMinimum).y
+            if (leftOfMinimum != None): replace(self.envelope, leftOfMinimum, lineBetween(leftOfMinimum.pos, minimumLine.pos))
+        else:
+            panic()
+
+        self.envelope.remove(touchingLine)
+        self.checkForSplitLines(minimumLine)
 
     def getMinimumLine(self):
         horizontalLines = list(filter(lambda l: l.direction == "east", self.envelope))
