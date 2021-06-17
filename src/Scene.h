@@ -12,6 +12,7 @@ class Scene
     static constexpr int height = 100;
 
     std::unique_ptr<RoadMap> roadMap;
+    std::unique_ptr<Generator::RoadMapGen> roadMapGen;
 
 public:
     Scene();

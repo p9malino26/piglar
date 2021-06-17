@@ -9,19 +9,12 @@
 #include "generator/RoadMapGen.h"
 
 SceneRenderer::SceneRenderer(const Scene* scene)
-    :scene(scene), rpr(new BottomUpRectPlacer(100,100))
+    :scene(scene)
 {
-    while (true) {
-        Rectangle rect{Random::randInt(7,20), Random::randInt(7,20)};
-        auto insertPos = rpr->placeRectangle(rect);
-        if (!insertPos.has_value()) break;
-        rectData.push_back({insertPos.value(), (glm::vec2i&)rect});
-    }
 }
 
 SceneRenderer::~SceneRenderer()
 {
-    delete rpr;
 }
 
 namespace  {
@@ -42,21 +35,9 @@ namespace  {
         }
     }
 
-    void drawLines(const std::list<Line>& lines)
-    {
-        for(Line line: lines) {
-            Renderer::get()->drawLine(line);
-        }
-    }
 }
 
 void SceneRenderer::render () const
 {
-    /*drawRoadMap(*(this->scene->getRoadMap()));
-    auto& lines = scene->roadMapGen->rpr->envelopeLines;
-    drawLines(lines);*/
-    for (auto& rect_pos: rectData)
-    {
-        Renderer::get()->drawRectangleWithLines(rect_pos, glm::vec3(1,1,0), glm::vec3(0,1,1));
-    }
+    drawRoadMap(*(this->scene->getRoadMap()));
 }

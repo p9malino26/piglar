@@ -10,12 +10,12 @@ namespace Generator {
     class RoadMapGen
     {
     public:
-        friend class SceneRenderer;
         RoadMapGen(RoadMap*);
 
         void generate();
         ~RoadMapGen();
     private:
+        std::unique_ptr<BottomUpRectPlacer> rpr;
         RoadMap* roadMap;
     };
 }

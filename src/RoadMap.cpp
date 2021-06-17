@@ -3,12 +3,12 @@
 #include "util/compassVec.h"
 
 RoadMap::RoadMap(int width, int height)
-    :width(width), height(height), data(width * height)
+    :width(width), height(height), data(new CellType[width * height])
 {
-   
+    clear();
 }
 
-void RoadMap::setLine(const glm::vec2i& startPos, CompassDirection direction, int length, bool state)
+void RoadMap::setLine(const glm::vec2i& startPos, CompassDirection direction, int length, CellType state)
 {
     glm::vec2i theDirectionVec = directionVec(direction);
     //glm::vec2i endPos = startPos+ length *

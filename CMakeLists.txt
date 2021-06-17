@@ -30,7 +30,8 @@ FILE(GLOB source_files
 "${source_dir}/util/lineFunc.cpp"
 
 "${source_dir}/generator/bottomuprectplacer.cpp"
-#"${source_dir}/generator/TreeGenerator.cpp"
+"${source_dir}/generator/TreeGenerator.cpp"
+"${source_dir}/generator/RoadMapGen.cpp"
 "${source_dir}/generator/rotateLine.cpp"
 "${source_dir}/generator/rectUtil.cpp"
 

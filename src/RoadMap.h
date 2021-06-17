@@ -6,12 +6,15 @@
 
 #include <vector>
 #include <utility>
+#include <algorithm>
 #include <stdexcept>
 
 #include "GLMIncludes.h"
 #include "util/CompassDirection.h"
 
 //all rendering function deprecated
+
+typedef bool CellType;
 
 class RoadMap
 {
@@ -20,6 +23,7 @@ public:
 
 
 	RoadMap(int width, int height);
+    inline ~RoadMap() {delete[] data;}
     
     inline int getWidth() const {return width;}
     inline int getHeight() const {return height;}
@@ -30,32 +34,33 @@ public:
         return coord.x >= getWidth() || coord.y >= getHeight();
     }
     
-    inline void setFieldState(const glm::vec2i& coord, bool state)
+    inline void setFieldState(const glm::vec2i& coord, CellType state)
     {
         data[getIndexFromCoord(coord)] = state;
     }
 
     inline void toggleFieldState(const glm::vec2i& coord)
     {
-        bool celldata = data[getIndexFromCoord(coord)];
+        CellType celldata = data[getIndexFromCoord(coord)];
         data[getIndexFromCoord(coord)] = !celldata;
     }
 
-    inline bool getFieldState(const glm::vec2i& coord) const
+    inline CellType getFieldState(const glm::vec2i& coord) const
     {
         return data[getIndexFromCoord(coord)];
     }
 
-    void setLine(const glm::vec2i& startPos, CompassDirection direction, int length, bool state);
+    void setLine(const glm::vec2i& startPos, CompassDirection direction, int length, CellType state);
+
+    inline void clear() {std::memset(data, 0, width * height);}
 
 
 private:
-
 	int width;
 	int height;
 
 
-    std::vector<bool> data;
+    CellType* data;
 
 
     inline void ensurePositionIsInside(const glm::vec2i& coord) const

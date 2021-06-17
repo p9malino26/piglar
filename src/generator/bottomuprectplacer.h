@@ -10,9 +10,10 @@
 typedef glm::vec2i Pos;
 typedef std::list<Line>::iterator LinePtr;
 
+class RectLinesInfo;
+namespace Generator {
 
 class MinimumAreaInfo;
-class RectLinesInfo;
 
 
 class BottomUpRectPlacer
@@ -36,4 +37,4 @@ private:
 
 
 };
-
+}

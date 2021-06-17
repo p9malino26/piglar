@@ -2,11 +2,15 @@
 #include "Scene.h"
 #include "Input.h"
 
+#include "generator/RoadMapGen.h"
+
+
 void generateRoadMap(RoadMap* roadMap);
 
 Scene::Scene()
-    :roadMap(new RoadMap(width, height))
+    :roadMap(new RoadMap(width, height)), roadMapGen(new Generator::RoadMapGen(roadMap.get()))
 {
+    roadMapGen->generate();
 }
 
 void Scene::update()
@@ -16,5 +20,5 @@ void Scene::update()
         this->roadMap->toggleFieldState(glm::vec2i(1,1));
 }
 
-Scene::~Scene() {
+Scene::~Scene(){
 }

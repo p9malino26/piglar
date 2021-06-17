@@ -7,7 +7,7 @@
 
 #include "../util/lineConsistencyCheck.h"
 
-extern int count;
+namespace Generator {
 
 struct MinimumAreaInfo
 {
@@ -37,7 +37,7 @@ BottomUpRectPlacer::BottomUpRectPlacer()
     consistencyCheck();
 }
 
-RectLinesInfo getRectLines(const Rectangle& rect);
+//RectLinesInfo getRectLines(const Rectangle& rect);
 
 std::optional<Pos> BottomUpRectPlacer::placeRectangle(const Rectangle &rect)
 {
@@ -242,3 +242,4 @@ void BottomUpRectPlacer::seclude(MinimumAreaInfo& contactingLines)
 
 
 
+}

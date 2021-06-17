@@ -10,7 +10,6 @@ class PosRectangle;
 class SceneRenderer
 {
     const Scene* scene;
-    std::vector<PosRectangle> rectData;
 public:
     explicit SceneRenderer(const Scene* scene);
     ~SceneRenderer();
@@ -19,6 +18,5 @@ public:
      * renders the scene
      */
     void render () const;
-    BottomUpRectPlacer* rpr;
 };
 
