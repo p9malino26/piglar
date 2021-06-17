@@ -3,14 +3,25 @@
 #include "RoadMap.h"
 #include "Scene.h"
 #include "Renderer.h"
-#include "generator/rectangleplacementrecorder.h"
+#include "util/Random.h"
+#include "generator/bottomuprectplacer.h"
 
-#include "RoadMapGen.h"
+#include "generator/RoadMapGen.h"
 
 SceneRenderer::SceneRenderer(const Scene* scene)
-    :scene(scene)
+    :scene(scene), rpr(new BottomUpRectPlacer(100,100))
 {
+    while (true) {
+        Rectangle rect{Random::randInt(7,20), Random::randInt(7,20)};
+        auto insertPos = rpr->placeRectangle(rect);
+        if (!insertPos.has_value()) break;
+        rectData.push_back({insertPos.value(), (glm::vec2i&)rect});
+    }
+}
 
+SceneRenderer::~SceneRenderer()
+{
+    delete rpr;
 }
 
 namespace  {
@@ -41,6 +52,11 @@ namespace  {
 
 void SceneRenderer::render () const
 {
-    drawRoadMap(*(this->scene->getRoadMap()));
-    drawLines(scene->roadMapGen->rpr->lines);
+    /*drawRoadMap(*(this->scene->getRoadMap()));
+    auto& lines = scene->roadMapGen->rpr->envelopeLines;
+    drawLines(lines);*/
+    for (auto& rect_pos: rectData)
+    {
+        Renderer::get()->drawRectangleWithLines(rect_pos, glm::vec3(1,1,0), glm::vec3(0,1,1));
+    }
 }

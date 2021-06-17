@@ -2,6 +2,7 @@
 
 //COMPASS
 #include "compassVec.h"
+
 const glm::vec2i NORTH_VEC =   glm::vec2i(0, 1);
 const glm::vec2i EAST_VEC  =   glm::vec2i(1, 0);
 const glm::vec2i SOUTH_VEC =  -NORTH_VEC;
@@ -42,3 +43,6 @@ CompassDirection compassDirFromRelative ( CompassDirection compDir, RelativeDire
             else return CompassDirection::SOUTH;
     }
 }
+
+
+

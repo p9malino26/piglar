@@ -9,10 +9,18 @@
 namespace glm
 {
     typedef glm::vec<2, int, defaultp> vec2i;
+
+
+    //tested
     template <typename T>
-    std::ostream& operator<<(std::ostream& os, glm::vec<2, T, defaultp> vec)
+    constexpr glm::vec<2, T, defaultp> swap(const glm::vec<2, T, defaultp>& vec)
     {
-        return os << '(' << vec.x << ", " << vec.y << ')';
+        return {vec.y, vec.x};
     }
 }
 
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const glm::vec<2, T, glm::defaultp>& vec)
+{
+    return os << '(' << vec.x << ", " << vec.y << ')';
+}

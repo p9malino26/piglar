@@ -37,9 +37,7 @@ glm::vec2i getClosestPointOnLineToOtherPoint(const Line& line, const glm::vec2i&
 
     int closest;
     if (sign == 1){
-        /*if north:
-         *
-        */
+        //
         closest = std::clamp(pos_compComponent, linePos_varComponent, linePos_varComponent + line.length);
     } else
     {

@@ -8,11 +8,12 @@
 #include "opengl/Shader.h"
 
 
-#include "util/line.h"
 #include "util/CompassDirection.h"
+#include "util/PosRectangle.h"
 
 class Camera;
 class Display;
+class Line;
 
 
 class Renderer {
@@ -24,8 +25,8 @@ class Renderer {
     Camera* camera;
     Display* display;
 
-    static constexpr char* vertexShaderSource = "res/shaders/vertexShader.glsl";
-    static constexpr char* fragmentShaderSource = "res/shaders/fragmentShader.glsl";
+    static const char* vertexShaderSource  ;
+    static const char* fragmentShaderSource;
     
     //singleton
     static Renderer* instance;
@@ -36,6 +37,8 @@ public:
      * Renders a square 
      */
     void drawSquare(const glm::vec2& pos,float sideLength, const glm::vec3& color) const;
+    void drawRectangle(const PosRectangle& rect, const glm::vec3& color);
+    void drawRectangleWithLines(const PosRectangle& rect, const glm::vec3& rectColor, const glm::vec3& lineColor);
     void drawLine(const Line &line);
 
     //singleton

@@ -1,8 +1,8 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 
+CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 PROJECT(piglar)
 set( CMAKE_EXPORT_COMPILE_COMMANDS ON   )
-SET (CMAKE_CXX_COMPILER "/usr/bin/clang++")
+SET (CMAKE_CXX_COMPILER "/usr/bin/g++")
 SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -std=c++17 -Wall")
 SET (source_dir "${PROJECT_SOURCE_DIR}/src")
 SET (vendor_dir "${source_dir}/vendor")
@@ -17,7 +17,6 @@ FILE(GLOB source_files
 "${source_dir}/Game.cpp"
 "${source_dir}/Scene.cpp"
 "${source_dir}/RoadMap.cpp"
-"${source_dir}/RoadMapGen.cpp"
 "${source_dir}/SceneRenderer.cpp"
 "${source_dir}/Renderer.cpp"
 "${source_dir}/Application.cpp"
@@ -28,11 +27,12 @@ FILE(GLOB source_files
 "${source_dir}/Input.cpp"
 
 "${source_dir}/util/util.cpp"
+"${source_dir}/util/lineFunc.cpp"
 
-"${source_dir}/generator/TreeGenerator.cpp"
-"${source_dir}/generator/rectangleplacementrecorder.cpp"
-"${source_dir}/generator/lineFunc.cpp"
-"${source_dir}/generator/placeRectangle.cpp"
+"${source_dir}/generator/bottomuprectplacer.cpp"
+#"${source_dir}/generator/TreeGenerator.cpp"
+"${source_dir}/generator/rotateLine.cpp"
+"${source_dir}/generator/rectUtil.cpp"
 
 "${source_dir}/opengl/Display.cpp"
 "${source_dir}/opengl/Buffer.cpp"
@@ -41,6 +41,16 @@ FILE(GLOB source_files
 
 "${vendor_dir}/glad/src/glad.c"
 "${vendor_dir}/stb_image/stb_image/stb_image.cpp"
+)
+
+FILE(GLOB test_files
+    "${source_dir}/test/bottomUpTest.cpp"
+    "${source_dir}/generator/rectUtil.cpp"
+    "${source_dir}/generator/bottomuprectplacer.cpp"
+    "${source_dir}/util/util.cpp"
+    "${source_dir}/util/lineFunc.cpp"
+    "${source_dir}/generator/rotateLine.cpp"
+
 )
 
 LINK_LIBRARIES(-lglfw -lGL -lpthread -lX11 -lXrandr -lXi -ldl)

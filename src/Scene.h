@@ -2,7 +2,8 @@
 #include <memory>
 
 class RoadMap;
-class RoadMapGen;
+
+namespace Generator { class RoadMapGen; }
 
 class Scene
 {
@@ -11,7 +12,6 @@ class Scene
     static constexpr int height = 100;
 
     std::unique_ptr<RoadMap> roadMap;
-    std::unique_ptr<RoadMapGen> roadMapGen;
 
 public:
     Scene();

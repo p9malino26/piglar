@@ -2,15 +2,11 @@
 #include "Scene.h"
 #include "Input.h"
 
-#include "RoadMapGen.h"
-
-
 void generateRoadMap(RoadMap* roadMap);
 
 Scene::Scene()
-    :roadMap(new RoadMap(width, height)), roadMapGen(new RoadMapGen(roadMap.get()))
+    :roadMap(new RoadMap(width, height))
 {
-    roadMapGen->generate();
 }
 
 void Scene::update()

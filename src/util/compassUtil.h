@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CompassDirection.h"
+#include "compassVec.h"
 
 enum class RelativeDirection {RIGHT, LEFT};
 CompassDirection compassDirFromRelative(CompassDirection compDir, RelativeDirection relDir);
@@ -18,3 +19,5 @@ inline constexpr int clockwiseDirectionAngle(CompassDirection d) {
             return 270;
     }
 }
+
+inline constexpr int directionNumber(CompassDirection dir) {return (int)dir; }
