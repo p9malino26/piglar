@@ -132,6 +132,7 @@ namespace Generator {
                 roadMap.setFieldState(globalPos, treeData->getFieldState(bufferPos));
             }
         }
+        treeData->clear();
 
     }
 

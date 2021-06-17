@@ -4,9 +4,13 @@
 #include "opengl/Display.h"
 #include "Camera.h"
 
+MouseManager* MouseManager::instance;
+
 MouseManager::MouseManager(Display* display, Camera* camera)
     :display(display), camera(camera)
-{}
+{
+    instance = this;
+}
 
 
 glm::vec2 MouseManager::getWorldMousePos()

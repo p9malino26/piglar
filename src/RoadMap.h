@@ -31,7 +31,8 @@ public:
 
     inline bool isPositionOutside(const glm::vec2i& coord) const
     {
-        return coord.x >= getWidth() || coord.y >= getHeight();
+        return coord.x >= getWidth() || coord.y >= getHeight() ||
+                coord.x < 0 || coord.y < 0;
     }
     
     inline void setFieldState(const glm::vec2i& coord, CellType state)

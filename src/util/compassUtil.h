@@ -21,3 +21,4 @@ inline constexpr int clockwiseDirectionAngle(CompassDirection d) {
 }
 
 inline constexpr int directionNumber(CompassDirection dir) {return (int)dir; }
+inline constexpr CompassDirection opposite (CompassDirection direction) {return CompassDirection((int(direction) + 2) % 4);}

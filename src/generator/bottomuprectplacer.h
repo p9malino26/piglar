@@ -15,18 +15,20 @@ namespace Generator {
 
 class MinimumAreaInfo;
 
+struct NeighbouringInfo {int east, south, west;};
 
 class BottomUpRectPlacer
 {
 public:
     BottomUpRectPlacer(int width, int height);
-    BottomUpRectPlacer();
     std::optional<Pos> placeRectangle(const Rectangle& rect);
+    inline NeighbouringInfo& getNeighbouringSpaceInfo() { return neighbouringSpaceInfo;}
     //debug
     void consistencyCheck();
 private:
     int width, height;
     std::list<Line> envelope;
+    NeighbouringInfo neighbouringSpaceInfo;
 
     Pos placeRectangleFinal( MinimumAreaInfo& contactingLines, RectLinesInfo& rectLines);
     void mergeLines(LinePtr existing, Line& newLine);

@@ -10,7 +10,7 @@ class Random
 public:
     static inline void init()
     {
-        srand(7);
+        srand(3);
     }
 
     static inline int randInt(int low, int high)

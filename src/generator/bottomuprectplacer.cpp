@@ -21,23 +21,16 @@ BottomUpRectPlacer::BottomUpRectPlacer(int width, int height) : width(width),
     envelope.push_back(Line({0,0}, width, CompassDirection::EAST));
 }
 
-BottomUpRectPlacer::BottomUpRectPlacer()
-    :width(100), height(100)
-{
-    envelope = {
-        Line({0,10}, 10, CompassDirection::EAST),
-        Line({10,10}, 10, CompassDirection::SOUTH),
-        Line({10,0}, 10, CompassDirection::EAST),
-        Line({20,0}, 20, CompassDirection::NORTH),
-        Line({20,20}, 80, CompassDirection::EAST)
-    };
-
-    MinimumAreaInfo contactInfo = getMinimumAreaLines();
-    seclude(contactInfo);
-    consistencyCheck();
-}
 
 //RectLinesInfo getRectLines(const Rectangle& rect);
+
+inline int getLineHeight(std::optional<LinePtr> maybeLinePtr) {
+    int height = 0;
+    if (maybeLinePtr.has_value()) {
+        height = maybeLinePtr.value()->length;
+    }
+    return height;
+}
 
 std::optional<Pos> BottomUpRectPlacer::placeRectangle(const Rectangle &rect)
 {
@@ -55,6 +48,11 @@ std::optional<Pos> BottomUpRectPlacer::placeRectangle(const Rectangle &rect)
             seclude(contactingLines);
             continue;
         }
+
+
+        neighbouringSpaceInfo.south = minimumLine.pos.y == 0 ? 0 : rect.width;
+        neighbouringSpaceInfo.east = std::min(rect.height, getLineHeight(contactingLines.leftOfMinimum));
+        neighbouringSpaceInfo.west = std::min(rect.height, getLineHeight(contactingLines.rightOfMinimum));
 
         return placeRectangleFinal(contactingLines, rectLines);
     }
