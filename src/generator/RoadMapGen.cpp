@@ -82,7 +82,7 @@ namespace Generator {
                 auto connectToOther = [this] (CompassDirection direction, int limit, const Pos &startPos)
                 {
                     if (limit == 0) return;
-                    int offset = Random::randInt(0, limit);
+                    int offset = limit >> 1;
 
                     CompassDirection posDirection = ((int)direction % 2) == 1 ? CompassDirection::NORTH : CompassDirection::EAST;
 

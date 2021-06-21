@@ -2,6 +2,7 @@
 #include <memory>
 
 class RoadMap;
+class SquarePlayer;
 
 namespace Generator { class RoadMapGen; }
 
@@ -12,6 +13,8 @@ class Scene
     static constexpr int height = 100;
 
     std::unique_ptr<RoadMap> roadMap;
+    std::unique_ptr<SquarePlayer> player;
+
     std::unique_ptr<Generator::RoadMapGen> roadMapGen;
 
 public:

@@ -25,6 +25,10 @@ FILE(GLOB source_files
 "${source_dir}/CameraManager.cpp"
 "${source_dir}/MouseManager.cpp"
 "${source_dir}/Input.cpp"
+"${source_dir}/SquarePlayer.cpp"
+"${source_dir}/SquarePlayer.h"
+"${source_dir}/collisionDetection.cpp"
+
 
 "${source_dir}/util/util.cpp"
 "${source_dir}/util/lineFunc.cpp"
