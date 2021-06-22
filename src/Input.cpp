@@ -1,34 +1,33 @@
 #include <iostream>
 #include <cstring>
+#include <functional>
 
 #include "Input.h"
 
 #include "TimeManager.h"
 
-
-
-GLFWwindow* Input::window;
-float Input::_yScrollDelta;
-bool Input::has_scrolled;
-int Input::keys[keysSize]  {};
-bool Input::mouseClicked = false;
+Input* Input::instance;
 //const int Input::keysSize = 349;
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+void mouse_callback(GLFWwindow* window, int button, int action, int mods)
+{
+    if(button == 0 && action == GLFW_PRESS)
+        Input::instance->mouseClicked = true;
+};
 
-void Input::init(GLFWwindow* _window)
+Input::Input(GLFWwindow* _window)
 {
     window = _window;
+}
+
+void Input::init(GLFWwindow* window)
+{
+    instance = new Input(window);
     glfwSetScrollCallback(window, scroll_callback);
     glfwSetKeyCallback(window, key_callback);
-    glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods)
-    {
-        if(button == 0 && action == GLFW_PRESS)
-            Input::mouseClicked = true;
-    });
-    
-
+    glfwSetMouseButtonCallback(window, mouse_callback);
 }
 
 void Input::update()
@@ -55,12 +54,14 @@ glm::vec2 Input::getMousePos()
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-    Input::_yScrollDelta = yoffset;
-    Input::has_scrolled = true;
+    Input::instance->_yScrollDelta = yoffset;
+    Input::instance->has_scrolled = true;
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    Input::keys[key] = action + 1;
+    Input::instance->keys[key] = action + 1;
 }
+
+
 

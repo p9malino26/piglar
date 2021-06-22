@@ -65,7 +65,7 @@ namespace Generator {
             ++dims.y;
 
             //think of orientation
-            bool orientation = Random::fiftyFifty();
+            bool orientation = Random::get()->fiftyFifty();
             if (orientation) // horizontal
                 dims = glm::swap(dims);
 

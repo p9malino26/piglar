@@ -2,26 +2,24 @@
 #define TIME_MANAGER_H
 
 #include <GLFW/glfw3.h>
+#include "util/singleton.h"
 
-class TimeManager
+class TimeManager: public Singleton
 {
 private:
-    static float _deltaTime;
-    static float currentFrameTime;
-    static float lastFrameTime;
+    float _deltaTime;
+    float currentFrameTime;
+    float lastFrameTime;
+    TimeManager();
 public:
-    inline static float time() { return currentFrameTime;};
-    inline static float deltaTime() { return _deltaTime;}
+    inline float time() { return currentFrameTime;};
+    inline float deltaTime() { return _deltaTime;}
 
-    static void init() {lastFrameTime = glfwGetTime();}
 
-    static void update()
-    { 
-        currentFrameTime = glfwGetTime();        
-        _deltaTime = currentFrameTime - lastFrameTime;
-        lastFrameTime = currentFrameTime;
-    }
+    void update();
 
+SINGLETON(TimeManager)
+    static void init();
 
 };
 

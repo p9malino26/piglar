@@ -8,6 +8,7 @@ class Application
 {
 public:
     Application(const std::string& title, int windowWidth, int windowHeight);
+    ~Application();
     void runMainLoop();
 protected:
     Display display;

@@ -7,17 +7,18 @@
 #include "Scene.h"
 #include "SceneRenderer.h"
 #include "Renderer.h"
-
+#include "util/Random.h"
 
 Game::Game()
     :Application("Piglar!!", 800, 600),
       camera(new Camera()),
       cameraManager(new CameraManager(camera.get())),
       scene(new Scene()),
-      renderer(new SceneRenderer(scene.get())),
-      mouseManager(&display, camera.get())
+      renderer(new SceneRenderer(scene.get()))
 {
     Renderer::init(camera.get(), &display);
+    Random::init();
+    MouseManager::init(&display, camera.get());
 }
 
 void Game::processFrame()
@@ -33,5 +34,7 @@ void Game::processFrame()
 
 Game::~Game()
 {
-    Renderer::destroy();
+    Renderer::del();
+    Random::del();
+    MouseManager::del();
 }

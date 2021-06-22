@@ -23,8 +23,8 @@ void Application::runMainLoop()
 {
     while(display.isOpen())
     {
-        TimeManager::update();
-        Input::update();
+        TimeManager::get()->update();
+        Input::get()->update();
         processInput();
         processFrame();
         display.swapBuffers();
@@ -34,7 +34,12 @@ void Application::runMainLoop()
 
 void Application::processInput()
 {
-    if(Input::getKeyStatus(GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    if(Input::get()->getKeyStatus(GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(display.getRaw(), true);
+}
+
+Application::~Application() {
+    Input::del();
+    TimeManager::del();
 }
 

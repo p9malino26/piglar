@@ -10,13 +10,14 @@
 
 #include "util/CompassDirection.h"
 #include "util/PosRectangle.h"
+#include "util/singleton.h"
 
 class Camera;
 class Display;
 class Line;
 
 
-class Renderer {
+class Renderer: public Singleton {
     Shader shader;
     Buffer vbo;
     Buffer ebo;
@@ -29,10 +30,9 @@ class Renderer {
     static const char* fragmentShaderSource;
     
     //singleton
-    static Renderer* instance;
-    
-public:
+
     Renderer(Camera* camera, Display* display);
+public:
     /**
      * Renders a square 
      */
@@ -42,18 +42,7 @@ public:
     void drawLine(const Line &line);
 
     //singleton
-    template<typename ... Args>
-    static void init(Args&&... args) {
-        instance = new Renderer(std::forward<Args>(args) ...);
-    }
+SINGLETON(Renderer)
+    static void init(Camera* camera, Display* display);
 
-    static inline Renderer* get()
-    {
-        return instance;
-    }
-
-    static inline void destroy()
-    {
-        delete instance;
-    }
 };

@@ -142,3 +142,7 @@ void Renderer::drawLine(const Line &line)
     glDrawArrays(GL_LINES, 2, 2);
 
 }
+
+void Renderer::init(Camera *camera, Display *display) {
+    instance = new Renderer(camera, display);
+}

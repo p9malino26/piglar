@@ -14,6 +14,7 @@ INCLUDE_DIRECTORIES(
 
 FILE(GLOB source_files
 "${source_dir}/main.cpp"
+"${source_dir}/TimeManager.cpp"
 "${source_dir}/Game.cpp"
 "${source_dir}/Scene.cpp"
 "${source_dir}/RoadMap.cpp"
@@ -32,6 +33,7 @@ FILE(GLOB source_files
 
 "${source_dir}/util/util.cpp"
 "${source_dir}/util/lineFunc.cpp"
+"${source_dir}/util/Random.cpp"
 
 "${source_dir}/generator/bottomuprectplacer.cpp"
 "${source_dir}/generator/TreeGenerator.cpp"

@@ -19,8 +19,6 @@ class Game: public Application
     std::unique_ptr<Scene> scene;
     std::unique_ptr<SceneRenderer> renderer;
 
-    MouseManager mouseManager;
-
     void processFrame() override;
 public:
     Game();

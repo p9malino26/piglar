@@ -1,18 +1,20 @@
 #pragma once
 
 #include "GLMIncludes.h"
+#include "util/singleton.h"
 
 class Display;
 class Camera;
 
-class MouseManager
+class MouseManager: public Singleton
 {
 public:
-    MouseManager(Display*, Camera*);
     glm::vec2 getWorldMousePos();
-    inline static MouseManager* get() {return instance;}
+
+    SINGLETON(MouseManager)
+    static void init(Display*, Camera*);
 private:
-    static MouseManager* instance;
+    MouseManager(Display*, Camera*);
     Display* display;
     Camera* camera;
 };

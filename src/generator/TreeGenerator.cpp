@@ -17,7 +17,7 @@ namespace Generator {
         std::cout << "Generate tree started\n";
         assert(!roadmap.isPositionOutside(startpos));
 
-        int mainRoadLength = Random::randInt(params.mainRoadLengthRange.first, params.mainRoadLengthRange.second);
+        int mainRoadLength = Random::get()->randInt(params.mainRoadLengthRange.first, params.mainRoadLengthRange.second);
         printf("Main road length: %d\n", mainRoadLength);
         glm::vec2i endPos = startpos;
         endPos.y += mainRoadLength - 1;
@@ -29,7 +29,7 @@ namespace Generator {
 
         auto genBranch = [&roadmap, &params](bool direction, const glm::vec2i& pos) -> int{
 
-            int linelength = Random::randInt(params.branchRoadLengthRange.first, params.branchRoadLengthRange.second); // branch length
+            int linelength = Random::get()->randInt(params.branchRoadLengthRange.first, params.branchRoadLengthRange.second); // branch length
             auto startPos = pos;
             startPos.x += direction ? 1 : -1;
             roadmap.setLine(startPos, direction ? CompassDirection::EAST : CompassDirection::WEST, linelength, 1);
@@ -42,7 +42,7 @@ namespace Generator {
         for (glm::vec2i pos = startpos; pos.y <= endPos.y ;)
         {
             std::cout << "\nAt position " << pos.y << std::endl;
-            int junctionChoice = Random::randInt(0,2);
+            int junctionChoice = Random::get()->randInt(0,2);
             /*
                 0: left
                 1: right
@@ -61,7 +61,7 @@ namespace Generator {
             }
 
             //end steps:
-            pos.y += Random::randInt(params.branchStepRange.first, params.branchStepRange.second);
+            pos.y += Random::get()->randInt(params.branchStepRange.first, params.branchStepRange.second);
         }
         std::cout << "Generate tree finished\n";
 
