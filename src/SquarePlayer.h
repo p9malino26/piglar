@@ -9,7 +9,7 @@
 class SquarePlayer: public Entity{
     float m_sideLength;
 public:
-    SquarePlayer(): Entity({0.f,0.f}), m_sideLength(0.7f) {}
+    SquarePlayer(const RealPos& startPos): Entity(startPos), m_sideLength(0.7f) {}
     float getWidth() override;
 
     float getHeight() override;

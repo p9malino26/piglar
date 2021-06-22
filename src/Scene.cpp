@@ -11,11 +11,10 @@
 
 
 void moveEntityWithCollisionDetection(const RoadMap& roadMap, Entity& entity, const RealPos& posDelta);
-void moveCDVertical(const RoadMap& roadMap, Entity& entity, float distance);
 
 Scene::Scene()
     :roadMap(new RoadMap(width, height)), roadMapGen(new Generator::RoadMapGen(roadMap.get())),
-    player(new SquarePlayer())
+    player(new SquarePlayer({0.1f,1.1f}))
 {
     roadMapGen->generate();
 }
@@ -36,19 +35,22 @@ void Scene::update()
 
 
     //move player
-    RealPos direction(0.f, 0.f);
 
+    glm::vec2i unit(0.f, 0.f);
     if(Input::keyInfo(GLFW_KEY_W, GLFW_PRESS))
-        //direction += NORTH_VEC;
-        moveCDVertical(*roadMap, *player, 3.f * TimeManager::deltaTime());
-
+        unit += NORTH_VEC;
     if(Input::keyInfo(GLFW_KEY_S, GLFW_PRESS))
-        moveCDVertical(*roadMap, *player, -3.f * TimeManager::deltaTime());
-    /*if(Input::keyInfo(GLFW_KEY_D, GLFW_PRESS))
-        direction += EAST_VEC;
+        unit += SOUTH_VEC;
+    if(Input::keyInfo(GLFW_KEY_D, GLFW_PRESS))
+        unit += EAST_VEC;
     if(Input::keyInfo(GLFW_KEY_A, GLFW_PRESS))
-        direction += WEST_VEC;*/
+        unit += WEST_VEC;
 
+    if (unit != glm::vec2i {0,0})
+    {
+        RealPos posDelta = static_cast<RealPos>(unit) * (3.f * TimeManager::deltaTime());
+        moveEntityWithCollisionDetection(*roadMap, *player, posDelta);
+    }
 }
 
 Scene::~Scene(){
