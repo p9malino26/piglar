@@ -1,12 +1,8 @@
 #pragma once
 
+#include <memory>
+
 #include "GLMIncludes.h"
-
-//TODO possibly delete
-#include "opengl/VertexArray.h"
-#include "opengl/Buffer.h"
-#include "opengl/Shader.h"
-
 
 #include "util/CompassDirection.h"
 #include "util/PosRectangle.h"
@@ -16,22 +12,29 @@ class Camera;
 class Display;
 class Line;
 
+class Shader;
+class Buffer;
+class VertexArray;
 
 class Renderer: public Singleton {
-    Shader shader;
-    Buffer vbo;
-    Buffer ebo;
-    VertexArray vao;
+    std::unique_ptr<Shader> shader;
+    std::unique_ptr<Buffer> vbo;
+    std::unique_ptr<Buffer> ebo;
+    std::unique_ptr<VertexArray> vao;
 
     Camera* camera;
     Display* display;
 
-    static const char* vertexShaderSource  ;
+    static const char* vertexShaderSource;
     static const char* fragmentShaderSource;
     
     //singleton
 
     Renderer(Camera* camera, Display* display);
+
+public:
+    virtual ~Renderer();
+
 public:
     /**
      * Renders a square 

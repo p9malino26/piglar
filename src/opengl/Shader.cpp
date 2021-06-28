@@ -1,8 +1,5 @@
 #include "Shader.h"
 
-#include <glad/glad.h>
-
-
 enum class UnitType
 {
     SHADER, PROGRAM

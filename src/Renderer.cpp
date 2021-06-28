@@ -1,6 +1,7 @@
 #include <list>
 #include <algorithm>
 
+#include <glad/glad.h>
 #include "Renderer.h"
 
 #include "Camera.h"
@@ -9,6 +10,9 @@
 
 #include "util/line.h"
 #include "util/compassUtil.h"
+#include "opengl/VertexArray.h"
+#include "opengl/Buffer.h"
+#include "opengl/Shader.h"
 
 Renderer* Renderer::instance;
 
@@ -33,7 +37,7 @@ void getLinesForRectangle(std::list<Line>& lineList, const PosRectangle& square)
 
 
 Renderer::Renderer(Camera* camera, Display* display)
-    :shader(vertexShaderSource, fragmentShaderSource), camera(camera), display(display)
+    :shader(new Shader(vertexShaderSource, fragmentShaderSource)), camera(camera), display(display), vao(new VertexArray())
 {
     float vertices[] = {
         // positions
@@ -50,14 +54,14 @@ Renderer::Renderer(Camera* camera, Display* display)
 
     int offsets[2] = {2};
 
-    vbo.init(GL_ARRAY_BUFFER, vertices, sizeof(vertices));
-    ebo.init(GL_ELEMENT_ARRAY_BUFFER, eboVertices, sizeof(eboVertices));
+    vbo = std::make_unique<Buffer>(GL_ARRAY_BUFFER, vertices, sizeof(vertices));
+    ebo = std::make_unique<Buffer>(GL_ELEMENT_ARRAY_BUFFER, eboVertices, sizeof(eboVertices));
     
-    vao.bind();
-    vbo.bind();
-    vao.specifyVertexAttributes(offsets, 1);
-    ebo.bind();
-    vao.unbind();
+    vao->bind();
+    vbo->bind();
+    vao->specifyVertexAttributes(offsets, 1);
+    ebo->bind();
+    vao->unbind();
 }
 
 //@todo sort out implementation
@@ -70,17 +74,17 @@ void Renderer::drawSquare (const glm::vec2& pos, float sideLength, const glm::ve
     const auto& viewMatrix = camera->getViewMatrix();
     const auto& projMatrix = display->getProjectionMatrix();
 
-    shader.use();
-    shader.uniformMat4("model", modelMatrix);
-    shader.uniformMat4("view", viewMatrix);
-    shader.uniformMat4("proj", projMatrix);
+    shader->use();
+    shader->uniformMat4("model", modelMatrix);
+    shader->uniformMat4("view", viewMatrix);
+    shader->uniformMat4("proj", projMatrix);
 
-    shader.uniformVec3("uColor", color);
+    shader->uniformVec3("uColor", color);
 
-    vao.bind();
+    vao->bind();
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    vao.unbind();
-    shader.unUse();
+    vao->unbind();
+    shader->unUse();
 }
 
 void Renderer::drawRectangle(const PosRectangle& rect, const glm::vec3& color) {
@@ -91,17 +95,17 @@ void Renderer::drawRectangle(const PosRectangle& rect, const glm::vec3& color) {
     const auto& viewMatrix = camera->getViewMatrix();
     const auto& projMatrix = display->getProjectionMatrix();
 
-    shader.use();
-    shader.uniformMat4("model", modelMatrix);
-    shader.uniformMat4("view", viewMatrix);
-    shader.uniformMat4("proj", projMatrix);
+    shader->use();
+    shader->uniformMat4("model", modelMatrix);
+    shader->uniformMat4("view", viewMatrix);
+    shader->uniformMat4("proj", projMatrix);
 
-    shader.uniformVec3("uColor", color);
+    shader->uniformVec3("uColor", color);
 
-    vao.bind();
+    vao->bind();
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    vao.unbind();
-    shader.unUse();
+    vao->unbind();
+    shader->unUse();
 }
 
 void Renderer::drawRectangleWithLines(const PosRectangle& rect, const glm::vec3& rectColor, const glm::vec3& lineColor) {
@@ -130,19 +134,23 @@ void Renderer::drawLine(const Line &line)
     const auto& viewMatrix = camera->getViewMatrix();
     const auto& projMatrix = display->getProjectionMatrix();
 
-    shader.use();
-    shader.uniformMat4("model", modelMatrix);
-    shader.uniformMat4("view", viewMatrix);
-    shader.uniformMat4("proj", projMatrix);
+    shader->use();
+    shader->uniformMat4("model", modelMatrix);
+    shader->uniformMat4("view", viewMatrix);
+    shader->uniformMat4("proj", projMatrix);
 
-    shader.uniformVec3("uColor", color);
+    shader->uniformVec3("uColor", color);
 
 
-    vao.bind();
+    vao->bind();
     glDrawArrays(GL_LINES, 2, 2);
 
 }
 
 void Renderer::init(Camera *camera, Display *display) {
     instance = new Renderer(camera, display);
+}
+
+Renderer::~Renderer() {
+
 }
