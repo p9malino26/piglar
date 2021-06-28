@@ -127,7 +127,7 @@ RealPos getCollisionResolutionDelta(const RoadMap& tileMap, Entity& entity, cons
     RealPos& lastIllegalPoint = **illegalVertices.data();
 
     std::vector<Boundary> closeBoundaries = getCloseBoundariesForPoint(tileMap, lastIllegalPoint);
-    assert(!closeBoundaries.empty());
+    if (closeBoundaries.empty()) return RealPos (0.f);
 
     Boundary* boundaryToShift = nullptr;
 

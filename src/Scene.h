@@ -14,6 +14,7 @@ class Scene
 
     std::unique_ptr<RoadMap> roadMap;
     std::unique_ptr<SquarePlayer> player;
+    std::unique_ptr<SquarePlayer> chaser;
 
     std::unique_ptr<Generator::RoadMapGen> roadMapGen;
 

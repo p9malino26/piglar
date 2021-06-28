@@ -43,5 +43,7 @@ void SceneRenderer::render () const
 {
     drawRoadMap(*(this->scene->getRoadMap()));
     auto& player = *scene->player;
+    auto& chaser = *scene->chaser;
     Renderer::get()->drawSquare(player.getPos(), player.getWidth(), {0.f, 0.f, 1.f});
+    Renderer::get()->drawSquare(chaser.getPos(), chaser.getWidth(), {1.f, 0.f, 1.f});
 }

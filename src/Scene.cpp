@@ -9,13 +9,14 @@
 #include "SquarePlayer.h"
 #include "util/compassVec.h"
 
-#define PLAYER_SPEED 2.f
+#define PLAYER_SPEED 4.f
+#define CHASER_SPEED 0.4F * PLAYER_SPEED
 
 void moveEntityWithCollisionDetection(const RoadMap& roadMap, Entity& entity, const RealPos& posDelta);
 
 Scene::Scene()
     :roadMap(new RoadMap(width, height)), roadMapGen(new Generator::RoadMapGen(roadMap.get())),
-    player(new SquarePlayer(RealPos(0.f, 1.f)))
+    player(new SquarePlayer(RealPos(0.f, 1.f))), chaser(new SquarePlayer(RealPos(0.f, 13.f)))
 {
     roadMapGen->generate();
 }
@@ -24,6 +25,7 @@ RealPos getCollisionResolutionDelta(const RoadMap& tileMap, Entity& entity, cons
 
 void Scene::update()
 {
+    float deltaTime = TimeManager::get() ->deltaTime();
     //roadmap click
     if (Input::get()->mouseHasClicked()) {
         glm::vec2 mouseWorldPos = MouseManager::get()->getWorldMousePos();
@@ -36,27 +38,27 @@ void Scene::update()
             roadMap->toggleFieldState(intMouseWorldPos);
     }
 
-    if (Input::get()->getKeyEvent(GLFW_KEY_K) == GLFW_PRESS) {
-        std::cout << "Current position: " << player->getPos() << std::endl;
-        std::cout << "Collision resolution delta:" << getCollisionResolutionDelta(*roadMap, *player, RealPos(0)) << std::endl;
-    }
-
     //move player
 
-    glm::vec2 unit(0.f, 0.f);
+    glm::vec2 playerMoveDir(0.f, 0.f);
     if(Input::get()->keyInfo(GLFW_KEY_W, GLFW_PRESS))
-        unit += NORTH_VEC;
+        playerMoveDir += NORTH_VEC;
     if(Input::get()->keyInfo(GLFW_KEY_S, GLFW_PRESS))
-        unit += SOUTH_VEC;
+        playerMoveDir += SOUTH_VEC;
     if(Input::get()->keyInfo(GLFW_KEY_D, GLFW_PRESS))
-        unit += EAST_VEC;
+        playerMoveDir += EAST_VEC;
     if(Input::get()->keyInfo(GLFW_KEY_A, GLFW_PRESS))
-        unit += WEST_VEC;
+        playerMoveDir += WEST_VEC;
 
-    auto initialDelta = unit * TimeManager::get()->deltaTime() * PLAYER_SPEED;
-
-    player->changePos(getCollisionResolutionDelta(*roadMap, *player, initialDelta));
-    //player->changePos(initialDelta);
+    if (playerMoveDir != RealPos(0.f,0.f)) {
+        auto initialDelta = playerMoveDir * deltaTime * PLAYER_SPEED;
+        player->changePos(getCollisionResolutionDelta(*roadMap, *player, initialDelta));
+    }
+    
+    //move chaser
+    auto chaserMoveDir = player->getPos() - chaser->getPos();
+    auto chaserDelta = chaserMoveDir * CHASER_SPEED * deltaTime;
+    chaser->changePos(getCollisionResolutionDelta(*roadMap, *chaser, chaserDelta));
 }
 
 Scene::~Scene(){
