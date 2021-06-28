@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <stdexcept>
 
-#include "GLMIncludes.h"
+#include "vectors.h"
 #include "util/CompassDirection.h"
 
 //all rendering function deprecated
@@ -46,7 +46,7 @@ public:
         data[getIndexFromCoord(coord)] = !celldata;
     }
 
-    inline CellType getFieldState(const glm::vec2i& coord) const
+    inline CellType getFieldState(const glm::vec2i& coord) const //TODO rename to boardpos
     {
         return data[getIndexFromCoord(coord)];
     }

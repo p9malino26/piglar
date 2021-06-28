@@ -41,7 +41,6 @@ namespace Generator {
         //for branches:
         for (glm::vec2i pos = startpos; pos.y <= endPos.y ;)
         {
-            std::cout << "\nAt position " << pos.y << std::endl;
             int junctionChoice = Random::get()->randInt(0,2);
             /*
                 0: left
@@ -51,19 +50,16 @@ namespace Generator {
             if (junctionChoice == 0 || junctionChoice == 2) {// left
                 int branchLength = genBranch(0, pos);
                 maxLBranchLength = std::max(branchLength, maxLBranchLength);
-                printf("Left branch length %d, max is now %d.\n", branchLength, maxLBranchLength);
             }
 
             if(junctionChoice == 1 || junctionChoice == 2) {// right
                 int branchLength = genBranch(1, pos);
                 maxRBranchLength = std::max(branchLength, maxRBranchLength);
-                printf("Right branch length %d, max is now %d.\n", branchLength, maxRBranchLength);
             }
 
             //end steps:
             pos.y += Random::get()->randInt(params.branchStepRange.first, params.branchStepRange.second);
         }
-        std::cout << "Generate tree finished\n";
 
         TreeGenData returnData;
         returnData.dims = {maxLBranchLength + 1 + maxRBranchLength, mainRoadLength};

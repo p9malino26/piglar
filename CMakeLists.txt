@@ -3,7 +3,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 PROJECT(piglar)
 set( CMAKE_EXPORT_COMPILE_COMMANDS ON   )
 SET (CMAKE_CXX_COMPILER "/usr/bin/g++")
-SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -std=c++17 -Wall")
+SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -std=c++17 -Wall")
 SET (source_dir "${PROJECT_SOURCE_DIR}/src")
 SET (vendor_dir "${source_dir}/vendor")
 
@@ -18,6 +18,7 @@ FILE(GLOB source_files
 "${source_dir}/Game.cpp"
 "${source_dir}/Scene.cpp"
 "${source_dir}/RoadMap.cpp"
+"${source_dir}/tileMapUtil.cpp"
 "${source_dir}/SceneRenderer.cpp"
 "${source_dir}/Renderer.cpp"
 "${source_dir}/Application.cpp"
