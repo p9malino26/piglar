@@ -13,27 +13,16 @@
 #include "opengl/VertexArray.h"
 #include "opengl/Buffer.h"
 #include "opengl/Shader.h"
+#include "opengl/Texture.h"
+
+#define TEXTURE_SLOT 0
 
 Renderer* Renderer::instance;
 
 const char* Renderer::vertexShaderSource   = "res/shaders/vertexShader.glsl";
 const char* Renderer::fragmentShaderSource = "res/shaders/fragmentShader.glsl";
 
-void getLinesForRectangle(std::list<Line>& lineList, const PosRectangle& square){
-    auto varPos = square.pos;
-    auto& dims = square.dims;
-    //left
-    lineList.emplace_back(varPos, dims.y, CompassDirection::NORTH);
-    //top
-    varPos.y += dims.y;
-    lineList.emplace_back(varPos, dims.x, CompassDirection::EAST);
-    //right
-    varPos.x += dims.x;
-    lineList.emplace_back(varPos, dims.y, CompassDirection::SOUTH);
-    //bottom
-    varPos.y -= dims.y;
-    lineList.emplace_back(varPos, dims.x, CompassDirection::WEST);
-}
+void getLinesForRectangle(std::list<Line>& lineList, const PosRectangle& square);
 
 
 Renderer::Renderer(Camera* camera, Display* display)
@@ -44,7 +33,7 @@ Renderer::Renderer(Camera* camera, Display* display)
          1.0f,  1.0f,  // top right
          1.0f,  0.0f,  // bottom right
          0.0f,  0.0f,  // bottom left
-         0.0f,  1.0f  // top left 
+         0.0f,  1.0f  // top left
     };
 
     unsigned int eboVertices[] = {
@@ -56,66 +45,37 @@ Renderer::Renderer(Camera* camera, Display* display)
 
     vbo = std::make_unique<Buffer>(GL_ARRAY_BUFFER, vertices, sizeof(vertices));
     ebo = std::make_unique<Buffer>(GL_ELEMENT_ARRAY_BUFFER, eboVertices, sizeof(eboVertices));
-    
+
     vao->bind();
     vbo->bind();
     vao->specifyVertexAttributes(offsets, 1);
     ebo->bind();
-    vao->unbind();
+    //vao->unbind();
+
+    shader->use();
+
+    //init texture TODO
+    //glActiveTexture(GL_TEXTURE0 + TEXTURE_SLOT);
+    //shader->uniformInt("theTexture", TEXTURE_SLOT);
+
 }
 
 //@todo sort out implementation
-void Renderer::drawSquare (const glm::vec2& pos, float sideLength, const glm::vec3& color) const
+void Renderer::drawSquare (const glm::vec2& pos, float sideLength)
 {
-    glm::mat4 modelMatrix(1.0f);
-    modelMatrix = glm::translate(modelMatrix, glm::vec3(pos, 0.0f));
-    modelMatrix = glm::scale(modelMatrix, glm::vec3(sideLength, sideLength, 1.0f));
-    
-    const auto& viewMatrix = camera->getViewMatrix();
-    const auto& projMatrix = display->getProjectionMatrix();
-
-    shader->use();
-    shader->uniformMat4("model", modelMatrix);
-    shader->uniformMat4("view", viewMatrix);
-    shader->uniformMat4("proj", projMatrix);
-
-    shader->uniformVec3("uColor", color);
-
-    vao->bind();
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    vao->unbind();
-    shader->unUse();
+    drawRectangle(pos, {sideLength, sideLength});
 }
 
-void Renderer::drawRectangle(const PosRectangle& rect, const glm::vec3& color) {
-    glm::mat4 modelMatrix(1.0f);
-    modelMatrix = glm::translate(modelMatrix, glm::vec3(rect.pos, 0.0f));
-    modelMatrix = glm::scale(modelMatrix, glm::vec3(rect.dims.x, rect.dims.y, 1.0f));
-
-    const auto& viewMatrix = camera->getViewMatrix();
-    const auto& projMatrix = display->getProjectionMatrix();
-
-    shader->use();
-    shader->uniformMat4("model", modelMatrix);
-    shader->uniformMat4("view", viewMatrix);
-    shader->uniformMat4("proj", projMatrix);
-
-    shader->uniformVec3("uColor", color);
-
-    vao->bind();
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    vao->unbind();
-    shader->unUse();
-}
 
 void Renderer::drawRectangleWithLines(const PosRectangle& rect, const glm::vec3& rectColor, const glm::vec3& lineColor) {
-    drawRectangle(rect, rectColor);
+    drawRectangle(rect.pos, rect.dims);
     std::list<Line> rectLines;
     getLinesForRectangle(rectLines, rect);
     std::for_each(rectLines.begin(), rectLines.end(), [this] (const Line& l) {drawLine(l);});
 
 
 }
+
 
 void Renderer::drawLine(const Line &line)
 {
@@ -154,3 +114,56 @@ void Renderer::init(Camera *camera, Display *display) {
 Renderer::~Renderer() {
 
 }
+
+void Renderer::drawRectangle(const glm::vec2& pos, const glm::vec2& dims)
+{
+    glm::mat4 modelMatrix(1.0f);
+    modelMatrix = glm::translate(modelMatrix, glm::vec3(pos, 0.0f));
+    modelMatrix = glm::scale(modelMatrix, glm::vec3(dims.x, dims.y, 1.0f));
+
+    const auto& viewMatrix = camera->getViewMatrix();
+    const auto& projMatrix = display->getProjectionMatrix();
+
+    shader->uniformMat4("model", modelMatrix);
+    shader->uniformMat4("view", viewMatrix);
+    shader->uniformMat4("proj", projMatrix);
+
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+}
+
+TexId Renderer::initTexture(const std::string &fname)
+{
+    auto& texture = textures.emplace_back(fname);
+    return &texture;
+
+}
+
+void Renderer::setFillTexture(TexId textureId)
+{
+    //auto& theTexture = *textureId;//todo
+    shader->uniformInt("showTexture", true);
+}
+
+void Renderer::setFillColor(const Color &color)
+{
+    shader->uniformVec3("inColor", color);
+    shader->uniformInt("showTexture", false);
+}
+
+void getLinesForRectangle(std::list<Line>& lineList, const PosRectangle& square){
+    auto varPos = square.pos;
+    auto& dims = square.dims;
+    //left
+    lineList.emplace_back(varPos, dims.y, CompassDirection::NORTH);
+    //top
+    varPos.y += dims.y;
+    lineList.emplace_back(varPos, dims.x, CompassDirection::EAST);
+    //right
+    varPos.x += dims.x;
+    lineList.emplace_back(varPos, dims.y, CompassDirection::SOUTH);
+    //bottom
+    varPos.y -= dims.y;
+    lineList.emplace_back(varPos, dims.x, CompassDirection::WEST);
+}
+

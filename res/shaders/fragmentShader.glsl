@@ -1,10 +1,18 @@
 #version 330 core
 
-uniform vec3 uColor;
+in vec2 texCoord;
+
+uniform vec3 inColor;
+uniform sampler2D theTexture;
+uniform bool showTexture;
 
 out vec4 color;
 
 void main()
 {
-    color = vec4(uColor, 1.0);
+    if (showTexture) {
+        color = texture(theTexture, texCoord);
+    } else {
+        color = vec4(inColor, 1.0);
+    }
 }

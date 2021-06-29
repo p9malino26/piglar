@@ -14,7 +14,6 @@ INCLUDE_DIRECTORIES(
 
 FILE(GLOB source_files
 "${source_dir}/main.cpp"
-"${source_dir}/TimeManager.cpp"
 "${source_dir}/Game.cpp"
 "${source_dir}/Scene.cpp"
 "${source_dir}/RoadMap.cpp"
@@ -26,15 +25,9 @@ FILE(GLOB source_files
 "${source_dir}/Camera.cpp"
 "${source_dir}/CameraManager.cpp"
 "${source_dir}/MouseManager.cpp"
-"${source_dir}/Input.cpp"
 "${source_dir}/SquarePlayer.cpp"
 "${source_dir}/SquarePlayer.h"
 "${source_dir}/collisionDetection.cpp"
-
-
-"${source_dir}/util/util.cpp"
-"${source_dir}/util/lineFunc.cpp"
-"${source_dir}/util/Random.cpp"
 
 "${source_dir}/generator/bottomuprectplacer.cpp"
 "${source_dir}/generator/TreeGenerator.cpp"
@@ -42,22 +35,40 @@ FILE(GLOB source_files
 "${source_dir}/generator/rotateLine.cpp"
 "${source_dir}/generator/rectUtil.cpp"
 
+
+"${source_dir}/Input.cpp"
+"${source_dir}/TimeManager.cpp"
+"${source_dir}/util/util.cpp"
+"${source_dir}/util/lineFunc.cpp"
+"${source_dir}/util/Random.cpp"
+
 "${source_dir}/opengl/Display.cpp"
 "${source_dir}/opengl/Buffer.cpp"
 "${source_dir}/opengl/VertexArray.cpp"
 "${source_dir}/opengl/Shader.cpp"
+"${source_dir}/opengl/Texture.cpp"
+
 
 "${vendor_dir}/glad/src/glad.c"
 "${vendor_dir}/stb_image/stb_image/stb_image.cpp"
 )
 
 FILE(GLOB test_files
-    "${source_dir}/test/bottomUpTest.cpp"
-    "${source_dir}/generator/rectUtil.cpp"
-    "${source_dir}/generator/bottomuprectplacer.cpp"
-    "${source_dir}/util/util.cpp"
-    "${source_dir}/util/lineFunc.cpp"
-    "${source_dir}/generator/rotateLine.cpp"
+    "${source_dir}/texture-practice.cpp"
+
+        "${source_dir}/Input.cpp"
+        "${source_dir}/TimeManager.cpp"
+        "${source_dir}/util/util.cpp"
+        "${source_dir}/util/Random.cpp"
+
+        "${source_dir}/opengl/Display.cpp"
+        "${source_dir}/opengl/Buffer.cpp"
+        "${source_dir}/opengl/VertexArray.cpp"
+        "${source_dir}/opengl/Shader.cpp"
+        "${source_dir}/opengl/Texture.cpp"
+
+        "${vendor_dir}/glad/src/glad.c"
+        "${vendor_dir}/stb_image/stb_image/stb_image.cpp"
 
 )
 
