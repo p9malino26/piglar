@@ -9,6 +9,8 @@
 #include "util/PosRectangle.h"
 #include "util/singleton.h"
 
+#include "TexId.h"
+
 class Camera;
 class Display;
 class Line;
@@ -18,7 +20,6 @@ class Buffer;
 class VertexArray;
 class Texture;
 
-typedef Texture* TexId;
 typedef glm::vec3 Color;
 
 class Renderer: public Singleton {
@@ -38,9 +39,9 @@ class Renderer: public Singleton {
     //singleton
 
     Renderer(Camera* camera, Display* display);
+    ~Renderer();
 
 public:
-    virtual ~Renderer();
 
 public:
     /**

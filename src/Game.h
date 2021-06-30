@@ -15,7 +15,7 @@ class Game: public Application
     std::unique_ptr<CameraManager> cameraManager;
 
     std::unique_ptr<Scene> scene;
-    std::unique_ptr<SceneRenderer> renderer;
+    std::unique_ptr<SceneRenderer> sceneRenderer;
 
     void processFrame() override;
 public:

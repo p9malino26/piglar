@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "TexId.h"
 
 class Scene;
 class Renderer;
@@ -18,5 +19,7 @@ public:
      * renders the scene
      */
     void render () const;
+private:
+    TexId pigTex;
+    TexId playerTex;
 };
-

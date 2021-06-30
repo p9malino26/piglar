@@ -10,7 +10,13 @@ Texture::Texture()
 Texture::Texture(const std::string& fileName)
 {
 	glGenTextures(1, &m_rendererID);
-	init(fileName);
+    init(fileName);
+}
+
+Texture::Texture(Texture &&other)
+    :m_rendererID(other.m_rendererID)
+{
+    other.m_rendererID = -1;
 }
 
 void Texture::init(const std::string& fileName)
@@ -24,6 +30,7 @@ void Texture::init(const std::string& fileName)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 	//load the data
 	stbi_set_flip_vertically_on_load(true);
+    int m_width, m_height, m_nChannels /*m_bitsPerPix*/;
 	unsigned char* m_imageData = stbi_load(fileName.c_str(), &m_width, &m_height, &m_nChannels, 4);
 	if (m_imageData == nullptr)
 	{
@@ -32,11 +39,11 @@ void Texture::init(const std::string& fileName)
 		
 	}
 	//specify the data
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_imageData );
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_imageData ); // TODO remove redundant members
 	glGenerateMipmap(GL_TEXTURE_2D);
 	//glBindTexture(GL_TEXTURE_2D, 0);
 	stbi_image_free(m_imageData);
-	unbind();
+    //unbind();
 }
 
 

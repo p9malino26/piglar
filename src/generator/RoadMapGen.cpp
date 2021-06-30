@@ -46,8 +46,8 @@ namespace Generator {
 
         TreeGenParams params;
 
-        params.mainRoadLengthRange = {10,15};
-        params.branchRoadLengthRange = {10, 14};
+        params.mainRoadLengthRange = {7,11};
+        params.branchRoadLengthRange = {3, 7};
         params.branchStepRange = {2, 4};
         TreeGenerator treeGen(params);
 

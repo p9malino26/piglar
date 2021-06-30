@@ -50,13 +50,12 @@ Renderer::Renderer(Camera* camera, Display* display)
     vbo->bind();
     vao->specifyVertexAttributes(offsets, 1);
     ebo->bind();
-    //vao->unbind();
 
     shader->use();
 
-    //init texture TODO
-    //glActiveTexture(GL_TEXTURE0 + TEXTURE_SLOT);
-    //shader->uniformInt("theTexture", TEXTURE_SLOT);
+    shader->uniformInt("theTexture", TEXTURE_SLOT);
+
+    textures.reserve(4);
 
 }
 
@@ -112,7 +111,6 @@ void Renderer::init(Camera *camera, Display *display) {
 }
 
 Renderer::~Renderer() {
-
 }
 
 void Renderer::drawRectangle(const glm::vec2& pos, const glm::vec2& dims)
@@ -134,14 +132,14 @@ void Renderer::drawRectangle(const glm::vec2& pos, const glm::vec2& dims)
 
 TexId Renderer::initTexture(const std::string &fname)
 {
-    auto& texture = textures.emplace_back(fname);
-    return &texture;
-
+    textures.emplace_back(fname);
+    return textures.size() - 1;
 }
 
 void Renderer::setFillTexture(TexId textureId)
 {
-    //auto& theTexture = *textureId;//todo
+    auto& theTexture = textures[textureId];
+    theTexture.activate(TEXTURE_SLOT);
     shader->uniformInt("showTexture", true);
 }
 
@@ -150,6 +148,7 @@ void Renderer::setFillColor(const Color &color)
     shader->uniformVec3("inColor", color);
     shader->uniformInt("showTexture", false);
 }
+
 
 void getLinesForRectangle(std::list<Line>& lineList, const PosRectangle& square){
     auto varPos = square.pos;

@@ -15,6 +15,8 @@
 SceneRenderer::SceneRenderer(const Scene* scene)
     :scene(scene)
 {
+    pigTex = Renderer::get()->initTexture("res/textures/cartoonpig.jpeg");
+    playerTex = Renderer::get()->initTexture("res/textures/awesome-face.jpeg");
 }
 
 SceneRenderer::~SceneRenderer()
@@ -52,8 +54,8 @@ void SceneRenderer::render () const
     auto& player = *scene->player;
     auto& chaser = *scene->chaser;
 
-    renderer.setFillColor( {0.f, 0.f, 1.f});
+    renderer.setFillTexture(playerTex);
     renderer.drawSquare(player.getPos(), player.getWidth());
-    renderer.setFillColor( {1.f, 0.f, 1.f});
+    renderer.setFillTexture(pigTex);
     renderer.drawSquare(chaser.getPos(), chaser.getWidth());
 }

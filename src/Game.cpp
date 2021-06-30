@@ -13,10 +13,10 @@ Game::Game()
     :Application("Piglar!!", 800, 600),
       camera(new Camera()),
       cameraManager(new CameraManager(camera.get())),
-      scene(new Scene()),
-      renderer(new SceneRenderer(scene.get()))
+      scene(new Scene())
 {
     Renderer::init(camera.get(), &display);
+    sceneRenderer = std::make_unique<SceneRenderer>(scene.get());
     Random::init();
     MouseManager::init(&display, camera.get());
 }
@@ -29,7 +29,7 @@ void Game::processFrame()
 
     glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-    renderer->render();
+    sceneRenderer->render();
 }
 
 Game::~Game()
