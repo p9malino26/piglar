@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 
-class RoadMap;
+class TileMap;
 class SquarePlayer;
 
 namespace Generator { class RoadMapGen; }
@@ -12,7 +12,7 @@ class Scene
     static constexpr int width = 100;
     static constexpr int height = 100;
 
-    std::unique_ptr<RoadMap> roadMap;
+    std::unique_ptr<TileMap> roadMap;
     std::unique_ptr<SquarePlayer> player;
     std::unique_ptr<SquarePlayer> chaser;
 
@@ -21,8 +21,8 @@ class Scene
 public:
     Scene();
     void update();
-    inline const RoadMap* getRoadMap() const { return roadMap.get(); }
-    inline RoadMap* getRoadMap() {return roadMap.get();}
+    inline const TileMap* getRoadMap() const { return roadMap.get(); }
+    inline TileMap* getRoadMap() {return roadMap.get();}
 
     ~Scene();
 

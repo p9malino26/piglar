@@ -12,16 +12,17 @@
 #define PLAYER_SPEED 4.f
 #define CHASER_SPEED 0.4F * PLAYER_SPEED
 
-void moveEntityWithCollisionDetection(const RoadMap& roadMap, Entity& entity, const RealPos& posDelta);
+void moveEntityWithCollisionDetection(const TileMap& tileMap, Entity& entity, const RealPos& posDelta);
+
 
 Scene::Scene()
-    :roadMap(new RoadMap(width, height)), roadMapGen(new Generator::RoadMapGen(roadMap.get())),
+    :roadMap(new TileMap(width, height)), roadMapGen(new Generator::RoadMapGen(roadMap.get())),
     player(new SquarePlayer(RealPos(0.f, 1.f))), chaser(new SquarePlayer(RealPos(0.f, 13.f)))
 {
     roadMapGen->generate();
 }
 
-RealPos getCollisionResolutionDelta(const RoadMap& tileMap, Entity& entity, const RealPos& initialDelta);
+RealPos getCollisionResolutionDelta(const TileMap& tileMap, Entity& entity, const RealPos& initialDelta);
 
 void Scene::update()
 {

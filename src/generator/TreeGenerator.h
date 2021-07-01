@@ -4,7 +4,7 @@
 
 #include "../GLMIncludes.h"
 
-class RoadMap;
+class TileMap;
 struct TreeGenData;
 
 namespace Generator {
@@ -25,9 +25,9 @@ namespace Generator {
          * Prepares a tree inside. Returns the rectangular width and height of the tree
          */
         glm::vec2i generate();
-        void writeTo(RoadMap& roadMap, glm::vec2i startPos, bool orientation);
+        void writeTo(TileMap& roadMap, glm::vec2i startPos, bool orientation);
 
-        std::unique_ptr<RoadMap> treeData;
+        std::unique_ptr<TileMap> treeData;
         ~TreeGenerator();
     private:
         TreeGenParams params;

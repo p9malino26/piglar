@@ -16,14 +16,14 @@
 
 typedef bool CellType;
 
-class RoadMap
+class TileMap
 {
 public:
     //enum State {OFF, ON};
 
 
-	RoadMap(int width, int height);
-    inline ~RoadMap() {delete[] data;}
+	TileMap(int width, int height);
+    inline ~TileMap() {delete[] data;}
     
     inline int getWidth() const {return width;}
     inline int getHeight() const {return height;}

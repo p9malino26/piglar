@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../RoadMap.h"
+#include "../TileMap.h"
 #include "../GLMIncludes.h"
 #include "../util/Random.h"
 #include "../util/printVar.h"
@@ -12,7 +12,7 @@ static constexpr EXPR;
 namespace Generator {
 
 
-    TreeGenData generateTree(RoadMap& roadmap, const glm::vec2i& startpos, const TreeGenParams& params)
+    TreeGenData generateTree(TileMap& roadmap, const glm::vec2i& startpos, const TreeGenParams& params)
     {
         std::cout << "Generate tree started\n";
         assert(!roadmap.isPositionOutside(startpos));
@@ -94,7 +94,7 @@ namespace Generator {
 
 
     TreeGenerator::TreeGenerator(const TreeGenParams &params)
-        :treeData(std::make_unique<RoadMap>(1 + 2 * params.branchRoadLengthRange.second, params.mainRoadLengthRange.second)), params(params),
+        :treeData(std::make_unique<TileMap>(1 + 2 * params.branchRoadLengthRange.second, params.mainRoadLengthRange.second)), params(params),
           lastGenData(std::make_unique<TreeGenData>())
     {}
 
@@ -108,7 +108,7 @@ namespace Generator {
 
 
 
-    void TreeGenerator::writeTo(RoadMap& roadMap, glm::vec2i startPos, bool orientation)
+    void TreeGenerator::writeTo(TileMap& roadMap, glm::vec2i startPos, bool orientation)
     {
         //write#
 

@@ -1,6 +1,6 @@
 #include "SceneRenderer.h"
 
-#include "RoadMap.h"
+#include "TileMap.h"
 #include "Scene.h"
 #include "Renderer.h"
 #include "util/Random.h"
@@ -24,7 +24,7 @@ SceneRenderer::~SceneRenderer()
 }
 
 namespace  {
-    void drawRoadMap(const RoadMap& roadmap)
+    void drawRoadMap(const TileMap& roadmap)
     {
         auto& renderer = *Renderer::get();
 

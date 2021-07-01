@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include "RoadMap.h"
+#include "TileMap.h"
 
-bool isOnRoad(const RoadMap& tileMap, const RealPos& pos);
+bool isOnRoad(const TileMap& tileMap, const RealPos& pos);
 inline BoardPos realToTile(const RealPos& pos);
 BoardPos clampToNearestTile(const RealPos& pos);

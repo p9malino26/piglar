@@ -16,7 +16,7 @@ FILE(GLOB source_files
 "${source_dir}/main.cpp"
 "${source_dir}/Game.cpp"
 "${source_dir}/Scene.cpp"
-"${source_dir}/RoadMap.cpp"
+"${source_dir}/TileMap.cpp"
 "${source_dir}/tileMapUtil.cpp"
 "${source_dir}/SceneRenderer.cpp"
 "${source_dir}/Renderer.cpp"

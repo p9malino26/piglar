@@ -5,7 +5,7 @@
 
 #include "../GLMIncludes.h"
 
-#include "../RoadMap.h"
+#include "../TileMap.h"
 
 #include "../generator/TreeGenerator.h"
 #include "../generator/bottomuprectplacer.h"
@@ -16,7 +16,7 @@
 
 //prototypes
 
-bool contactsRoads(const RoadMap& roadMap, const Pos& pos, CompassDirection direction) {
+bool contactsRoads(const TileMap& roadMap, const Pos& pos, CompassDirection direction) {
     auto getFieldStateNoThrow = [&roadMap] (const Pos& pos) {
         if (roadMap.isPositionOutside(pos)) return false;
 
@@ -31,12 +31,12 @@ bool contactsRoads(const RoadMap& roadMap, const Pos& pos, CompassDirection dire
 
 namespace Generator {
 
-    void fillLineUntilTouchingRoad(RoadMap& roadMap, const Pos& start, CompassDirection direction);
+    void fillLineUntilTouchingRoad(TileMap& roadMap, const Pos& start, CompassDirection direction);
 
 
 
 
-    RoadMapGen::RoadMapGen(RoadMap* roadMap)
+    RoadMapGen::RoadMapGen(TileMap* roadMap)
         :roadMap(roadMap), rpr(new BottomUpRectPlacer(roadMap->getWidth(), roadMap->getHeight()))
     {
     }
@@ -110,7 +110,7 @@ namespace Generator {
     {
     }
 
-    void fillLineUntilTouchingRoad(RoadMap &roadMap, const Pos &start, CompassDirection direction) {
+    void fillLineUntilTouchingRoad(TileMap &roadMap, const Pos &start, CompassDirection direction) {
         auto pos = start;
         decltype(pos) oldPos;
         do {

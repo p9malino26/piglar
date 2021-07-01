@@ -31,7 +31,7 @@ std::vector<RealPos> getEntityVertices(Entity& entity, const RealPos& delta)
 
 
 template<typename VecList>
-std::vector<RealPos*> getIllegalVertices(const RoadMap& tileMap, VecList& vertices)
+std::vector<RealPos*> getIllegalVertices(const TileMap& tileMap, VecList& vertices)
 {
     std::vector<RealPos*> illegalVertices;
     illegalVertices.reserve(4);
@@ -48,7 +48,7 @@ std::vector<RealPos*> getIllegalVertices(const RoadMap& tileMap, VecList& vertic
 
 
 
-inline std::vector<Boundary> getCloseBoundariesForPoint(const RoadMap& tileMap, const RealPos& pos)
+inline std::vector<Boundary> getCloseBoundariesForPoint(const TileMap& tileMap, const RealPos& pos)
 {
     std::vector<Boundary> toReturn;
 
@@ -116,7 +116,7 @@ char getOrientationOfPoints(const RealPos& p1, const RealPos& p2)
     else assert(false);
 }
 
-RealPos getCollisionResolutionDelta(const RoadMap& tileMap, Entity& entity, const RealPos& initialDelta)
+RealPos getCollisionResolutionDelta(const TileMap& tileMap, Entity& entity, const RealPos& initialDelta)
 {
     std::vector<RealPos> entityVertices = getEntityVertices(entity, initialDelta);
 

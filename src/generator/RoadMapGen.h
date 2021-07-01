@@ -2,7 +2,7 @@
 
 #include <memory>
 
-class RoadMap;
+class TileMap;
 
 namespace Generator {
     class BottomUpRectPlacer;
@@ -10,13 +10,13 @@ namespace Generator {
     class RoadMapGen
     {
     public:
-        RoadMapGen(RoadMap*);
+        RoadMapGen(TileMap*);
 
         void generate();
         ~RoadMapGen();
     private:
         std::unique_ptr<BottomUpRectPlacer> rpr;
-        RoadMap* roadMap;
+        TileMap* roadMap;
     };
 }
 
