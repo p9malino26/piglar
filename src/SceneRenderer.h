@@ -18,7 +18,7 @@ public:
     /**
      * renders the scene
      */
-    void render () const;
+    void render ();
 private:
     TexId pigTex;
     TexId playerTex;

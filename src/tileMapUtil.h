@@ -9,3 +9,4 @@
 bool isOnRoad(const TileMap& tileMap, const RealPos& pos);
 inline BoardPos realToTile(const RealPos& pos);
 BoardPos clampToNearestTile(const RealPos& pos);
+BoardPos getClosestPosWithRoad(const TileMap& tileMap, const BoardPos& pos);

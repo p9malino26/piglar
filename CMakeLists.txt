@@ -41,6 +41,8 @@ FILE(GLOB source_files
 "${source_dir}/util/util.cpp"
 "${source_dir}/util/lineFunc.cpp"
 "${source_dir}/util/Random.cpp"
+"${source_dir}/util/spawnEvenly.cpp"
+
 
 "${source_dir}/opengl/Display.cpp"
 "${source_dir}/opengl/Buffer.cpp"
@@ -54,22 +56,8 @@ FILE(GLOB source_files
 )
 
 FILE(GLOB test_files
-    "${source_dir}/texture-practice.cpp"
-
-        "${source_dir}/Input.cpp"
-        "${source_dir}/TimeManager.cpp"
-        "${source_dir}/util/util.cpp"
-        "${source_dir}/util/Random.cpp"
-
-        "${source_dir}/opengl/Display.cpp"
-        "${source_dir}/opengl/Buffer.cpp"
-        "${source_dir}/opengl/VertexArray.cpp"
-        "${source_dir}/opengl/Shader.cpp"
-        "${source_dir}/opengl/Texture.cpp"
-
-        "${vendor_dir}/glad/src/glad.c"
-        "${vendor_dir}/stb_image/stb_image/stb_image.cpp"
-
+    "${source_dir}/test/spawnEvenly.cpp"
+    "${source_dir}/util/spawnEvenly.cpp"
 )
 
 LINK_LIBRARIES(-lglfw -lGL -lpthread -lX11 -lXrandr -lXi -ldl)

@@ -5,6 +5,8 @@
 class Entity
 {
 public:
+    Entity() {}
+
     Entity(const RealPos &mPos) : m_pos(mPos) {}
 
     inline RealPos& getPos() {return m_pos; }

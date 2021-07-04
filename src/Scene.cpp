@@ -1,4 +1,4 @@
-#include "RoadMap.h"
+#include "TileMap.h"
 #include "Scene.h"
 #include "Input.h"
 
@@ -8,18 +8,31 @@
 
 #include "SquarePlayer.h"
 #include "util/compassVec.h"
+#include "util/rangeFor.h"
+#include "tileMapUtil.h"
 
 #define PLAYER_SPEED 4.f
-#define CHASER_SPEED 0.4F * PLAYER_SPEED
+#define CHASER_SPEED 10.4F * PLAYER_SPEED
+#define PIGS_COUNT 20
 
 void moveEntityWithCollisionDetection(const TileMap& tileMap, Entity& entity, const RealPos& posDelta);
 
+std::vector<RealPos> spawnEvenly(int width, int height, int count);
 
 Scene::Scene()
     :roadMap(new TileMap(width, height)), roadMapGen(new Generator::RoadMapGen(roadMap.get())),
-    player(new SquarePlayer(RealPos(0.f, 1.f))), chaser(new SquarePlayer(RealPos(0.f, 13.f)))
+    player(new SquarePlayer())
 {
     roadMapGen->generate();
+
+    player->setPos(getClosestPosWithRoad(*roadMap, RealPos(1.f, 1.f)));
+
+    std::vector<RealPos> pigPosns = spawnEvenly(roadMap->getWidth(), roadMap->getHeight(), PIGS_COUNT);
+    RANGE_FOR(i, 0, PIGS_COUNT)
+    {
+        pigs.emplace_back(getClosestPosWithRoad(*roadMap, pigPosns[i]));
+    }
+    //pigs.emplace_back(getClosestPosWithRoad(*roadMap, RealPos(2,2)));
 }
 
 RealPos getCollisionResolutionDelta(const TileMap& tileMap, Entity& entity, const RealPos& initialDelta);
@@ -32,11 +45,12 @@ void Scene::update()
         glm::vec2 mouseWorldPos = MouseManager::get()->getWorldMousePos();
         glm::vec2i intMouseWorldPos = glm::vec2i((int)mouseWorldPos.x, (int)mouseWorldPos.y);
         std::cout << "Mouse position: " << intMouseWorldPos << std::endl;
+        std::cout << "closest pos with road: " << getClosestPosWithRoad(*roadMap, intMouseWorldPos) << std::endl;
 
         if (Input::get()->getKeyStatus(GLFW_KEY_K) == GLFW_PRESS)
             player->setPos(MouseManager::get()->getWorldMousePos());
-        else
-            roadMap->toggleFieldState(intMouseWorldPos);
+        //else
+        //    roadMap->toggleFieldState(intMouseWorldPos);
     }
 
     //move player
@@ -56,11 +70,24 @@ void Scene::update()
         player->changePos(getCollisionResolutionDelta(*roadMap, *player, initialDelta));
     }
     
+    auto moveDistance = CHASER_SPEED * deltaTime;
     //move chaser
-    auto chaserMoveDir = player->getPos() - chaser->getPos();
-    auto chaserDelta = chaserMoveDir * CHASER_SPEED * deltaTime;
-    chaser->changePos(getCollisionResolutionDelta(*roadMap, *chaser, chaserDelta));
+    auto movePig = [this, moveDistance] (auto& pig)
+    {
+        auto pig2player = glm::normalize(player->getPos() - pig.getPos()) * 0.1f;
+        //auto pigDelta = pigMoveDir * CHASER_SPEED * deltaTime;
+        auto pigMove1 = getCollisionResolutionDelta(*roadMap, pig, pig2player);
+        pigMove1*=moveDistance * glm::normalize(pigMove1);
+        pig.changePos(pigMove1);
+    };
+
+    //for (auto& pig: pigs) movePig(pig);
+
 }
+
+//RealPos getSpawnPoint()
 
 Scene::~Scene(){
 }
+
+

@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <vector>
 
 class TileMap;
 class SquarePlayer;
@@ -14,9 +15,10 @@ class Scene
 
     std::unique_ptr<TileMap> roadMap;
     std::unique_ptr<SquarePlayer> player;
-    std::unique_ptr<SquarePlayer> chaser;
+    std::vector<SquarePlayer> pigs;
 
     std::unique_ptr<Generator::RoadMapGen> roadMapGen;
+
 
 public:
     Scene();

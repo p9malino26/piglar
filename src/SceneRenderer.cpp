@@ -46,16 +46,24 @@ namespace  {
 
 }
 
-void SceneRenderer::render () const
+void SceneRenderer::render ()
 {
     auto& renderer = *Renderer::get();
 
     drawRoadMap(*(this->scene->getRoadMap()));
     auto& player = *scene->player;
-    auto& chaser = *scene->chaser;
+    auto& pigs = const_cast<std::vector<SquarePlayer>&>(scene->pigs); //TODO this is an abomination!
 
     renderer.setFillTexture(playerTex);
     renderer.drawSquare(player.getPos(), player.getWidth());
-    renderer.setFillTexture(pigTex);
-    renderer.drawSquare(chaser.getPos(), chaser.getWidth());
+
+    auto drawPig = [&renderer, this] (SquarePlayer& p)
+    {
+        renderer.setFillTexture(pigTex);
+        renderer.drawSquare(p.getPos(), p.getWidth());
+
+    };
+
+    renderer.setFillColor({1.f, 0.64f, 0.43f});
+    for (auto& pig: pigs) drawPig(pig);
 }

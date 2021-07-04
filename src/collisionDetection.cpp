@@ -113,7 +113,7 @@ char getOrientationOfPoints(const RealPos& p1, const RealPos& p2)
 {
     if (p1.x == p2.x) return 'v';
     else if (p1.y == p2.y) return 'h';
-    else assert(false);
+    //else assert(false);
 }
 
 RealPos getCollisionResolutionDelta(const TileMap& tileMap, Entity& entity, const RealPos& initialDelta)
