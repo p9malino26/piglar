@@ -1,0 +1,9 @@
+priority 1:
+
+make camera follow player
+make player spawn in random pos
+
+priority 2:
+settings loadable from config file
+text labels
+game menus

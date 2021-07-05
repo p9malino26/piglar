@@ -12,8 +12,9 @@
 #include "tileMapUtil.h"
 
 #define PLAYER_SPEED 4.f
-#define CHASER_SPEED 10.4F * PLAYER_SPEED
+#define CHASER_SPEED (0.7F * PLAYER_SPEED)
 #define PIGS_COUNT 20
+#define PIG_LINE_OF_SIGHT 7
 
 void moveEntityWithCollisionDetection(const TileMap& tileMap, Entity& entity, const RealPos& posDelta);
 
@@ -74,14 +75,15 @@ void Scene::update()
     //move chaser
     auto movePig = [this, moveDistance] (auto& pig)
     {
-        auto pig2player = glm::normalize(player->getPos() - pig.getPos()) * 0.1f;
-        //auto pigDelta = pigMoveDir * CHASER_SPEED * deltaTime;
-        auto pigMove1 = getCollisionResolutionDelta(*roadMap, pig, pig2player);
-        pigMove1*=moveDistance * glm::normalize(pigMove1);
-        pig.changePos(pigMove1);
+        auto pig2player = player->getPos() - pig.getPos();
+        float distance = glm::length(pig2player);
+        if (distance > PIG_LINE_OF_SIGHT || distance < 0.1) return;
+        auto pig2playerU = glm::normalize(pig2player);
+        auto pigMove = getCollisionResolutionDelta(*roadMap, pig, pig2playerU * moveDistance);
+        pig.changePos(pigMove);
     };
 
-    //for (auto& pig: pigs) movePig(pig);
+    for (auto& pig: pigs) movePig(pig);
 
 }
 
