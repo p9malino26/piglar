@@ -3,6 +3,7 @@
 #include "CameraManager.h"
 #include "TimeManager.h"
 #include "Input.h"
+#include "MouseManager.h"
 
 CameraManager::CameraManager(Camera* camera)
     :camera(camera)
@@ -30,7 +31,17 @@ void CameraManager::update()
         camera.setPosition(glm::vec2(0.0f, 0.0f));
     }
 
-    camera.changeZoom(Input::get()->yScrollDelta() * zoomSpeed * TimeManager::get()->deltaTime());
+    //camera.changeZoom(Input::get()->yScrollDelta() * zoomSpeed * TimeManager::get()->deltaTime());
+
+    auto zoomDelta = Input::get()->yScrollDelta();
+
+    if (zoomDelta != 0)
+    {
+        auto worldThen = MouseManager::get()->getWorldMousePos();
+        camera.changeZoom(zoomDelta);
+        auto worldNow = MouseManager::get()->getWorldMousePos();
+        camera.changePosition(worldThen - worldNow);
+    }
     
     camera.clampZoom(minZoom, maxZoom);
 

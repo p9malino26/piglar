@@ -31,6 +31,11 @@ public:
         position = _position;
     }
 
+    inline void changePosition(const glm::vec2& delta)
+    {
+        position += delta;
+    }
+
     glm::mat4 getViewMatrix() const;
 
 
