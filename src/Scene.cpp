@@ -10,11 +10,14 @@
 #include "util/compassVec.h"
 #include "util/rangeFor.h"
 #include "tileMapUtil.h"
+#include "util/Random.h"
 
 #define PLAYER_SPEED 4.f
 #define CHASER_SPEED (0.7F * PLAYER_SPEED)
 #define PIGS_COUNT 20
 #define PIG_LINE_OF_SIGHT 7
+
+Scene* Scene::instance;
 
 void moveEntityWithCollisionDetection(const TileMap& tileMap, Entity& entity, const RealPos& posDelta);
 

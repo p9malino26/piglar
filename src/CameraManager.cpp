@@ -4,6 +4,7 @@
 #include "TimeManager.h"
 #include "Input.h"
 #include "MouseManager.h"
+#include "Scene.h"
 
 CameraManager::CameraManager(Camera* camera)
     :camera(camera)
@@ -13,36 +14,48 @@ CameraManager::CameraManager(Camera* camera)
 
 
 void CameraManager::update()
-{   
-    Camera& camera = *this->camera; 
-    float distanceMoved = speed * TimeManager::get()->deltaTime();
+{
+    Camera& camera = *this->camera;
+    float distanceMoved = moveSpeed * TimeManager::get()->deltaTime();
 
-    if(Input::get()->keyInfo(GLFW_KEY_UP, GLFW_PRESS))
-        camera.changeYpos(distanceMoved);
-    if(Input::get()->keyInfo(GLFW_KEY_DOWN, GLFW_PRESS))
-        camera.changeYpos(-distanceMoved);
-    if(Input::get()->keyInfo(GLFW_KEY_RIGHT, GLFW_PRESS))
-        camera.changeXpos(distanceMoved);
-    if(Input::get()->keyInfo(GLFW_KEY_LEFT, GLFW_PRESS))
-        camera.changeXpos(-distanceMoved);
-
-    if(Input::get()->keyInfo(GLFW_KEY_R, GLFW_PRESS) )
-    {
-        camera.setPosition(glm::vec2(0.0f, 0.0f));
+    //update mode
+    if (Input::get()->getKeyEvent(GLFW_KEY_C) == GLFW_PRESS) {
+        cameraMode = CameraMode(1 - (int) cameraMode);
+        std::cout << "Camera mode: " << cameraMode << std::endl;
     }
 
-    //camera.changeZoom(Input::get()->yScrollDelta() * zoomSpeed * TimeManager::get()->deltaTime());
-
-    auto zoomDelta = Input::get()->yScrollDelta();
-
-    if (zoomDelta != 0)
-    {
-        auto worldThen = MouseManager::get()->getWorldMousePos();
-        camera.changeZoom(zoomDelta);
-        auto worldNow = MouseManager::get()->getWorldMousePos();
-        camera.changePosition(worldThen - worldNow);
+    auto zoomDelta = Input::get()->yScrollDelta() * zoomSpeed * TimeManager::get()->deltaTime();
+    switch (cameraMode) {
+        case FOLLOW_PLAYER:
+            camera.changePosition((Scene::get()->getPlayerPos() - camera.getPosition()) * followSpeed);
+            camera.changeZoom(zoomDelta);
+            break;
+        case DETACHED:
+            if (zoomDelta != 0)
+            {
+                auto worldThen = MouseManager::get()->getWorldMousePos();
+                camera.changeZoom(zoomDelta);
+                auto worldNow = MouseManager::get()->getWorldMousePos();
+                camera.changePosition(worldThen - worldNow);
+            }
+            if(Input::get()->keyInfo(GLFW_KEY_UP, GLFW_PRESS))
+                camera.changeYpos(distanceMoved);
+            if(Input::get()->keyInfo(GLFW_KEY_DOWN, GLFW_PRESS))
+                camera.changeYpos(-distanceMoved);
+            if(Input::get()->keyInfo(GLFW_KEY_RIGHT, GLFW_PRESS))
+                camera.changeXpos(distanceMoved);
+            if(Input::get()->keyInfo(GLFW_KEY_LEFT, GLFW_PRESS))
+                camera.changeXpos(-distanceMoved);
+            break;
     }
-    
+
+
+    //camera.changeZoom(Input::get()->yScrollDelta() ;
+
+
+
+    //make camera follow player
+
     camera.clampZoom(minZoom, maxZoom);
 
 }

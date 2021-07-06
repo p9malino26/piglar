@@ -12,11 +12,11 @@
 Game::Game()
     :Application("Piglar!!", 800, 600),
       camera(new Camera()),
-      cameraManager(new CameraManager(camera.get())),
-      scene(new Scene())
+      cameraManager(new CameraManager(camera.get()))
 {
+    Scene::init();
     Renderer::init(camera.get(), &display);
-    sceneRenderer = std::make_unique<SceneRenderer>(scene.get());
+    sceneRenderer = std::make_unique<SceneRenderer>(Scene::get());
     Random::init();
     MouseManager::init(&display, camera.get());
 }
@@ -24,7 +24,10 @@ Game::Game()
 void Game::processFrame()
 {
     cameraManager->update();
-    scene->update();
+    Scene::get()->update();
+
+    //make camera follow player
+
 
 
     glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
@@ -34,6 +37,7 @@ void Game::processFrame()
 
 Game::~Game()
 {
+    Scene::del();
     Renderer::del();
     Random::del();
     MouseManager::del();

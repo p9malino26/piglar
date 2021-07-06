@@ -26,6 +26,8 @@ public:
 
     void clampZoom(float low, float high);
 
+    inline const glm::vec2& getPosition() {return position; }
+
     inline void setPosition(const glm::vec2& _position)
     {
         position = _position;
