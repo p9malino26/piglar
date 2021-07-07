@@ -13,8 +13,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void mouse_callback(GLFWwindow* window, int button, int action, int mods)
 {
-    if(button == 0 && action == GLFW_PRESS)
-        Input::instance->mouseClicked = true;
+    Input::instance->mouseKeys[button] = action + 1;
 };
 
 Input::Input(GLFWwindow* _window)
@@ -32,7 +31,8 @@ void Input::init(GLFWwindow* window)
 
 void Input::update()
 {
-    if (has_scrolled) 
+
+    if (has_scrolled)
     {
         has_scrolled = false;
         _yScrollDelta = 0.0f;
@@ -40,16 +40,23 @@ void Input::update()
 
     mouseClicked = false;
 
-    //set all keys to zero
-    std::memset(keys, 0, keysSize * sizeof(int));
+    //set all keys (keyboard and mouse) to zero
+    std::memset(keys, 0, (keysSize + mouseKeysSize) * sizeof(int));
     glfwPollEvents();
+
+    updateMousePos();
+    if (getMouseButtonEvent(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+        m_dragging = true;
+    if (getMouseButtonEvent(GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
+        m_dragging = false;
 }
 
-glm::vec2 Input::getMousePos()
+glm::vec2 Input::updateMousePos()
 {
     double x,y;
     glfwGetCursorPos(window, &x, &y);
-    return glm::vec2(static_cast<float>(x), static_cast<float>(y));
+    lastMousePos = currentMousePos;
+    currentMousePos = glm::vec2(static_cast<float>(x), static_cast<float>(y));
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
@@ -61,6 +68,12 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     Input::instance->keys[key] = action + 1;
+}
+
+RealPos Input::getDragDelta() {
+    if (m_dragging)
+        return getMouseDelta();
+    else return RealPos(0.f);
 }
 
 

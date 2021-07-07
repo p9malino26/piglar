@@ -26,8 +26,6 @@ void Game::processFrame()
     cameraManager->update();
     Scene::get()->update();
 
-    //make camera follow player
-
 
 
     glClearColor(0.0f, 1.0f, 0.0f, 1.0f);

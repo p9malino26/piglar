@@ -38,6 +38,7 @@ void CameraManager::update()
                 auto worldNow = MouseManager::get()->getWorldMousePos();
                 camera.changePosition(worldThen - worldNow);
             }
+
             if(Input::get()->keyInfo(GLFW_KEY_UP, GLFW_PRESS))
                 camera.changeYpos(distanceMoved);
             if(Input::get()->keyInfo(GLFW_KEY_DOWN, GLFW_PRESS))
@@ -46,6 +47,10 @@ void CameraManager::update()
                 camera.changeXpos(distanceMoved);
             if(Input::get()->keyInfo(GLFW_KEY_LEFT, GLFW_PRESS))
                 camera.changeXpos(-distanceMoved);
+
+            auto dragDelta = Input::get()->getDragDelta();
+            camera.changePosition( MouseManager::get()->mouseToWorld(RealPos(0)) - MouseManager::get()->mouseToWorld(dragDelta));
+            //auto mouseDelta = Input::get()->getMouseDelta();
             break;
     }
 

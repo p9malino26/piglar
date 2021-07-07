@@ -3,7 +3,7 @@
 
 #include <GLFW/glfw3.h>
 
-#include "GLMIncludes.h"
+#include "vectors.h"
 #include "util/singleton.h"
 
 class Input: public Singleton
@@ -17,18 +17,27 @@ private:
     float _yScrollDelta;
     bool has_scrolled;
     static const int keysSize = 349;
+    static const int mouseKeysSize = 8;
     int keys[keysSize];
+    int mouseKeys[mouseKeysSize];
 
     Input(GLFWwindow* window);
-public:
+    glm::vec2 updateMousePos();
+    RealPos lastMousePos;
+    RealPos currentMousePos;
     bool mouseClicked;
+    bool m_dragging = false;
+public:
 
     void update();
     inline int getKeyStatus(int key) { return glfwGetKey(window, key); }
     inline int getKeyEvent(int key) {return keys[key] - 1;}
+    inline int getMouseButtonEvent(int key) {return mouseKeys[key] - 1;}
     inline int keyInfo(int key, int status) { return getKeyStatus(key) == status; } // deprecated
     inline float yScrollDelta() { return _yScrollDelta;}
-    glm::vec2 getMousePos();
+    RealPos getMousePos() { return currentMousePos; }
+    RealPos getMouseDelta() { return currentMousePos - lastMousePos;  };
+    RealPos getDragDelta();
     inline bool mouseHasClicked() { return mouseClicked; }
 
 SINGLETON(Input)
