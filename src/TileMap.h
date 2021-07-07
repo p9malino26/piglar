@@ -22,7 +22,7 @@ public:
     //enum State {OFF, ON};
 
 
-	TileMap(int width, int height);
+    TileMap(int width, int height);
     inline ~TileMap() {delete[] data;}
     
     inline int getWidth() const {return width;}
@@ -54,7 +54,6 @@ public:
     void setLine(const glm::vec2i& startPos, CompassDirection direction, int length, CellType state);
 
     inline void clear() {std::memset(data, 0, width * height);}
-
 
 private:
 	int width;

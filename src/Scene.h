@@ -6,6 +6,8 @@
 
 class TileMap;
 class SquarePlayer;
+class Player;
+class Pig;
 
 namespace Generator { class RoadMapGen; }
 
@@ -16,11 +18,12 @@ class Scene: public Singleton
     static constexpr int height = 100;
 
     std::unique_ptr<TileMap> roadMap;
-    std::unique_ptr<SquarePlayer> player;
-    std::vector<SquarePlayer> pigs;
+    std::unique_ptr<Player> player;
+    std::vector<Pig> pigs;
 
     std::unique_ptr<Generator::RoadMapGen> roadMapGen;
-
+    //inline SquarePlayer& getPlayer() {return *player; }
+    //inline std::vector<SquarePlayer>& getPigs() {return static_cast<std::vector<SquarePlayer>&>(pigs);}
 
     Scene();
 public:

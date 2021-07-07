@@ -1,4 +1,4 @@
-#include "TileMap.h"
+#include "MainTileMap.h"
 #include "Scene.h"
 #include "Input.h"
 
@@ -11,15 +11,12 @@
 #include "util/rangeFor.h"
 #include "tileMapUtil.h"
 #include "util/Random.h"
+#include "Pig.h"
+#include "Player.h"
 
-#define PLAYER_SPEED 4.f
-#define CHASER_SPEED (0.7F * PLAYER_SPEED)
 #define PIGS_COUNT 20
-#define PIG_LINE_OF_SIGHT 7
 
 Scene* Scene::instance;
-
-void moveEntityWithCollisionDetection(const TileMap& tileMap, Entity& entity, const RealPos& posDelta);
 
 std::vector<RealPos> spawnEvenly(int width, int height, int count);
 
@@ -28,7 +25,7 @@ Scene::Scene()
     player(new SquarePlayer())
 {
     roadMapGen->generate();
-
+    Pig::init();
     player->setPos(getClosestPosWithRoad(*roadMap, RealPos(1.f, 1.f)));
 
     std::vector<RealPos> pigPosns = spawnEvenly(roadMap->getWidth(), roadMap->getHeight(), PIGS_COUNT);
@@ -70,23 +67,11 @@ void Scene::update()
         playerMoveDir += WEST_VEC;
 
     if (playerMoveDir != RealPos(0.f,0.f)) {
-        auto initialDelta = playerMoveDir * deltaTime * PLAYER_SPEED;
-        player->changePos(getCollisionResolutionDelta(*roadMap, *player, initialDelta));
+        auto initialDelta = playerMoveDir * deltaTime * player->getSpeed();
+        player->changePos(getCollisionResolutionDelta(*roadMap, *player, initialDelta)); // TODO move to Player class
     }
-    
-    auto moveDistance = CHASER_SPEED * deltaTime;
-    //move chaser
-    auto movePig = [this, moveDistance] (auto& pig)
-    {
-        auto pig2player = player->getPos() - pig.getPos();
-        float distance = glm::length(pig2player);
-        if (distance > PIG_LINE_OF_SIGHT || distance < 0.1) return;
-        auto pig2playerU = glm::normalize(pig2player);
-        auto pigMove = getCollisionResolutionDelta(*roadMap, pig, pig2playerU * moveDistance);
-        pig.changePos(pigMove);
-    };
 
-    for (auto& pig: pigs) movePig(pig);
+    for (Pig& pig: pigs) pig.update();
 
 }
 

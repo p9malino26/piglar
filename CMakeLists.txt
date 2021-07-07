@@ -17,6 +17,7 @@ FILE(GLOB source_files
 "${source_dir}/Game.cpp"
 "${source_dir}/Scene.cpp"
 "${source_dir}/TileMap.cpp"
+"${source_dir}/MainTileMap.cpp"
 "${source_dir}/tileMapUtil.cpp"
 "${source_dir}/SceneRenderer.cpp"
 "${source_dir}/Renderer.cpp"
@@ -28,6 +29,8 @@ FILE(GLOB source_files
 "${source_dir}/SquarePlayer.cpp"
 "${source_dir}/SquarePlayer.h"
 "${source_dir}/collisionDetection.cpp"
+"${source_dir}/Pig.cpp"
+"${source_dir}/Player.cpp"
 
 "${source_dir}/generator/bottomuprectplacer.cpp"
 "${source_dir}/generator/TreeGenerator.cpp"

@@ -3,14 +3,14 @@
 #include "TileMap.h"
 #include "Scene.h"
 #include "Renderer.h"
-#include "util/Random.h"
 #include "generator/bottomuprectplacer.h"
 
 #include "generator/RoadMapGen.h"
 
 #include "SquarePlayer.h"
 
-
+class Pig: public SquarePlayer {};
+class Player: public SquarePlayer {};
 
 SceneRenderer::SceneRenderer(const Scene* scene)
     :scene(scene)
@@ -52,7 +52,7 @@ void SceneRenderer::render ()
 
     drawRoadMap(*(this->scene->getRoadMap()));
     auto& player = *scene->player;
-    auto& pigs = const_cast<std::vector<SquarePlayer>&>(scene->pigs); //TODO this is an abomination!
+    auto& pigs = const_cast<std::vector<Pig>&>(scene->pigs); //TODO this is an abomination!
 
     renderer.setFillTexture(playerTex);
     renderer.drawSquare(player.getPos(), player.getWidth());
@@ -61,9 +61,12 @@ void SceneRenderer::render ()
     {
         renderer.setFillTexture(pigTex);
         renderer.drawSquare(p.getPos(), p.getWidth());
-
     };
 
     renderer.setFillColor({1.f, 0.64f, 0.43f});
     for (auto& pig: pigs) drawPig(pig);
+}
+
+const RealPos& Scene::getPlayerPos() {
+    return player->getPos();
 }

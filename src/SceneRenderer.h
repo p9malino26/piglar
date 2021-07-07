@@ -5,8 +5,6 @@
 class Scene;
 class Renderer;
 
-class BottomUpRectPlacer;
-
 class PosRectangle;
 class SceneRenderer
 {

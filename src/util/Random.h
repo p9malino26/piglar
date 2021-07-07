@@ -27,9 +27,19 @@ public:
     
     inline bool fiftyFifty()
     {
-        if(rand() % 2 == 0) return true;
-        return false;
+        return rand() % 2;
     }
+
+    float ranFloat(float maxOffset, int resolution)
+    {
+        return (maxOffset * randInt(0, resolution)) / resolution;
+    }
+
+    inline float ranFloat(float l, float h, int resolution)
+    {
+        return l + ranFloat(h - l, resolution);
+    }
+
 
     SINGLETON(Random)
     static void init() {

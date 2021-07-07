@@ -5,13 +5,14 @@
 #include "Entity.h"
 
 #pragma once
+class TileMap;
+
+RealPos getCollisionResolutionDelta(const TileMap& tileMap, Entity& entity, const RealPos& initialDelta);
 
 class SquarePlayer: public Entity{
     float m_sideLength;
 public:
-    SquarePlayer() : Entity(), m_sideLength(0.7f) {}
-
-    SquarePlayer(const RealPos& startPos): Entity(startPos), m_sideLength(0.7f) {} //TODO fix!
+    SquarePlayer(const RealPos& startPos, float sideLength): Entity(startPos), m_sideLength(sideLength) {}
 
     float getWidth() override;
     float getHeight() override;
