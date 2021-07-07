@@ -20,9 +20,11 @@ Scene* Scene::instance;
 
 std::vector<RealPos> spawnEvenly(int width, int height, int count);
 
+inline BoardPos getRandomSpawnPos(int w, int h) {return BoardPos(Random::get()->randInt(0,w - 1), Random::get()->randInt(0,h - 1)); }
+
 Scene::Scene()
-    :roadMap(new TileMap(width, height)), roadMapGen(new Generator::RoadMapGen(roadMap.get())),
-    player(new SquarePlayer())
+    :roadMap(new MainTileMap(width, height)), roadMapGen(new Generator::RoadMapGen(roadMap.get())),
+    player(new Player(getClosestPosWithRoad(*roadMap, getRandomSpawnPos(width, height))))
 {
     roadMapGen->generate();
     Pig::init();
