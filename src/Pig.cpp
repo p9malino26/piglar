@@ -24,8 +24,8 @@ void Pig::update()
     changePos(pigMove);
 }
 
-void Pig::init()
+void Pig::init(float playerSpeedRatio)
 {
-    speed = 0.7f * Player::get()->getSpeed();
+    speed = playerSpeedRatio * Player::get()->getSpeed();
 }
 

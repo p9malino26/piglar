@@ -1,16 +1,14 @@
 #include "RoadMapGen.h"
 
-#include <algorithm>
 #include <optional>
 
-#include "../GLMIncludes.h"
+#include "TreeGenParams.h"
+#include "TreeGenerator.h"
 
 #include "../TileMap.h"
 
-#include "../generator/TreeGenerator.h"
-#include "../generator/bottomuprectplacer.h"
+#include "bottomuprectplacer.h"
 
-#include "../util/rangeFor.h"
 #include "../util/Random.h"
 #include "../util/compassUtil.h"
 
@@ -34,27 +32,15 @@ namespace Generator {
     void fillLineUntilTouchingRoad(TileMap& roadMap, const Pos& start, CompassDirection direction);
 
 
-
-
-    RoadMapGen::RoadMapGen(TileMap* roadMap)
-        :roadMap(roadMap), rpr(new BottomUpRectPlacer(roadMap->getWidth(), roadMap->getHeight()))
+    RoadMapGen::RoadMapGen(TileMap* roadMap, const TreeGenParams& params)
+        :roadMap(roadMap), rpr(new BottomUpRectPlacer(roadMap->getWidth(), roadMap->getHeight())), treeGen(new TreeGenerator(params))
     {
     }
 
     void RoadMapGen::generate()
     {
 
-        TreeGenParams params;
-
-        params.mainRoadLengthRange = {7,11};
-        params.branchRoadLengthRange = {5, 7};
-        params.branchStepRange = {2, 4};
-        TreeGenerator treeGen(params);
-
-
-
-        //prototype 2509
-
+        auto& treeGen = *this->treeGen;
 
         auto& surroundingNeighbours = rpr->getNeighbouringSpaceInfo();
         while (1)
@@ -98,9 +84,7 @@ namespace Generator {
 
 
             } else
-                break;
-
-
+            break;
         }
     }
 

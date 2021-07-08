@@ -3,17 +3,11 @@
 #include <memory>
 
 #include "../GLMIncludes.h"
-
 class TileMap;
-struct TreeGenData;
 
 namespace Generator {
-
-    //structs
-    struct TreeGenParams
-    {
-        std::pair<int, int> mainRoadLengthRange, branchRoadLengthRange, branchStepRange;
-    };
+    class TreeGenParams;
+    class TreeGenData;
 
     class TreeGenerator
     {
@@ -30,7 +24,7 @@ namespace Generator {
         std::unique_ptr<TileMap> treeData;
         ~TreeGenerator();
     private:
-        TreeGenParams params;
+        const TreeGenParams* params;
         std::unique_ptr<TreeGenData> lastGenData;
     };
 }

@@ -18,7 +18,7 @@ public:
 
     void update();
 
-    static void init();
+    static void init(float playerSpeedRatio);
 };
 
 

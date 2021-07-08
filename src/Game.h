@@ -7,6 +7,7 @@
 
 class CameraManager;
 class SceneRenderer;
+class GameConfig;
 
 class Game: public Application
 {
@@ -17,7 +18,6 @@ class Game: public Application
 
     void processFrame() override;
 public:
-    Game();
+    explicit Game(const GameConfig& config);
     ~Game();
 };
-

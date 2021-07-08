@@ -1,9 +1,9 @@
 priority 1:
 
-make camera follow player
-make player spawn in random pos
+load options from file
+text labels
+refactor to conform to design pattern
 
 priority 2:
-settings loadable from config file
-text labels
+better terrain
 game menus

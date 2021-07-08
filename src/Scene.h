@@ -9,13 +9,16 @@ class SquarePlayer;
 class Player;
 class Pig;
 
-namespace Generator { class RoadMapGen; }
+namespace Generator { class RoadMapGen; class TreeGenParams;}
+using namespace Generator;
+
+class MechanicsConfig;
+
 
 class Scene: public Singleton
 {
     friend class SceneRenderer;
-    static constexpr int width = 100;
-    static constexpr int height = 100;
+
 
     std::unique_ptr<TileMap> roadMap;
     std::unique_ptr<Player> player;
@@ -25,7 +28,7 @@ class Scene: public Singleton
     //inline SquarePlayer& getPlayer() {return *player; }
     //inline std::vector<SquarePlayer>& getPigs() {return static_cast<std::vector<SquarePlayer>&>(pigs);}
 
-    Scene();
+    Scene(const MechanicsConfig &mechanicsConfig, const TreeGenParams &genConfig);
 public:
     void update();
     inline const TileMap* getRoadMap() const { return roadMap.get(); }
@@ -37,5 +40,5 @@ public:
     friend class SceneRenderer;
 
 SINGLETON(Scene)
-    static void init() {instance = new Scene();}
+    static void init(const MechanicsConfig &mechanicsConfig, const TreeGenParams &genConfig) {instance = new Scene(mechanicsConfig, genConfig);}
 };

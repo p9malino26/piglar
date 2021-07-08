@@ -1,13 +1,16 @@
 #include <GLFW/glfw3.h>
 
 #include "CameraManager.h"
+
+#include "CameraConfig.h"
+#include "Camera.h"
 #include "TimeManager.h"
 #include "Input.h"
 #include "MouseManager.h"
 #include "Scene.h"
 
-CameraManager::CameraManager(Camera* camera)
-    :camera(camera)
+CameraManager::CameraManager(Camera* camera, const CameraConfig& config)
+    :camera(camera), config(&config)
 {
     camera->setZoom(0.1f);
 }
@@ -16,7 +19,7 @@ CameraManager::CameraManager(Camera* camera)
 void CameraManager::update()
 {
     Camera& camera = *this->camera;
-    float distanceMoved = moveSpeed * TimeManager::get()->deltaTime();
+    float distanceMoved = config->moveSpeed * TimeManager::get()->deltaTime();
 
     //update mode
     if (Input::get()->getKeyEvent(GLFW_KEY_C) == GLFW_PRESS) {
@@ -24,10 +27,10 @@ void CameraManager::update()
         std::cout << "Camera mode: " << cameraMode << std::endl;
     }
 
-    auto zoomDelta = Input::get()->yScrollDelta() * zoomSpeed * TimeManager::get()->deltaTime();
+    auto zoomDelta = Input::get()->yScrollDelta() * config->zoomSpeed * TimeManager::get()->deltaTime();
     switch (cameraMode) {
         case FOLLOW_PLAYER:
-            camera.changePosition((Scene::get()->getPlayerPos() - camera.getPosition()) * followSpeed);
+            camera.changePosition((Scene::get()->getPlayerPos() - camera.getPosition()) * config->followSpeed);
             camera.changeZoom(zoomDelta);
             break;
         case DETACHED:
@@ -61,6 +64,6 @@ void CameraManager::update()
 
     //make camera follow player
 
-    camera.clampZoom(minZoom, maxZoom);
+    camera.clampZoom(config->zoomRange.first, config->zoomRange.second);
 
 }

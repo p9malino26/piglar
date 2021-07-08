@@ -9,12 +9,14 @@
 #include "Renderer.h"
 #include "util/Random.h"
 
-Game::Game()
+#include "GameConfig.h"
+
+Game::Game(const GameConfig& config)
     :Application("Piglar!!", 800, 600),
       camera(new Camera()),
-      cameraManager(new CameraManager(camera.get()))
+      cameraManager(new CameraManager(camera.get(), *config.cameraConfig))
 {
-    Scene::init();
+    Scene::init(*config.mechanicsConfig, *config.generatorConfig);
     Renderer::init(camera.get(), &display);
     sceneRenderer = std::make_unique<SceneRenderer>(Scene::get());
     Random::init();

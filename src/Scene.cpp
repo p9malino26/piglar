@@ -13,8 +13,7 @@
 #include "util/Random.h"
 #include "Pig.h"
 #include "Player.h"
-
-#define PIGS_COUNT 20
+#include "MechanicsConfig.h"
 
 Scene* Scene::instance;
 
@@ -22,16 +21,16 @@ std::vector<RealPos> spawnEvenly(int width, int height, int count);
 
 inline BoardPos getRandomSpawnPos(int w, int h) {return BoardPos(Random::get()->randInt(0,w - 1), Random::get()->randInt(0,h - 1)); }
 
-Scene::Scene()
-    :roadMap(new MainTileMap(width, height)), roadMapGen(new Generator::RoadMapGen(roadMap.get())),
-    player(new Player(getClosestPosWithRoad(*roadMap, getRandomSpawnPos(width, height))))
+Scene::Scene(const MechanicsConfig& mechanicsConfig, const TreeGenParams& genConfig)
+    :roadMap(new MainTileMap(mechanicsConfig.tileMapSize, mechanicsConfig.tileMapSize)), roadMapGen(new Generator::RoadMapGen(roadMap.get(), genConfig)),
+    player(new Player(mechanicsConfig.playerSpeed))
 {
     roadMapGen->generate();
-    Pig::init();
-    player->setPos(getClosestPosWithRoad(*roadMap, RealPos(1.f, 1.f)));
+    player->setPos(getClosestPosWithRoad(*roadMap, getRandomSpawnPos(roadMap->getWidth(), roadMap->getHeight())));
+    Pig::init(mechanicsConfig.pigToPlayerSpeedRatio);
 
-    std::vector<RealPos> pigPosns = spawnEvenly(roadMap->getWidth(), roadMap->getHeight(), PIGS_COUNT);
-    RANGE_FOR(i, 0, PIGS_COUNT)
+    std::vector<RealPos> pigPosns = spawnEvenly(roadMap->getWidth(), roadMap->getHeight(), mechanicsConfig.pigsCount);
+    RANGE_FOR(i, 0, mechanicsConfig.pigsCount)
     {
         pigs.emplace_back(getClosestPosWithRoad(*roadMap, pigPosns[i]));
     }

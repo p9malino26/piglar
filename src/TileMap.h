@@ -74,20 +74,6 @@ private:
         return width * coord.y + coord.x;
     }
 
-    /*inline State& at(const glm::vec2i& coord)
-    {
-        ensurePositionIsInside(coord);
-        int index = width * coord.y + coord.x;
-        return data[index];
-    }*/
-
-    //fuck this constness; let's copy and paste this code!
-    /*inline const bool& at(const glm::vec2i& coord) const
-    {
-        ensurePositionIsInside(coord);
-        int index = width * coord.y + coord.x;
-        return data.at(index);        
-    }*/
     
     
 };

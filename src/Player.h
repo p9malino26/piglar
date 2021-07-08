@@ -7,19 +7,16 @@
 #include "util/singleton.h"
 #include "SquarePlayer.h"
 
-#define PLAYER_SPEED 4.f
-
 
 class Player: public SquarePlayer {
-    //const float speed = 4.f;
+    float speed;
 public:
 
-    explicit Player(const RealPos &startPos) : SquarePlayer(startPos, 0.7f)
-    {
+    explicit Player(float speed) : SquarePlayer(RealPos(0), 0.7f), speed(speed) {
         instance = this;
     }
 
-    float getSpeed() {return PLAYER_SPEED; }
+    float getSpeed() {return speed; }
     SINGLETON(Player)
 };
 

@@ -9,6 +9,8 @@
 #define CONSTANT(EXPR) \
 static constexpr EXPR;
 
+#include "TreeGenParams.h"
+
 namespace Generator {
 
 
@@ -94,14 +96,14 @@ namespace Generator {
 
 
     TreeGenerator::TreeGenerator(const TreeGenParams &params)
-        :treeData(std::make_unique<TileMap>(1 + 2 * params.branchRoadLengthRange.second, params.mainRoadLengthRange.second)), params(params),
+    :treeData(std::make_unique<TileMap>(1 + 2 * params.branchRoadLengthRange.second, params.mainRoadLengthRange.second)), params(&params),
           lastGenData(std::make_unique<TreeGenData>())
     {}
 
 
     glm::vec2i TreeGenerator::generate()
     {
-        *lastGenData = generateTree(*treeData, {params.branchRoadLengthRange.second, 0}, params);
+        *lastGenData = generateTree(*treeData, {params->branchRoadLengthRange.second, 0}, *params);
         std::cout << "Finished generating\n";
         return lastGenData->dims;
     }
@@ -121,7 +123,7 @@ namespace Generator {
             for(treePos.y = 0; treePos.y < dims.y; treePos.y++)
             {
                 //find out different coordinates
-                auto tmp = treePosToBufferAndGlobal(orientation, startPos, treePos, dims.x, params.branchRoadLengthRange.second, lastGenData->maxLBranchLength);
+                auto tmp = treePosToBufferAndGlobal(orientation, startPos, treePos, dims.x, params->branchRoadLengthRange.second, lastGenData->maxLBranchLength);
                 glm::vec2i& bufferPos = tmp.first;
                 glm::vec2i& globalPos = tmp.second;
 
@@ -132,6 +134,6 @@ namespace Generator {
 
     }
 
-    TreeGenerator::~TreeGenerator() = default;
+    TreeGenerator::~TreeGenerator() {};
 
 }
