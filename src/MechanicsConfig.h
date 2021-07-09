@@ -6,9 +6,10 @@
 
 struct MechanicsConfig
 {
-    int pigsCount;
-    int tileMapSize;
-    float playerSpeed;
-    float pigToPlayerSpeedRatio;
+    int pigsCount = 20;
+    int tileMapSize = 100;
+    float pigDetectionRange = 7.f;
+    float playerSpeed = 7.f;
+    float pigToPlayerSpeedRatio = 0.7f;
     //...
 };

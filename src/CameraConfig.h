@@ -8,9 +8,9 @@
 
 struct CameraConfig
 {
-    float followSpeed;
-    float moveSpeed;
-    float zoomSpeed;
+    float followSpeed = 0.2f;
+    float moveSpeed = 4.2f;
+    float zoomSpeed = 5.0f;
 
-    std::pair<float, float> zoomRange;
+    std::pair<float, float> zoomRange = {0.01f, 0.8f};
 };

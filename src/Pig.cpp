@@ -9,6 +9,7 @@
 #include "TimeManager.h"
 
 float Pig::speed;
+float Pig::detectionRange;
 
 
 Pig::Pig(const RealPos &startPos)
@@ -18,14 +19,15 @@ void Pig::update()
 {
     auto pig2player = Player::get()->getPos() - this->getPos();
     float distance = glm::length(pig2player);
-    if (distance > detectionDistance || distance < m_minPlayerDistance) return;
+    if (distance > detectionRange || distance < m_minPlayerDistance) return;
     auto pig2playerU = glm::normalize(pig2player);
     auto pigMove = getCollisionResolutionDelta(*MainTileMap::get(), *this, pig2playerU * speed * TimeManager::get()->deltaTime());
     changePos(pigMove);
 }
 
-void Pig::init(float playerSpeedRatio)
+void Pig::init(float playerSpeedRatio, float detectionRange)
 {
     speed = playerSpeedRatio * Player::get()->getSpeed();
+    Pig::detectionRange = detectionRange;
 }
 

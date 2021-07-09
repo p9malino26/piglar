@@ -27,7 +27,7 @@ Scene::Scene(const MechanicsConfig& mechanicsConfig, const TreeGenParams& genCon
 {
     roadMapGen->generate();
     player->setPos(getClosestPosWithRoad(*roadMap, getRandomSpawnPos(roadMap->getWidth(), roadMap->getHeight())));
-    Pig::init(mechanicsConfig.pigToPlayerSpeedRatio);
+    Pig::init(mechanicsConfig.pigToPlayerSpeedRatio, mechanicsConfig.pigDetectionRange);
 
     std::vector<RealPos> pigPosns = spawnEvenly(roadMap->getWidth(), roadMap->getHeight(), mechanicsConfig.pigsCount);
     RANGE_FOR(i, 0, mechanicsConfig.pigsCount)

@@ -7,6 +7,7 @@
 namespace Generator {
 //structs
     struct TreeGenParams {
-        std::pair<int, int> mainRoadLengthRange, branchRoadLengthRange, branchStepRange;
+        std::pair<int, int> mainRoadLengthRange = {7,11}
+        , branchRoadLengthRange= {5, 7}, branchStepRange= {2, 4};
     };
 }

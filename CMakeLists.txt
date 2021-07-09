@@ -10,10 +10,13 @@ SET (vendor_dir "${source_dir}/vendor")
 INCLUDE_DIRECTORIES(
 "${vendor_dir}/glad/include"
 "${vendor_dir}/stb_image"
+"${vendor_dir}/inipp"
 )
 
 FILE(GLOB source_files
 "${source_dir}/main.cpp"
+"${source_dir}/configParser.cpp"
+"${source_dir}/GameConfig.cpp"
 "${source_dir}/Game.cpp"
 "${source_dir}/Scene.cpp"
 "${source_dir}/TileMap.cpp"

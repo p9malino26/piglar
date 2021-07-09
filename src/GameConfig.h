@@ -15,4 +15,6 @@ struct GameConfig
     std::unique_ptr<Generator::TreeGenParams> generatorConfig;
     std::unique_ptr<MechanicsConfig> mechanicsConfig;
     std::unique_ptr<CameraConfig> cameraConfig;
+
+    GameConfig();
 };

@@ -12,13 +12,13 @@ class Pig : public SquarePlayer{
     float m_minPlayerDistance;
 
     static float speed;
-    static constexpr float detectionDistance = 7.f;
+    static float detectionRange;
 public:
     Pig(const RealPos& startPos);
 
     void update();
 
-    static void init(float playerSpeedRatio);
+    static void init(float playerSpeedRatio, float detectionRange);
 };
 
 
