@@ -14,7 +14,7 @@ struct Boundary
 
 RealPos getShiftToBoundaryDelta(const RealPos& pos, const Boundary& b)
 {
-    return b.orientation == 'h' ? RealPos {0.f, b.coord - pos.y} : RealPos {b.coord - pos.x, 0.f};
+    return b.orientation == 'h' ? RealPos (0.f, b.coord - pos.y) : RealPos (b.coord - pos.x, 0.f);
 }
 
 std::vector<RealPos> getEntityVertices(Entity& entity, const RealPos& delta)
