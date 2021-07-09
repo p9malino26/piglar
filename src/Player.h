@@ -5,14 +5,14 @@
 #pragma once
 
 #include "util/singleton.h"
-#include "SquarePlayer.h"
+#include "SquareEntity.h"
 
 
-class Player: public SquarePlayer {
+class Player: public SquareEntity {
     float speed;
 public:
 
-    explicit Player(float speed) : SquarePlayer(RealPos(0), 0.7f), speed(speed) {
+    explicit Player(float speed) : SquareEntity(RealPos(0), 0.7f), speed(speed) {
         instance = this;
     }
 

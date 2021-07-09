@@ -2,12 +2,12 @@
 // Created by patryk on 21/06/2021.
 //
 
-#include "SquarePlayer.h"
+#include "SquareEntity.h"
 
-float SquarePlayer::getWidth() {
+float SquareEntity::getWidth() {
     return m_sideLength;
 }
 
-float SquarePlayer::getHeight() {
+float SquareEntity::getHeight() {
     return m_sideLength;
 }

@@ -9,10 +9,10 @@ class TileMap;
 
 RealPos getCollisionResolutionDelta(const TileMap& tileMap, Entity& entity, const RealPos& initialDelta);
 
-class SquarePlayer: public Entity{
+class SquareEntity: public Entity{
     float m_sideLength;
 public:
-    SquarePlayer(const RealPos& startPos, float sideLength): Entity(startPos), m_sideLength(sideLength) {}
+    SquareEntity(const RealPos& startPos, float sideLength): Entity(startPos), m_sideLength(sideLength) {}
 
     float getWidth() override;
     float getHeight() override;

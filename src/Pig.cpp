@@ -13,7 +13,7 @@ float Pig::detectionRange;
 
 
 Pig::Pig(const RealPos &startPos)
-    : SquarePlayer(startPos, 0.7f), m_minPlayerDistance(Random::get()->ranFloat(0.1f, 0.3f, 5)) {}
+    : SquareEntity(startPos, 0.7f), m_minPlayerDistance(Random::get()->ranFloat(0.1f, 0.3f, 5)) {}
 
 void Pig::update()
 {

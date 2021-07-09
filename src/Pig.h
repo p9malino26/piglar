@@ -4,11 +4,11 @@
 
 #pragma once
 
-#include "SquarePlayer.h"
+#include "SquareEntity.h"
 
 class Player;
 
-class Pig : public SquarePlayer{
+class Pig : public SquareEntity{
     float m_minPlayerDistance;
 
     static float speed;

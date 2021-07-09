@@ -5,7 +5,6 @@
 #include "vectors.h"
 
 class TileMap;
-class SquarePlayer;
 class Player;
 class Pig;
 

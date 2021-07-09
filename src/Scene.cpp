@@ -6,7 +6,6 @@
 #include "MouseManager.h"
 #include "TimeManager.h"
 
-#include "SquarePlayer.h"
 #include "util/compassVec.h"
 #include "util/rangeFor.h"
 #include "tileMapUtil.h"

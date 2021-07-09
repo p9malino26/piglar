@@ -7,10 +7,10 @@
 
 #include "generator/RoadMapGen.h"
 
-#include "SquarePlayer.h"
+#include "SquareEntity.h"
 
-class Pig: public SquarePlayer {};
-class Player: public SquarePlayer {};
+class Pig: public SquareEntity {};
+class Player: public SquareEntity {};
 
 SceneRenderer::SceneRenderer(const Scene* scene)
     :scene(scene)
@@ -57,7 +57,7 @@ void SceneRenderer::render ()
     renderer.setFillTexture(playerTex);
     renderer.drawSquare(player.getPos(), player.getWidth());
 
-    auto drawPig = [&renderer, this] (SquarePlayer& p)
+    auto drawPig = [&renderer, this] (SquareEntity& p)
     {
         renderer.setFillTexture(pigTex);
         renderer.drawSquare(p.getPos(), p.getWidth());
