@@ -62,6 +62,7 @@ static void parseCamera(CameraConfig& config)
     parse(config.zoomRange.second, "zoom_max", toFloat);
     parse(config.zoomSpeed, "zoom_speed", toFloat);
     parse(config.moveSpeed, "move_speed", toFloat);
+    parse(config.initialZoom, "initial_zoom", toFloat);
 }
 
 void loadConfigFromFile(GameConfig& config, const std::string& fName)

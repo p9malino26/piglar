@@ -12,7 +12,7 @@
 CameraManager::CameraManager(Camera* camera, const CameraConfig& config)
     :camera(camera), config(&config)
 {
-    camera->setZoom(0.1f);
+    camera->setZoom(config.initialZoom);
 }
 
 
@@ -31,7 +31,6 @@ void CameraManager::update()
     switch (cameraMode) {
         case FOLLOW_PLAYER:
             camera.changePosition((Scene::get()->getPlayerPos() - camera.getPosition()) * config->followSpeed);
-            camera.changeZoom(zoomDelta);
             break;
         case DETACHED:
             if (zoomDelta != 0)
