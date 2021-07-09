@@ -1,8 +1,6 @@
 #include <iostream>
 #include "../TileMap.h"
-#include "../GLMIncludes.h"
 #include "../util/Random.h"
-#include "../util/printVar.h"
 #include "treeGenData.h"
 #include "TreeGenerator.h"
 
@@ -16,11 +14,9 @@ namespace Generator {
 
     TreeGenData generateTree(TileMap& roadmap, const glm::vec2i& startpos, const TreeGenParams& params)
     {
-        std::cout << "Generate tree started\n";
         assert(!roadmap.isPositionOutside(startpos));
 
         int mainRoadLength = Random::get()->randInt(params.mainRoadLengthRange.first, params.mainRoadLengthRange.second);
-        printf("Main road length: %d\n", mainRoadLength);
         glm::vec2i endPos = startpos;
         endPos.y += mainRoadLength - 1;
         assert(!roadmap.isPositionOutside(endPos));
@@ -104,7 +100,6 @@ namespace Generator {
     glm::vec2i TreeGenerator::generate()
     {
         *lastGenData = generateTree(*treeData, {params->branchRoadLengthRange.second, 0}, *params);
-        std::cout << "Finished generating\n";
         return lastGenData->dims;
     }
 
