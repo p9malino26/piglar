@@ -59,11 +59,10 @@ void SceneRenderer::render ()
 
     auto drawPig = [&renderer, this] (SquareEntity& p)
     {
-        renderer.setFillTexture(pigTex);
         renderer.drawSquare(p.getPos(), p.getWidth());
     };
 
-    renderer.setFillColor({1.f, 0.64f, 0.43f});
+    renderer.setFillTexture(pigTex);
     for (auto& pig: pigs) drawPig(pig);
 }
 
