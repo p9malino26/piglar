@@ -27,11 +27,11 @@ int main()
     glfwSetFramebufferSizeCallback(display.getRaw(), framebuffer_size_callback);
 
     float vertices[] = {
-        // positions    // colors           // texture coords
-         0.5f,  0.5f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-         0.5f, -0.5f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
-        -0.5f, -0.5f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-        -0.5f,  0.5f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
+        // positions  // texture coords
+         0.5f,  0.5f,  1.0f, 1.0f,   // top right
+         0.5f, -0.5f,  1.0f, 0.0f,   // bottom right
+        -0.5f, -0.5f,  0.0f, 0.0f,   // bottom left
+        -0.5f,  0.5f,  0.0f, 1.0f    // top left
     };
 
     unsigned int eboVertices[] = {
@@ -39,7 +39,7 @@ int main()
         1, 2, 3
     };
 
-    int offsets[3] = {2, 3, 2};
+    int offsets[2] = {2, 2};
 
     VertexArray vao;
     Buffer vbo;
@@ -51,46 +51,55 @@ int main()
     vao.bind();
     vbo.bind();
     ebo.bind();
-    vao.specifyVertexAttributes(offsets, 3);
+    vao.specifyVertexAttributes(offsets, 2);
     vao.unbind();
 
     Shader program;
-    program.init("res/shaders/vertexShader.glsl", "res/shaders/fragmentShader.glsl");
+    program.init("res/shaders/textureVertexShader.glsl", "res/shaders/textureFragmentShader.glsl");
     assert(program.good());
 
 
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     Texture pigTexture;
-    pigTexture.init("pigfarming.jpg");
+    pigTexture.init("res/textures/pigfarming.jpg");
     assert(pigTexture.good());
     Texture crateTexture;
-    crateTexture.init("crate.jpg");
+    crateTexture.init("res/textures/cartoonpig.jpeg");
     assert(crateTexture.good());
 
     pigTexture.activate(0);
     crateTexture.activate(1);
 
+
+
     vao.bind();
-    TimeManager::init();
+    TimeManager::get()->init();
     program.use();
+
+    glm::mat4 trans(1.f);
+    program.uniformMat4("model", trans);
+    program.uniformMat4("view", trans);
+    program.uniformMat4("proj", trans);
+
+    program.uniformInt("theTexture", 0);
+    glUniform1i(program.getUniformLoc("showTexture"), false);
+
+    program.uniformVec3("inColor", glm::vec3(1.0f,0.0f,0.0f));
     while (display.isOpen())
     {
-        TimeManager::update();
+        TimeManager::get()->update();
         processInput(display.getRaw());
 
         //draw square 1
 
-        glm::mat4 trans(1.f);
-        trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
-        trans = glm::rotate(trans, -2 * TimeManager::time(), glm::vec3(0.f, 0.f, 1.f));
-        trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 1.0f));
+        //trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+        //trans = glm::rotate(trans, -2 * TimeManager::get()->time(), glm::vec3(0.f, 0.f, 1.f));
+        //trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 1.0f));
 
 
         //bind texture
 
-        program.uniformInt("theTexture", 0);
-        program.uniformMat4("model", trans);
 
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -100,9 +109,9 @@ int main()
 
         //draw square 2
 
-        trans = glm::mat4(1.f);
+        /*trans = glm::mat4(1.f);
         trans = glm::translate(trans, glm::vec3(-0.5f, 0.5f, 0.0f));
-        trans = glm::rotate(trans,  TimeManager::time(), glm::vec3(0.f, 0.f, 1.f));
+        trans = glm::rotate(trans,  TimeManager::get()->time(), glm::vec3(0.f, 0.f, 1.f));
         trans = glm::scale(trans, glm::vec3(0.7f, 0.7f, 1.0f));
 
         //bind texture
@@ -111,7 +120,7 @@ int main()
         program.uniformMat4("model", trans);
 
 
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);*/
         
         display.swapBuffers();
 
