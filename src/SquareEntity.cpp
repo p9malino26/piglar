@@ -4,10 +4,10 @@
 
 #include "SquareEntity.h"
 
-float SquareEntity::getWidth() {
+float SquareEntity::getWidth() const {
     return m_sideLength;
 }
 
-float SquareEntity::getHeight() {
+float SquareEntity::getHeight() const {
     return m_sideLength;
 }

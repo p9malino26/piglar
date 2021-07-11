@@ -12,6 +12,7 @@
 #include "util/Random.h"
 #include "Pig.h"
 #include "Player.h"
+#include "Truck.h"
 #include "MechanicsConfig.h"
 
 Scene* Scene::instance;
@@ -22,10 +23,11 @@ inline BoardPos getRandomSpawnPos(int w, int h) {return BoardPos(Random::get()->
 
 Scene::Scene(const MechanicsConfig& mechanicsConfig, const TreeGenParams& genConfig)
     :roadMap(new MainTileMap(mechanicsConfig.tileMapSize, mechanicsConfig.tileMapSize)), roadMapGen(new Generator::RoadMapGen(roadMap.get(), genConfig)),
-    player(new Player(mechanicsConfig.playerSpeed))
+    player(new Player(mechanicsConfig.playerSpeed)), truck(new Truck)
 {
     roadMapGen->generate();
     player->setPos(getClosestPosWithRoad(*roadMap, getRandomSpawnPos(roadMap->getWidth(), roadMap->getHeight())));
+    truck->setPos (getClosestPosWithRoad(*roadMap, getRandomSpawnPos(roadMap->getWidth(), roadMap->getHeight()))); //TODO neaten
     Pig::init(mechanicsConfig.pigToPlayerSpeedRatio, mechanicsConfig.pigDetectionRange);
 
     std::vector<RealPos> pigPosns = spawnEvenly(roadMap->getWidth(), roadMap->getHeight(), mechanicsConfig.pigsCount);
@@ -37,6 +39,9 @@ Scene::Scene(const MechanicsConfig& mechanicsConfig, const TreeGenParams& genCon
 }
 
 RealPos getCollisionResolutionDelta(const TileMap& tileMap, Entity& entity, const RealPos& initialDelta);
+bool entitiesTouch(const Entity& e1, const Entity& e2);
+
+
 
 void Scene::update()
 {
@@ -48,12 +53,13 @@ void Scene::update()
         std::cout << "Mouse position: " << intMouseWorldPos << std::endl;
         std::cout << "closest pos with road: " << getClosestPosWithRoad(*roadMap, intMouseWorldPos) << std::endl;
 
-        if (Input::get()->getKeyStatus(GLFW_KEY_K) == GLFW_PRESS)
-            player->setPos(MouseManager::get()->getWorldMousePos());
-        //else
-        //    roadMap->toggleFieldState(intMouseWorldPos);
     }
 
+    if (Input::get()->getKeyStatus(GLFW_KEY_K) == GLFW_PRESS)
+        player->setPos(MouseManager::get()->getWorldMousePos());
+
+    if (Input::get()->getKeyStatus(GLFW_KEY_T) == GLFW_PRESS)
+        for (Pig& p: pigs) {p.setPos(player->getPos());};
     //move player
 
     glm::vec2 playerMoveDir(0.f, 0.f);
@@ -71,9 +77,22 @@ void Scene::update()
         player->changePos(getCollisionResolutionDelta(*roadMap, *player, initialDelta)); // TODO move to Player class
     }
 
-    for (Pig& pig: pigs) pig.update();
+    bool won = true;
+    for (Pig& pig: pigs)
+    {
+        pig.update();
+        won &= entitiesTouch(pig, *truck);
+    }
+
+    //if (won) m_won = true;
 
 }
+
+void Scene::updateGame() {
+
+}
+
+
 
 //RealPos getSpawnPoint()
 

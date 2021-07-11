@@ -14,6 +14,6 @@ class SquareEntity: public Entity{
 public:
     SquareEntity(const RealPos& startPos, float sideLength): Entity(startPos), m_sideLength(sideLength) {}
 
-    float getWidth() override;
-    float getHeight() override;
+    float getWidth() const override;
+    float getHeight() const override;
 };

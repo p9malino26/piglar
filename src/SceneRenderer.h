@@ -17,7 +17,5 @@ public:
      * renders the scene
      */
     void render ();
-private:
-    TexId pigTex;
-    TexId playerTex;
+
 };

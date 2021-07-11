@@ -45,8 +45,11 @@ void Input::update()
     glfwPollEvents();
 
     updateMousePos();
-    if (getMouseButtonEvent(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+    if (getMouseButtonEvent(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
         m_dragging = true;
+        mouseClicked = true;
+    }
+
     if (getMouseButtonEvent(GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
         m_dragging = false;
 }

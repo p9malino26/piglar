@@ -7,6 +7,7 @@
 class TileMap;
 class Player;
 class Pig;
+class Truck;
 
 namespace Generator { class RoadMapGen; class TreeGenParams;}
 using namespace Generator;
@@ -21,6 +22,7 @@ class Scene: public Singleton
 
     std::unique_ptr<TileMap> roadMap;
     std::unique_ptr<Player> player;
+    std::unique_ptr<Truck> truck;
     std::vector<Pig> pigs;
 
     std::unique_ptr<Generator::RoadMapGen> roadMapGen;
@@ -30,6 +32,7 @@ class Scene: public Singleton
     Scene(const MechanicsConfig &mechanicsConfig, const TreeGenParams &genConfig);
 public:
     void update();
+    void updateGame();
     inline const TileMap* getRoadMap() const { return roadMap.get(); }
     inline TileMap* getRoadMap() {return roadMap.get();}
     const RealPos& getPlayerPos();

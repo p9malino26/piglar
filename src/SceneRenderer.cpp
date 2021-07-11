@@ -11,12 +11,18 @@
 
 class Pig: public SquareEntity {};
 class Player: public SquareEntity {};
+class Truck: public Entity {};
+
+TexId pigTex;
+TexId playerTex;
+TexId truckTex;
 
 SceneRenderer::SceneRenderer(const Scene* scene)
     :scene(scene)
 {
     pigTex = Renderer::get()->initTexture("res/textures/cartoonpig.jpeg");
     playerTex = Renderer::get()->initTexture("res/textures/awesome-face.jpeg");
+    truckTex = Renderer::get()->initTexture("res/textures/truck.jpeg");
 }
 
 SceneRenderer::~SceneRenderer()
@@ -44,6 +50,10 @@ namespace  {
         }
     }
 
+    void drawEntity(Entity& entity) // TODO Entity constness
+    {
+        Renderer::get()->drawRectangle(entity.getPos(), entity.getDims());
+    }
 }
 
 void SceneRenderer::render ()
@@ -53,10 +63,13 @@ void SceneRenderer::render ()
     drawRoadMap(*(this->scene->getRoadMap()));
     auto& player = *scene->player;
     auto& pigs = const_cast<std::vector<Pig>&>(scene->pigs); //TODO this is an abomination!
+    Truck& truck = *scene->truck;
 
+    //draw player
     renderer.setFillTexture(playerTex);
     renderer.drawSquare(player.getPos(), player.getWidth());
 
+    //draw pigs
     auto drawPig = [&renderer, this] (SquareEntity& p)
     {
         renderer.drawSquare(p.getPos(), p.getWidth());
@@ -64,6 +77,11 @@ void SceneRenderer::render ()
 
     renderer.setFillTexture(pigTex);
     for (auto& pig: pigs) drawPig(pig);
+
+    //draw truck
+    renderer.setFillTexture(truckTex);
+    drawEntity(truck);
+
 }
 
 const RealPos& Scene::getPlayerPos() {

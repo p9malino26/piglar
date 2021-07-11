@@ -29,6 +29,7 @@ FILE(GLOB source_files
 "${source_dir}/Camera.cpp"
 "${source_dir}/CameraManager.cpp"
 "${source_dir}/MouseManager.cpp"
+"${source_dir}/entityUtil.cpp"
 "${source_dir}/SquareEntity.cpp"
 "${source_dir}/SquareEntity.h"
 "${source_dir}/collisionDetection.cpp"
