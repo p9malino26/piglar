@@ -42,12 +42,10 @@ class Renderer: public Singleton {
     ~Renderer();
 
 public:
-
-public:
     /**
      * Renders a square 
      */
-
+    void setWorldCoords(bool);
 
     TexId initTexture(const std::string& fname);
 

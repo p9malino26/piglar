@@ -41,18 +41,18 @@ Scene::Scene(const MechanicsConfig& mechanicsConfig, const TreeGenParams& genCon
 RealPos getCollisionResolutionDelta(const TileMap& tileMap, Entity& entity, const RealPos& initialDelta);
 bool entitiesTouch(const Entity& e1, const Entity& e2);
 
+void Scene::update() {
+    if (!m_won)
+        updateGame();
+}
 
-
-void Scene::update()
+void Scene::updateGame()
 {
     float deltaTime = TimeManager::get() ->deltaTime();
     //roadmap click
     if (Input::get()->mouseHasClicked()) {
         glm::vec2 mouseWorldPos = MouseManager::get()->getWorldMousePos();
         glm::vec2i intMouseWorldPos = glm::vec2i((int)mouseWorldPos.x, (int)mouseWorldPos.y);
-        std::cout << "Mouse position: " << intMouseWorldPos << std::endl;
-        std::cout << "closest pos with road: " << getClosestPosWithRoad(*roadMap, intMouseWorldPos) << std::endl;
-
     }
 
     if (Input::get()->getKeyStatus(GLFW_KEY_K) == GLFW_PRESS)
@@ -84,15 +84,9 @@ void Scene::update()
         won &= entitiesTouch(pig, *truck);
     }
 
-    //if (won) m_won = true;
+    if (won) m_won = true;
 
 }
-
-void Scene::updateGame() {
-
-}
-
-
 
 //RealPos getSpawnPoint()
 

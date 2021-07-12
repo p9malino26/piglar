@@ -24,6 +24,7 @@ const char* Renderer::fragmentShaderSource = "res/shaders/fragmentShader.glsl";
 
 void getLinesForRectangle(std::list<Line>& lineList, const PosRectangle& square);
 
+constexpr glm::mat4 ID4 = glm::mat4(1);
 
 Renderer::Renderer(Camera* camera, Display* display)
     :shader(new Shader(vertexShaderSource, fragmentShaderSource)), camera(camera), display(display), vao(new VertexArray())
@@ -55,8 +56,8 @@ Renderer::Renderer(Camera* camera, Display* display)
 
     shader->uniformInt("theTexture", TEXTURE_SLOT);
 
-    textures.reserve(4);
-
+    textures.reserve(16);
+    setWorldCoords(true);
 }
 
 //@todo sort out implementation
@@ -71,15 +72,12 @@ void Renderer::drawRectangleWithLines(const PosRectangle& rect, const glm::vec3&
     std::list<Line> rectLines;
     getLinesForRectangle(rectLines, rect);
     std::for_each(rectLines.begin(), rectLines.end(), [this] (const Line& l) {drawLine(l);});
-
-
 }
 
 
-void Renderer::drawLine(const Line &line)
+void Renderer::drawLine(const Line &line) //deprecated
 {
     //TODO this contains duplicated code and needs tidying
-    glm::vec3 color {0.871f,0.278f,0.886f};
 
     glm::mat4 modelMatrix(1.0f);
     //model matrix: scale for length, rotate and place
@@ -90,18 +88,8 @@ void Renderer::drawLine(const Line &line)
     //scale
     modelMatrix = glm::scale(modelMatrix, glm::vec3(line.length, line.length, 1.0f));
 
-    const auto& viewMatrix = camera->getViewMatrix();
-    const auto& projMatrix = display->getProjectionMatrix();
-
-    shader->use();
     shader->uniformMat4("model", modelMatrix);
-    shader->uniformMat4("view", viewMatrix);
-    shader->uniformMat4("proj", projMatrix);
 
-    shader->uniformVec3("uColor", color);
-
-
-    vao->bind();
     glDrawArrays(GL_LINES, 2, 2);
 
 }
@@ -119,15 +107,23 @@ void Renderer::drawRectangle(const glm::vec2& pos, const glm::vec2& dims)
     modelMatrix = glm::translate(modelMatrix, glm::vec3(pos, 0.0f));
     modelMatrix = glm::scale(modelMatrix, glm::vec3(dims.x, dims.y, 1.0f));
 
-    const auto& viewMatrix = camera->getViewMatrix();
-    const auto& projMatrix = display->getProjectionMatrix();
-
     shader->uniformMat4("model", modelMatrix);
-    shader->uniformMat4("view", viewMatrix);
-    shader->uniformMat4("proj", projMatrix);
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+}
 
+void Renderer::setWorldCoords(bool isWorld) {
+    if (isWorld) {
+        const auto& viewMatrix = camera->getViewMatrix();
+        const auto& projMatrix = display->getProjectionMatrix();
+
+        shader->uniformMat4("view", viewMatrix);
+        shader->uniformMat4("proj", projMatrix);
+
+    } else {
+        shader->uniformMat4("view", ID4);
+        shader->uniformMat4("proj", ID4);
+    }
 }
 
 TexId Renderer::initTexture(const std::string &fname)

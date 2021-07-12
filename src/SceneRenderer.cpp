@@ -16,6 +16,7 @@ class Truck: public Entity {};
 TexId pigTex;
 TexId playerTex;
 TexId truckTex;
+TexId winTex;
 
 SceneRenderer::SceneRenderer(const Scene* scene)
     :scene(scene)
@@ -23,6 +24,7 @@ SceneRenderer::SceneRenderer(const Scene* scene)
     pigTex = Renderer::get()->initTexture("res/textures/cartoonpig.jpeg");
     playerTex = Renderer::get()->initTexture("res/textures/awesome-face.jpeg");
     truckTex = Renderer::get()->initTexture("res/textures/truck.jpeg");
+    winTex = Renderer::get()->initTexture("res/textures/you-win.jpeg");
 }
 
 SceneRenderer::~SceneRenderer()
@@ -59,7 +61,7 @@ namespace  {
 void SceneRenderer::render ()
 {
     auto& renderer = *Renderer::get();
-
+    renderer.setWorldCoords(true);
     drawRoadMap(*(this->scene->getRoadMap()));
     auto& player = *scene->player;
     auto& pigs = const_cast<std::vector<Pig>&>(scene->pigs); //TODO this is an abomination!
@@ -81,6 +83,12 @@ void SceneRenderer::render ()
     //draw truck
     renderer.setFillTexture(truckTex);
     drawEntity(truck);
+
+    if (scene->isWon()) {
+        renderer.setWorldCoords(false);
+        renderer.setFillTexture(winTex);
+        renderer.drawSquare(RealPos(-0.5f, -0.5f), 1.f);
+    }
 
 }
 

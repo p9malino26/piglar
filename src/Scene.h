@@ -26,6 +26,8 @@ class Scene: public Singleton
     std::vector<Pig> pigs;
 
     std::unique_ptr<Generator::RoadMapGen> roadMapGen;
+
+    bool m_won = false;
     //inline SquarePlayer& getPlayer() {return *player; }
     //inline std::vector<SquarePlayer>& getPigs() {return static_cast<std::vector<SquarePlayer>&>(pigs);}
 
@@ -35,6 +37,7 @@ public:
     void updateGame();
     inline const TileMap* getRoadMap() const { return roadMap.get(); }
     inline TileMap* getRoadMap() {return roadMap.get();}
+    inline bool isWon() const {return m_won; }
     const RealPos& getPlayerPos();
 
     ~Scene();
