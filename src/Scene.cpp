@@ -35,6 +35,7 @@ Scene::Scene(const MechanicsConfig& mechanicsConfig, const TreeGenParams& genCon
     {
         pigs.emplace_back(getClosestPosWithRoad(*roadMap, pigPosns[i]));
     }
+    startTime = std::chrono::system_clock::now();
     //pigs.emplace_back(getClosestPosWithRoad(*roadMap, RealPos(2,2)));
 }
 
@@ -77,11 +78,13 @@ void Scene::updateGame()
         player->changePos(getCollisionResolutionDelta(*roadMap, *player, initialDelta)); // TODO move to Player class
     }
 
+    //check win
     bool won = true;
     for (Pig& pig: pigs)
     {
         pig.update();
         won &= entitiesTouch(pig, *truck);
+        endTime = std::chrono::system_clock::now();
     }
 
     if (won) m_won = true;

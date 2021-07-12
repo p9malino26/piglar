@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <vector>
+#include <chrono>
 #include "util/singleton.h"
 #include "vectors.h"
 
@@ -14,6 +15,7 @@ using namespace Generator;
 
 class MechanicsConfig;
 
+typedef decltype(std::chrono::system_clock::now()) TimePoint;
 
 class Scene: public Singleton
 {
@@ -28,6 +30,8 @@ class Scene: public Singleton
     std::unique_ptr<Generator::RoadMapGen> roadMapGen;
 
     bool m_won = false;
+    TimePoint startTime;
+    TimePoint endTime;
     //inline SquarePlayer& getPlayer() {return *player; }
     //inline std::vector<SquarePlayer>& getPigs() {return static_cast<std::vector<SquarePlayer>&>(pigs);}
 
@@ -39,6 +43,7 @@ public:
     inline TileMap* getRoadMap() {return roadMap.get();}
     inline bool isWon() const {return m_won; }
     const RealPos& getPlayerPos();
+    inline auto getTimeDuration() { return (endTime - startTime).count() / 1e9; }
 
     ~Scene();
 
