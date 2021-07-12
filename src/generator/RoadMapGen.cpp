@@ -42,8 +42,8 @@ namespace Generator {
 
         auto& treeGen = *this->treeGen;
 
-        auto& surroundingNeighbours = rpr->getNeighbouringSpaceInfo();
-        while (1)
+        NeighbouringInfo& surroundingNeighbours = rpr->getNeighbouringSpaceInfo();
+        for (;;)
         {
             //generate
             glm::vec2i dims = treeGen.generate();
@@ -65,22 +65,27 @@ namespace Generator {
                 auto& placePos = optPlacePos.value();
                 treeGen.writeTo(*roadMap, placePos, orientation);
 
-                auto connectToOther = [this] (CompassDirection direction, int limit, const Pos &startPos)
+                auto connectToOther = [this, &placePos] (CompassDirection direction, int limit)
                 {
+                    auto startPos = placePos;
                     if (limit == 0) return;
                     int offset = limit >> 1;
 
-                    CompassDirection posDirection = ((int)direction % 2) == 1 ? CompassDirection::NORTH : CompassDirection::EAST;
+                    if (direction != CompassDirection::SOUTH)
+                        startPos.y += offset;
 
-                    Pos start = startPos + directionVec(posDirection) * offset;
-                    fillLineUntilTouchingRoad(*roadMap, start, direction);
-                    fillLineUntilTouchingRoad(*roadMap, start - directionVec(direction), opposite(direction));
+                    if (direction == CompassDirection::WEST || direction == CompassDirection::SOUTH)
+                        startPos.x += offset;
+
+
+                    fillLineUntilTouchingRoad(*roadMap, startPos, direction);
+                    fillLineUntilTouchingRoad(*roadMap, startPos, opposite(direction));
 
                 };
 
-                connectToOther(CompassDirection::EAST, surroundingNeighbours.east, placePos);
-                connectToOther(CompassDirection::SOUTH, surroundingNeighbours.south, placePos);
-                connectToOther(CompassDirection::WEST, surroundingNeighbours.west, placePos + Pos(dims.x, 0));
+                connectToOther(CompassDirection::EAST, surroundingNeighbours.east);
+                connectToOther(CompassDirection::SOUTH, surroundingNeighbours.south);
+                connectToOther(CompassDirection::WEST, surroundingNeighbours.west);
 
 
             } else
@@ -96,12 +101,16 @@ namespace Generator {
 
     void fillLineUntilTouchingRoad(TileMap &roadMap, const Pos &start, CompassDirection direction) {
         auto pos = start;
-        decltype(pos) oldPos;
-        do {
+        for(;;) {
+            if (roadMap.isPositionOutside(pos)) break;
             roadMap.setFieldState(pos, true);
-            oldPos = pos;
             pos += directionVec(direction);
-        } while (!contactsRoads(roadMap, oldPos, direction) && !roadMap.isPositionOutside(pos));
+            if (contactsRoads(roadMap, pos, direction))
+            {
+                roadMap.setFieldState(pos, true);
+                break;
+            }
+        }
     }
 
 }

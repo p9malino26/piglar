@@ -36,7 +36,8 @@ std::optional<Pos> BottomUpRectPlacer::placeRectangle(const Rectangle &rect)
 {
     RectLinesInfo rectLines = getRectLines(rect);
 
-    while (true) {
+    for (;;)
+    {
         MinimumAreaInfo contactingLines = getMinimumAreaLines();
 
         auto& minimumLine = *contactingLines.minimumLine;
