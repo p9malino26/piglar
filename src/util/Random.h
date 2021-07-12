@@ -8,7 +8,7 @@
 
 class Random
 {
-    Random() {srand(3);}
+    Random(unsigned int seed) {srand(seed);}
 public:
 
 
@@ -42,7 +42,7 @@ public:
 
 
     SINGLETON(Random)
-    static void init() {
-        instance = new Random();
+    static void init(unsigned int seed) {
+        instance = new Random(seed);
     }
 };

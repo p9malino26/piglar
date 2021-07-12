@@ -1,3 +1,5 @@
+#include <ctime>
+
 #include "Game.h"
 #include "GameConfig.h"
 
@@ -10,13 +12,36 @@ void loadConfigFromFile(GameConfig& config, const std::string& fName);
 int main(int argc, char* argv[])
 {
     GameConfig config;
-    if (argc > 1) {
-        std::cout << "[INFO] Loading from config file " << argv[1] << std::endl;
-        loadConfigFromFile(config,argv[1]);
-    } else {
-        std::cout << "[INFO] No config file provided, using default settings." << std::endl;
 
+    int arg = 0;
+    unsigned int seed = 0;
+
+    bool isConfig = 0;
+
+    for(;arg < argc;++arg)
+    {
+        if (!strcmp(argv[arg], "--config")) {
+            loadConfigFromFile(config,argv[++arg]);
+            std::cout << "[INFO] Loading from config file " << argv[arg] << std::endl;
+            isConfig = true;
+        }
+        else if (!strcmp(argv[arg], "--seed"))
+        {
+            seed = std::stoi(argv[++arg]);
+        }
     }
-    Game game(config);
+
+    if (!isConfig)
+    {
+        std::cout << "[INFO] No config file provided, using default settings." << std::endl;
+    }
+
+    if (!seed)
+    {
+        seed = time(nullptr);
+        std::cout << "[INFO] No seed provided or seed of zero given, using random seed of: " << seed << std::endl;
+    }
+
+    Game game(config, seed);
     game.runMainLoop();
 }

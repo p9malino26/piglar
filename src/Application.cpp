@@ -15,7 +15,6 @@ Application::Application(const std::string& title, int windowWidth, int windowHe
 {
     Input::init(display.getRaw());
     TimeManager::init();
-    Random::init();
 }
 
 void Application::runMainLoop()
@@ -27,7 +26,6 @@ void Application::runMainLoop()
         processInput();
         processFrame();
         display.swapBuffers();
-
     }
 }
 
@@ -41,4 +39,3 @@ Application::~Application() {
     Input::del();
     TimeManager::del();
 }
-

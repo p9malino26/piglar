@@ -11,7 +11,7 @@
 
 #include "GameConfig.h"
 
-Game::Game(const GameConfig& config)
+Game::Game(const GameConfig& config, unsigned int seed)
     :Application("Piglar!!", 800, 600),
       camera(new Camera()),
       cameraManager(new CameraManager(camera.get(), *config.cameraConfig))
@@ -19,7 +19,7 @@ Game::Game(const GameConfig& config)
     Scene::init(*config.mechanicsConfig, *config.generatorConfig);
     Renderer::init(camera.get(), &display);
     sceneRenderer = std::make_unique<SceneRenderer>(Scene::get());
-    Random::init();
+    Random::init(seed);
     MouseManager::init(&display, camera.get());
 }
 

@@ -18,6 +18,6 @@ class Game: public Application
 
     void processFrame() override;
 public:
-    explicit Game(const GameConfig& config);
+    explicit Game(const GameConfig& config, unsigned int seed);
     ~Game();
 };
