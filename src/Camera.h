@@ -2,8 +2,9 @@
 #define CAMERA_H
 
 #include "GLMIncludes.h"
+#include "util/singleton.h"
 
-class Camera
+class Camera: public Singleton
 {
     float zoom; // how much you are actually scaling
     glm::vec2 position;
@@ -40,7 +41,7 @@ public:
 
     glm::mat4 getViewMatrix() const;
 
-
+SINGLETON(Camera)
 };
 
 #endif

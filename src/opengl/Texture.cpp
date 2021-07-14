@@ -58,16 +58,6 @@ void Texture::bind() const
 	glBindTexture(GL_TEXTURE_2D, m_rendererID);
 }
 
-/* void Texture::activate ( const std::string& name_in_shader, int slot, ShaderProg& shader) const
-{
-	glActiveTexture(GL_TEXTURE0 + slot);
-	bind();
-	int uniformLoc = shader.getUniformLoc(name_in_shader);
-	assert(uniformLoc != -1);
-	shader.use();
-	glUniform1i(uniformLoc, slot);
-}*/
-
 void Texture::activate(int slot) const
 {
 	glActiveTexture(GL_TEXTURE0 + slot);

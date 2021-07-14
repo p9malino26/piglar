@@ -30,21 +30,13 @@ class Renderer: public Singleton {
 
     std::vector<Texture> textures;
 
-    Camera* camera;
-    Display* display;
-
     static const char* vertexShaderSource;
     static const char* fragmentShaderSource;
     
-    //singleton
-
-    Renderer(Camera* camera, Display* display);
+public:
+    Renderer();
     ~Renderer();
 
-public:
-    /**
-     * Renders a square 
-     */
     void setWorldCoords(bool);
 
     TexId initTexture(const std::string& fname);
@@ -58,10 +50,6 @@ public:
     void drawRectangleWithLines(const PosRectangle& rect, const glm::vec3& rectColor, const glm::vec3& lineColor);
     void drawLine(const Line &line);
 
-
-
     //singleton
 SINGLETON(Renderer)
-    static void init(Camera* camera, Display* display);
-
 };

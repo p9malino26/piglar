@@ -35,8 +35,8 @@ class Scene: public Singleton
     //inline SquarePlayer& getPlayer() {return *player; }
     //inline std::vector<SquarePlayer>& getPigs() {return static_cast<std::vector<SquarePlayer>&>(pigs);}
 
-    Scene(const MechanicsConfig &mechanicsConfig, const TreeGenParams &genConfig);
 public:
+    Scene(const MechanicsConfig &mechanicsConfig, const TreeGenParams &genConfig);
     void update();
     void updateGame();
     inline const TileMap* getRoadMap() const { return roadMap.get(); }
@@ -50,5 +50,4 @@ public:
     friend class SceneRenderer;
 
 SINGLETON(Scene)
-    static void init(const MechanicsConfig &mechanicsConfig, const TreeGenParams &genConfig) {instance = new Scene(mechanicsConfig, genConfig);}
 };

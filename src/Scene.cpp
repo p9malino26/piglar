@@ -25,6 +25,7 @@ Scene::Scene(const MechanicsConfig& mechanicsConfig, const TreeGenParams& genCon
     :roadMap(new MainTileMap(mechanicsConfig.tileMapSize, mechanicsConfig.tileMapSize)), roadMapGen(new Generator::RoadMapGen(roadMap.get(), genConfig)),
     player(new Player(mechanicsConfig.playerSpeed)), truck(new Truck)
 {
+    instance = this;
     roadMapGen->generate();
     player->setPos(getClosestPosWithRoad(*roadMap, getRandomSpawnPos(roadMap->getWidth(), roadMap->getHeight())));
     truck->setPos (getClosestPosWithRoad(*roadMap, getRandomSpawnPos(roadMap->getWidth(), roadMap->getHeight()))); //TODO neaten

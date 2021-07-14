@@ -3,13 +3,12 @@
 
 #include "Camera.h"
 
-#include "Input.h"
-#include "TimeManager.h"
+Camera* Camera::instance;
 
 Camera::Camera()
     :position(0.0f, 0.0f), zoom(1.0f)
 {
-
+    instance = this;
 }
 
 Camera::Camera(const glm::vec2& position, float zoom)

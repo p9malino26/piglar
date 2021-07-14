@@ -6,21 +6,20 @@
 
 MouseManager* MouseManager::instance;
 
-MouseManager::MouseManager(Display* display, Camera* camera)
-    :display(display), camera(camera)
+static Display* display;
+static Camera* camera;
+
+MouseManager::MouseManager()
 {
     instance = this;
+    display = Display::get();
+    camera = Camera::get();
 }
 
 
 glm::vec2 MouseManager::getWorldMousePos()
 {
     return mouseToWorld(Input::get()->getMousePos());
-}
-
-
-void MouseManager::init(Display * display, Camera * camera) {
-    instance = new MouseManager(display, camera);
 }
 
 void MouseManager::update() {

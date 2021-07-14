@@ -13,26 +13,25 @@
 
 Game::Game(const GameConfig& config, unsigned int seed)
     :Application("Piglar!!", 800, 600),
+    mouseManager(new MouseManager()),
       camera(new Camera()),
-      cameraManager(new CameraManager(camera.get(), *config.cameraConfig))
+      cameraManager(new CameraManager(camera.get(), *config.cameraConfig)),
+    scene( new Scene(*config.mechanicsConfig, *config.generatorConfig)),
+    renderer(new Renderer())
 {
-    Scene::init(*config.mechanicsConfig, *config.generatorConfig);
-    Renderer::init(camera.get(), &display);
-    sceneRenderer = std::make_unique<SceneRenderer>(Scene::get());
+    sceneRenderer = std::make_unique<SceneRenderer>(scene.get());
     Random::init(seed);
-    MouseManager::init(&display, camera.get());
 }
 
 void Game::processFrame()
 {
     static bool justWon = false;
     cameraManager->update();
-    Scene *pScene = Scene::get();
-    pScene->update();
+    scene->update();
 
-    if (pScene->isWon() && !justWon)
+    if (scene->isWon() && !justWon)
     {
-        std::cout << "Time: " << pScene->getTimeDuration() << "s.\n";
+        std::cout << "Time: " << scene->getTimeDuration() << "s.\n";
         justWon = true;
     }
     
@@ -43,8 +42,5 @@ void Game::processFrame()
 
 Game::~Game()
 {
-    Scene::del();
-    Renderer::del();
     Random::del();
-    MouseManager::del();
 }

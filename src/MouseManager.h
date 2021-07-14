@@ -10,14 +10,11 @@ class Camera;
 class MouseManager: public Singleton
 {
 public:
+    MouseManager(); // TODO refactor singleton
     glm::vec2 getWorldMousePos();
 
     void update();
     RealPos mouseToWorld(RealPos mouseVec);
 SINGLETON(MouseManager)
     static void init(Display*, Camera*);
-private:
-    MouseManager(Display*, Camera*); // TODO refactor singleton
-    Display* display;
-    Camera* camera;
 };

@@ -1,11 +1,8 @@
 #pragma once
 #include <vector>
-#include "TexId.h"
 
 class Scene;
-class Renderer;
 
-class PosRectangle;
 class SceneRenderer
 {
     const Scene* scene;

@@ -1,10 +1,12 @@
 #include <glad/glad.h>
 #include "Display.h"
 
+Display* Display::instance;
 
 Display::Display(const std::string& title, int width, int height, int contextVersionMajor, int contextVersionMinor)
     :m_width(width), m_height(height), m_title(title), m_good(true) // set the good flag to on
 {
+    instance = this;
     try
     {
         //glClearError();

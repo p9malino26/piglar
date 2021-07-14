@@ -1,14 +1,13 @@
 #pragma once
 
 #include <GLFW/glfw3.h>
-
-#include "../GLMIncludes.h"
-
 #include <iostream>
 #include <string>
 
+#include "../GLMIncludes.h"
+#include "../util/singleton.h"
 
-class Display
+class Display: public Singleton
 {
 public:
     Display( const std::string& title, int width = 800, int height = 600, int contextVersionMajor = 3, int contextVersionMinor = 2);
@@ -31,6 +30,7 @@ public:
     inline GLFWwindow* getRaw() const {return m_window; }
     inline bool good() const {return m_good; }
 
+SINGLETON(Display)
 
 private:
     int m_width, m_height;

@@ -22,13 +22,20 @@ Renderer* Renderer::instance;
 const char* Renderer::vertexShaderSource   = "res/shaders/vertexShader.glsl";
 const char* Renderer::fragmentShaderSource = "res/shaders/fragmentShader.glsl";
 
+static Camera* camera;
+static Display* display;
+
 void getLinesForRectangle(std::list<Line>& lineList, const PosRectangle& square);
 
 constexpr glm::mat4 ID4 = glm::mat4(1);
 
-Renderer::Renderer(Camera* camera, Display* display)
-    :shader(new Shader(vertexShaderSource, fragmentShaderSource)), camera(camera), display(display), vao(new VertexArray())
+Renderer::Renderer()
+    :shader(new Shader(vertexShaderSource, fragmentShaderSource)), vao(new VertexArray())
 {
+    camera = Camera::get();
+    display = Display::get();
+
+    instance = this;
     float vertices[] = {
         // positions
          1.0f,  1.0f,  // top right
@@ -94,9 +101,6 @@ void Renderer::drawLine(const Line &line) //deprecated
 
 }
 
-void Renderer::init(Camera *camera, Display *display) {
-    instance = new Renderer(camera, display);
-}
 
 Renderer::~Renderer() {
 }

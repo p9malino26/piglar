@@ -8,7 +8,7 @@
 
 class Random
 {
-    Random(unsigned int seed) {srand(seed);}
+    explicit Random(unsigned int seed) {srand(seed);}
 public:
 
 
