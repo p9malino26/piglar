@@ -9,11 +9,12 @@ class CameraManager
 {
     enum CameraMode {FOLLOW_PLAYER, DETACHED};
 
-    const CameraConfig* config;
-    Camera* camera;
-    CameraMode cameraMode = FOLLOW_PLAYER;
+    const CameraConfig* m_config;
+    Camera* m_camera;
+    CameraMode m_mode = FOLLOW_PLAYER;
 
 public:
     CameraManager(Camera*, const CameraConfig& config);
     void update();
+    void setMode(CameraMode mode);
 };

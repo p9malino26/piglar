@@ -15,8 +15,9 @@
 static std::map<std::string, std::string>* data;
 
 
-#define stdConv(name, f, T) T name(const std::string& x) {return f(x);}
+#define stdConv(name, f, T) static T name(const std::string& x) {return f(x);}
 stdConv(toInt, std::stoi, int)
+stdConv(toBool, std::stoi, bool)
 stdConv(toFloat, std::stof, float)
 
 template <typename T>
@@ -63,6 +64,7 @@ static void parseCamera(CameraConfig& config)
     parse(config.zoomSpeed, "zoom_speed", toFloat);
     parse(config.moveSpeed, "move_speed", toFloat);
     parse(config.initialZoom, "initial_zoom", toFloat);
+    parse(config.allowDetachCamera, "allow_detach_camera", toBool);
 }
 
 void loadConfigFromFile(GameConfig& config, const std::string& fName)

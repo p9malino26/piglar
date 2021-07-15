@@ -22,11 +22,13 @@ Game::Game(const GameConfig& config, unsigned int seed)
     scene( new Scene(*config.mechanicsConfig, *config.generatorConfig)),
     renderer(new Renderer())
 {
-    sceneRenderer = std::make_unique<SceneRenderer>(scene.get());
     Random::init(seed);
 
+    camera->setPosition(scene->getPlayerPos());
+    sceneRenderer = std::make_unique<SceneRenderer>(scene.get());
+
     std::shared_ptr<GLFont> glFont;
-    glFont = std::make_shared<GLFont>("/home/patryk/dev/piglar/res/fonts/13_5Atom_Sans_Regular.ttf");
+    glFont = std::make_shared<GLFont>("res/fonts/13_5Atom_Sans_Regular.ttf");
     winLabel = std::make_unique<FTLabel>(glFont,  Display::get()->width(), Display::get()->height(), "res/shaders");
     const int FONT_SIZE = 48;
     winLabel->setPixelSize(FONT_SIZE);
