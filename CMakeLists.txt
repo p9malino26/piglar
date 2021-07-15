@@ -11,6 +11,12 @@ INCLUDE_DIRECTORIES(
 "${vendor_dir}/glad/include"
 "${vendor_dir}/stb_image"
 "${vendor_dir}/inipp"
+"${vendor_dir}/GLFont/"
+"/home/patryk/programs/freetype-2.9.1/include/"
+)
+
+LINK_DIRECTORIES(
+        "$HOME/programs/freetype-2.9.1/build"
 )
 
 FILE(GLOB source_files
@@ -56,17 +62,23 @@ FILE(GLOB source_files
 "${source_dir}/opengl/VertexArray.cpp"
 "${source_dir}/opengl/Shader.cpp"
 "${source_dir}/opengl/Texture.cpp"
-
-
-"${vendor_dir}/glad/src/glad.c"
-"${vendor_dir}/stb_image/stb_image/stb_image.cpp"
 )
+
+FILE(GLOB vendor_files
+
+        "${vendor_dir}/glad/src/glad.c"
+        "${vendor_dir}/stb_image/stb_image/stb_image.cpp"
+        "${vendor_dir}/GLFont/GLFont/GLFont.cpp"
+        "${vendor_dir}/GLFont/GLFont/GLUtils.cpp"
+        "${vendor_dir}/GLFont/GLFont/FTLabel.cpp"
+        "${vendor_dir}/GLFont/GLFont/FontAtlas.cpp"
+        )
 
 FILE(GLOB test_files
     "${source_dir}/test/spawnEvenly.cpp"
     "${source_dir}/util/spawnEvenly.cpp"
 )
 
-LINK_LIBRARIES(-lglfw -lGL -lpthread -lX11 -lXrandr -lXi -ldl)
+LINK_LIBRARIES(-lglfw -lGL -lpthread -lX11 -lXrandr -lXi -ldl -lfreetype)
 
-ADD_EXECUTABLE(piglar ${source_files})
+ADD_EXECUTABLE(piglar ${source_files} ${vendor_files})

@@ -59,7 +59,7 @@ Renderer::Renderer()
     vao->specifyVertexAttributes(offsets, 1);
     ebo->bind();
 
-    shader->use();
+
 
     shader->uniformInt("theTexture", TEXTURE_SLOT);
 
@@ -147,6 +147,11 @@ void Renderer::setFillColor(const Color &color)
 {
     shader->uniformVec3("inColor", color);
     shader->uniformInt("showTexture", false);
+}
+
+void Renderer::activate() {
+    vao->bind();
+    shader->use();
 }
 
 

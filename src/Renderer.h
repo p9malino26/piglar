@@ -37,6 +37,8 @@ public:
     Renderer();
     ~Renderer();
 
+    void activate();
+
     void setWorldCoords(bool);
 
     TexId initTexture(const std::string& fname);

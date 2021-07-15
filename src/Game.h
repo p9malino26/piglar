@@ -10,6 +10,7 @@ class SceneRenderer;
 class GameConfig;
 class Scene;
 class Renderer;
+class FTLabel;
 
 class Game: public Application
 {
@@ -21,6 +22,8 @@ class Game: public Application
     std::unique_ptr<SceneRenderer> sceneRenderer;
 
     std::unique_ptr<MouseManager> mouseManager;
+
+    std::unique_ptr<FTLabel> winLabel;
 
     void processFrame() override;
 public:

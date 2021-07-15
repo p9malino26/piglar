@@ -1,13 +1,7 @@
-#ifndef TEXTURE_H
-#define TEXTURE_H
-
-
-#include <glad/glad.h>
+#pragma once
 #include <iostream>
 
 #include <string>
-
-
 
 class Texture
 {
@@ -30,5 +24,3 @@ private:
 	
     bool m_good;
 };
-
-#endif // TEXTURE_H

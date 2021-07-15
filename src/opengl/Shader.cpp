@@ -1,3 +1,4 @@
+#include <glad/glad.h>
 #include "Shader.h"
 
 enum class UnitType

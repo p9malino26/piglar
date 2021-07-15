@@ -61,6 +61,7 @@ namespace  {
 void SceneRenderer::render ()
 {
     auto& renderer = *Renderer::get();
+    renderer.activate();
     renderer.setWorldCoords(true);
     drawRoadMap(*(this->scene->getRoadMap()));
     auto& player = *scene->player;
