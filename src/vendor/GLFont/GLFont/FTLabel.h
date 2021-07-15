@@ -55,8 +55,8 @@ public:
     void scale(float x, float y, float z);
 
     // Setters
-    void setText(char* text);
-    void setText(string text);
+    void setText(const char* text);
+    void setText(const string& text);
     void setPosition(float x, float y);
     void setSize(int width, int height);
     void setFont(shared_ptr<GLFont> ftFace);
@@ -116,7 +116,7 @@ private:
     int _uniformTextColorHandle;
     int _uniformMVPHandle;
 
-    char* _text;
+    const char* _text;
 
     vector<Point> _coords;
 
