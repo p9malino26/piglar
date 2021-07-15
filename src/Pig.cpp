@@ -18,10 +18,12 @@ Pig::Pig(const RealPos &startPos)
 void Pig::update()
 {
     auto pig2player = Player::get()->getPos() - this->getPos();
-    float distance = glm::length(pig2player);
-    if (distance > detectionRange || distance < m_minPlayerDistance) return;
+    float playerDistance = glm::length(pig2player);
+    if (playerDistance > detectionRange || playerDistance < m_minPlayerDistance) return;
     auto pig2playerU = glm::normalize(pig2player);
-    auto pigMove = getCollisionResolutionDelta(*MainTileMap::get(), *this, pig2playerU * speed * TimeManager::get()->deltaTime());
+    RealPos moveDistance = pig2playerU * speed * TimeManager::get()->deltaTime();
+    auto pigMove = getCollisionResolutionDelta(*MainTileMap::get(), *this, moveDistance);
+    //pigMove = glm::normalize(pigMove) * moveDistance;
     changePos(pigMove);
 }
 
