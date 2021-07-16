@@ -41,6 +41,8 @@ FILE(GLOB source_files
 "${source_dir}/collisionDetection.cpp"
 "${source_dir}/Pig.cpp"
 "${source_dir}/Player.cpp"
+"${source_dir}/TextManager.cpp"
+"${source_dir}/util/timeUtil.cpp"
 
 "${source_dir}/generator/bottomuprectplacer.cpp"
 "${source_dir}/generator/TreeGenerator.cpp"

@@ -2,6 +2,7 @@
 #include <memory>
 #include <vector>
 #include <chrono>
+#include <set>
 #include "util/singleton.h"
 #include "vectors.h"
 
@@ -21,6 +22,7 @@ class Scene: public Singleton
 {
     friend class SceneRenderer;
 
+    int pigCount;
 
     std::unique_ptr<TileMap> roadMap;
     std::unique_ptr<Player> player;
@@ -32,6 +34,8 @@ class Scene: public Singleton
     bool m_won = false;
     TimePoint startTime;
     TimePoint endTime;
+
+    std::set<void*> caughtPigs;
     //inline SquarePlayer& getPlayer() {return *player; }
     //inline std::vector<SquarePlayer>& getPigs() {return static_cast<std::vector<SquarePlayer>&>(pigs);}
 
@@ -42,11 +46,11 @@ public:
     inline const TileMap* getRoadMap() const { return roadMap.get(); }
     inline TileMap* getRoadMap() {return roadMap.get();}
     inline bool isWon() const {return m_won; }
+    inline int getPigsCount() {return pigCount; }
+    inline int getPigsCaughtCount() { return caughtPigs.size();}
     const RealPos& getPlayerPos();
-    inline auto getTimeDuration() { return (endTime - startTime).count() / 1e9; }
-
+    inline std::chrono::system_clock::duration getTimeDuration() { return endTime - startTime; }
     ~Scene();
-
     friend class SceneRenderer;
 
 SINGLETON(Scene)

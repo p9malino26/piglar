@@ -1,8 +1,6 @@
 priority 1:
 
-load options from file
-text labels
-refactor to conform to design pattern
+road aesthetics
 
 priority 2:
 better terrain

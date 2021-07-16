@@ -23,7 +23,7 @@ inline BoardPos getRandomSpawnPos(int w, int h) {return BoardPos(Random::get()->
 
 Scene::Scene(const MechanicsConfig& mechanicsConfig, const TreeGenParams& genConfig)
     :roadMap(new MainTileMap(mechanicsConfig.tileMapSize, mechanicsConfig.tileMapSize)), roadMapGen(new Generator::RoadMapGen(roadMap.get(), genConfig)),
-    player(new Player(mechanicsConfig.playerSpeed)), truck(new Truck)
+    player(new Player(mechanicsConfig.playerSpeed)), truck(new Truck), pigCount(mechanicsConfig.pigsCount)
 {
     instance = this;
     roadMapGen->generate();
@@ -32,7 +32,8 @@ Scene::Scene(const MechanicsConfig& mechanicsConfig, const TreeGenParams& genCon
     Pig::init(mechanicsConfig.pigToPlayerSpeedRatio, mechanicsConfig.pigDetectionRange);
 
     std::vector<RealPos> pigPosns = spawnEvenly(roadMap->getWidth(), roadMap->getHeight(), mechanicsConfig.pigsCount);
-    RANGE_FOR(i, 0, mechanicsConfig.pigsCount)
+    pigs.reserve(pigCount);
+    RANGE_FOR(i, 0, pigCount)
     {
         pigs.emplace_back(getClosestPosWithRoad(*roadMap, pigPosns[i]));
     }
@@ -85,6 +86,10 @@ void Scene::updateGame()
     {
         pig.update();
         won &= entitiesTouch(pig, *truck);
+        if (entitiesTouch(pig, *player))
+        {
+            caughtPigs.insert(&pig);
+        }
         endTime = std::chrono::system_clock::now();
     }
 
