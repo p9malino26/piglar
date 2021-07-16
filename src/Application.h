@@ -1,8 +1,9 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
+#include <memory>
 
-#include "opengl/Display.h"
+class Display;
 
 class Application
 {
@@ -11,7 +12,7 @@ public:
     ~Application();
     void runMainLoop();
 protected:
-    Display display;
+    std::unique_ptr<Display> display;
 
     virtual void processFrame() = 0;
 private:

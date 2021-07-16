@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 #include "Game.h"
 
+#include "opengl/Display.h"
 #include "TileMap.h"
 #include "Camera.h"
 #include "CameraManager.h"
