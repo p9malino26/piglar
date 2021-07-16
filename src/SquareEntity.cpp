@@ -3,6 +3,7 @@
 //
 
 #include "SquareEntity.h"
+#include "MainTileMap.h"
 
 float SquareEntity::getWidth() const {
     return m_sideLength;
@@ -10,4 +11,11 @@ float SquareEntity::getWidth() const {
 
 float SquareEntity::getHeight() const {
     return m_sideLength;
+}
+
+void SquareEntity::move(const RealPos& delta) {
+    auto finalDelta = getCollisionResolutionDelta(*MainTileMap::get(), *this, delta);
+    //pigMove = glm::normalize(pigMove) * moveDistance;
+    changePos(finalDelta);
+
 }

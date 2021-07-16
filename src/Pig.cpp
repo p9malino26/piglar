@@ -22,9 +22,7 @@ void Pig::update()
     if (playerDistance > detectionRange || playerDistance < m_minPlayerDistance) return;
     auto pig2playerU = glm::normalize(pig2player);
     RealPos moveDistance = pig2playerU * speed * TimeManager::get()->deltaTime();
-    auto pigMove = getCollisionResolutionDelta(*MainTileMap::get(), *this, moveDistance);
-    //pigMove = glm::normalize(pigMove) * moveDistance;
-    changePos(pigMove);
+    move(moveDistance);
 }
 
 void Pig::init(float playerSpeedRatio, float detectionRange)

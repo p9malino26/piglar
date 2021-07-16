@@ -76,8 +76,7 @@ void Scene::updateGame()
         playerMoveDir += WEST_VEC;
 
     if (playerMoveDir != RealPos(0.f,0.f)) {
-        auto initialDelta = playerMoveDir * deltaTime * player->getSpeed();
-        player->changePos(getCollisionResolutionDelta(*roadMap, *player, initialDelta)); // TODO move to Player class
+        player->move(playerMoveDir * deltaTime * player->getSpeed());
     }
 
     //check win

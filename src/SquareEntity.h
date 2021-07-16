@@ -16,4 +16,6 @@ public:
 
     float getWidth() const override;
     float getHeight() const override;
+
+    void move(const RealPos& delta);
 };
