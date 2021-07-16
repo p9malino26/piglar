@@ -60,6 +60,7 @@ public:
     void setPosition(float x, float y);
     void setSize(int width, int height);
     void setFont(shared_ptr<GLFont> ftFace);
+    void setColor(const glm::vec4& color); // RGBA values are 0 - 1.0
     void setColor(float r, float b, float g, float a); // RGBA values are 0 - 1.0
     void setAlignment(FontFlags alignment);
     void setPixelSize(int size);

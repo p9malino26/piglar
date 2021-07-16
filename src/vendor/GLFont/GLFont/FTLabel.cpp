@@ -399,7 +399,11 @@ int FTLabel::getIndentation() {
 }
 
 void FTLabel::setColor(float r, float b, float g, float a) {
-    _textColor = glm::vec4(r, b, g, a);
+    setColor(glm::vec4(r,g,b,a));
+}
+
+void FTLabel::setColor(const glm::vec4& color) {
+    _textColor = color;
 
     // Update the textColor uniform
     if(_programId != -1) {
@@ -407,7 +411,9 @@ void FTLabel::setColor(float r, float b, float g, float a) {
         glUniform4fv(_uniformTextColorHandle, 1, glm::value_ptr(_textColor));
         glUseProgram(0);
     }
+
 }
+
 
 glm::vec4 FTLabel::getColor() {
     return _textColor;
