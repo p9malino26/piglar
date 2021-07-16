@@ -1,11 +1,12 @@
 #pragma once
 
 #include "Application.h"
-#include "MouseManager.h"
 
 #include <memory>
 
+class Camera;
 class CameraManager;
+class MouseManager;
 class SceneRenderer;
 class GameConfig;
 class Scene;
