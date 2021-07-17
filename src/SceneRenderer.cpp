@@ -46,7 +46,7 @@ namespace  {
             {
                 //set color white by default
                 auto coord = glm::vec2i(x, y);
-                auto state = roadmap.getFieldState( coord);
+                auto state = roadmap.getTileState(coord);
 
                 if (state == NO_ROAD)
                     renderer.setFillColor(NO_ROAD_COLOR);

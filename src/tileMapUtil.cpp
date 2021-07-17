@@ -11,7 +11,7 @@ bool isOnRoad(const TileMap& tileMap, const RealPos& pos)
 {
     BoardPos intpos = realToTile(pos);
     if (tileMap.isPositionOutside(intpos)) return false;
-    return tileMap.getFieldState(intpos);
+    return tileMap.getTileState(intpos);
 }
 
 inline BoardPos realToTile(const RealPos& pos)
@@ -26,7 +26,7 @@ BoardPos clampToNearestTile(const RealPos& pos)
 
 BoardPos getClosestPosWithRoad(const TileMap& tileMap, const BoardPos& pos)
 {
-    if (tileMap.getFieldState(pos)) return pos;
+    if (tileMap.getTileState(pos)) return pos;
 
     const BoardPos* directions = &NORTH_VEC;
     BoardPos checkDirections[] = {NORTH_VEC, EAST_VEC, SOUTH_VEC, WEST_VEC};
@@ -43,7 +43,7 @@ BoardPos getClosestPosWithRoad(const TileMap& tileMap, const BoardPos& pos)
             if (!tileMap.isPositionOutside(d))
             {
                 canGoFurther = true;
-                if (tileMap.getFieldState(d)) return d;
+                if (tileMap.getTileState(d)) return d;
                 d += directions[i];
             }
         }
@@ -55,7 +55,7 @@ bool contactsRoads(const TileMap& roadMap, const BoardPos& pos, CompassDirection
     auto getFieldStateNoThrow = [&roadMap] (const BoardPos& pos) {
         if (roadMap.isPositionOutside(pos)) return false;
 
-        return (bool)roadMap.getFieldState(pos);
+        return (bool) roadMap.getTileState(pos);
     };
 
     return getFieldStateNoThrow(pos + directionVec(compassDirFromRelative(direction, RelativeDirection::LEFT))) ||
@@ -64,16 +64,27 @@ bool contactsRoads(const TileMap& roadMap, const BoardPos& pos, CompassDirection
 
 }
 
+void setLine(TileMap& tileMap, const glm::vec2i& startPos, CompassDirection direction, int length)
+{
+    glm::vec2i theDirectionVec = directionVec(direction);
+    glm::vec2i varPos = startPos;
+    TileState state = compassToRoadOrientation(direction);
+    for (int i = 0; i < length; i++, varPos+=theDirectionVec)
+    {
+        tileMap.setTileState(varPos, state);
+    }
+}
+
 void fillLineUntilTouchingRoad(TileMap &roadMap, const BoardPos& start, CompassDirection direction) {
     auto pos = start;
-    CellType roadState = compassToRoadOrientation(direction);
+    TileState roadState = compassToRoadOrientation(direction);
     for(;;) {
         if (roadMap.isPositionOutside(pos)) break;
-        roadMap.setFieldState(pos, roadState);
+        roadMap.setTileState(pos, roadState);
         pos += directionVec(direction);
         if (contactsRoads(roadMap, pos, direction))
         {
-            roadMap.setFieldState(pos, roadState);
+            roadMap.setTileState(pos, roadState);
             break;
         }
     }

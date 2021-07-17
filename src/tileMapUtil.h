@@ -11,4 +11,5 @@ inline BoardPos realToTile(const RealPos& pos);
 BoardPos clampToNearestTile(const RealPos& pos);
 BoardPos getClosestPosWithRoad(const TileMap& tileMap, const BoardPos& pos);
 void fillLineUntilTouchingRoad(TileMap &roadMap, const BoardPos& start, CompassDirection direction);
-inline CellType compassToRoadOrientation(CompassDirection compassDirection) { return CellType(1 + ((int)compassDirection + 1) % 2); }
+void setLine(TileMap& tileMap, const glm::vec2i& startPos, CompassDirection direction, int length);
+inline TileState compassToRoadOrientation(CompassDirection compassDirection) { return TileState(1 + ((int)compassDirection + 1) % 2); }

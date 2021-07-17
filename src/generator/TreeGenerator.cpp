@@ -4,6 +4,7 @@
 #include "treeGenData.h"
 #include "TreeGenerator.h"
 #include "TreeGenParams.h"
+#include "../tileMapUtil.h"
 
 #define CONSTANT(EXPR) \
 static constexpr EXPR;
@@ -23,14 +24,14 @@ namespace Generator {
 
 
         //for initial line:
-        roadmap.setLine(startpos, CompassDirection::NORTH, mainRoadLength, VERTICAL);
+        setLine(roadmap, startpos, CompassDirection::NORTH, mainRoadLength);
 
         auto genBranch = [&roadmap, &params](bool direction, const glm::vec2i& pos) -> int{
 
             int linelength = Random::get()->randInt(params.branchRoadLengthRange.first, params.branchRoadLengthRange.second); // branch length
             auto startPos = pos;
             startPos.x += direction ? 1 : -1;
-            roadmap.setLine(startPos, direction ? CompassDirection::EAST : CompassDirection::WEST, linelength, HORIZONTAL);
+            setLine(roadmap, startPos, direction ? CompassDirection::EAST : CompassDirection::WEST, linelength);
             return linelength;
 
         };
@@ -122,11 +123,11 @@ namespace Generator {
                 glm::vec2i& bufferPos = tmp.first;
                 glm::vec2i& globalPos = tmp.second;
 
-                auto srcState = treeData->getFieldState(bufferPos);
+                auto srcState = treeData->getTileState(bufferPos);
                 auto destState = srcState;
                 if (destState != NO_ROAD)
-                    destState = CellType(flip ? 3 - srcState : srcState);
-                roadMap.setFieldState(globalPos, destState);
+                    destState = TileState(flip ? 3 - srcState : srcState);
+                roadMap.setTileState(globalPos, destState);
             }
         }
         treeData->clear();

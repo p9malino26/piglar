@@ -14,7 +14,7 @@
 
 //all rendering function deprecated
 
-enum CellType {NO_ROAD=0, HORIZONTAL=1, VERTICAL=2};
+enum TileState {NO_ROAD=0, HORIZONTAL=1, VERTICAL=2};
 
 class TileMap
 {
@@ -35,26 +35,24 @@ public:
                 coord.x < 0 || coord.y < 0;
     }
     
-    inline void setFieldState(const glm::vec2i& coord, CellType state)
+    inline void setTileState(const glm::vec2i& coord, TileState state)
     {
         data[getIndexFromCoord(coord)] = state;
     }
 
-    inline CellType getFieldState(const glm::vec2i& coord) const //TODO rename to boardpos
+    inline TileState getTileState(const glm::vec2i& coord) const //TODO rename to boardpos
     {
         return data[getIndexFromCoord(coord)];
     }
 
-    void setLine(const glm::vec2i& startPos, CompassDirection direction, int length, CellType state);
-
-    inline void clear() {std::memset(data, NO_ROAD, sizeof(CellType) * width * height);}
+    inline void clear() {std::memset(data, NO_ROAD, sizeof(TileState) * width * height);}
 
 private:
 	int width;
 	int height;
 
 
-    CellType* data;
+    TileState* data;
 
 
     inline void ensurePositionIsInside(const glm::vec2i& coord) const
