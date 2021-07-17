@@ -14,8 +14,7 @@ float SquareEntity::getHeight() const {
 }
 
 void SquareEntity::move(const RealPos& delta) {
+    RealPos clampedDelta(std::clamp(delta.x, 0.f, getWidth() / 2), std::clamp(delta.y, 0.f, getHeight() / 2));
     auto finalDelta = getCollisionResolutionDelta(*MainTileMap::get(), *this, delta);
-    //pigMove = glm::normalize(pigMove) * moveDistance;
     changePos(finalDelta);
-
 }
