@@ -6,6 +6,7 @@
 #include "TreeGenerator.h"
 
 #include "../TileMap.h"
+#include "../tileMapUtil.h"
 
 #include "bottomuprectplacer.h"
 
@@ -14,23 +15,8 @@
 
 //prototypes
 
-bool contactsRoads(const TileMap& roadMap, const Pos& pos, CompassDirection direction) {
-    auto getFieldStateNoThrow = [&roadMap] (const Pos& pos) {
-        if (roadMap.isPositionOutside(pos)) return false;
-
-        return roadMap.getFieldState(pos);
-    };
-
-    return getFieldStateNoThrow(pos + directionVec(compassDirFromRelative(direction, RelativeDirection::LEFT))) ||
-           getFieldStateNoThrow(pos + directionVec(compassDirFromRelative(direction, RelativeDirection::RIGHT))) ||
-           getFieldStateNoThrow(pos + directionVec(direction));
-
-}
 
 namespace Generator {
-
-    void fillLineUntilTouchingRoad(TileMap& roadMap, const Pos& start, CompassDirection direction);
-
 
     RoadMapGen::RoadMapGen(TileMap* roadMap, const TreeGenParams& params)
         :roadMap(roadMap), rpr(new BottomUpRectPlacer(roadMap->getWidth(), roadMap->getHeight())), treeGen(new TreeGenerator(params))
@@ -99,18 +85,6 @@ namespace Generator {
     {
     }
 
-    void fillLineUntilTouchingRoad(TileMap &roadMap, const Pos &start, CompassDirection direction) {
-        auto pos = start;
-        for(;;) {
-            if (roadMap.isPositionOutside(pos)) break;
-            roadMap.setFieldState(pos, true);
-            pos += directionVec(direction);
-            if (contactsRoads(roadMap, pos, direction))
-            {
-                roadMap.setFieldState(pos, true);
-                break;
-            }
-        }
-    }
+
 
 }

@@ -17,6 +17,9 @@ TexId pigTex;
 TexId playerTex;
 TexId truckTex;
 TexId winTex;
+TexId roadTex;
+
+static constexpr glm::vec3 NO_ROAD_COLOR(0.35f, 0.59f, 0.6f);
 
 SceneRenderer::SceneRenderer(const Scene* scene)
     :scene(scene)
@@ -25,6 +28,7 @@ SceneRenderer::SceneRenderer(const Scene* scene)
     playerTex = Renderer::get()->initTexture("res/textures/awesome-face.jpeg");
     truckTex = Renderer::get()->initTexture("res/textures/truck.jpeg");
     winTex = Renderer::get()->initTexture("res/textures/you-win.jpeg");
+    roadTex = Renderer::get()->initTexture("res/textures/road.png");
 }
 
 SceneRenderer::~SceneRenderer()
@@ -35,18 +39,23 @@ namespace  {
     void drawRoadMap(const TileMap& roadmap)
     {
         auto& renderer = *Renderer::get();
-
+        renderer.setFillTexture(roadTex);
         for (int x = 0; x < roadmap.getWidth(); x++)
         {
             for (int y = 0; y < roadmap.getHeight() ; y++)
             {
                 //set color white by default
-                glm::vec3 color(0.0f, 1.0f, 1.0f);
-                if( roadmap.getFieldState( glm::vec2i(x, y) ) ) //i.e it is black
-                    color = glm::vec3(0.0f, 0.0f, 0.0f);
+                auto coord = glm::vec2i(x, y);
+                auto state = roadmap.getFieldState( coord);
 
-                renderer.setFillColor(color);
-                Renderer::get()->drawSquare(glm::vec2(x, y), 1.0f);
+                if (state == NO_ROAD)
+                    renderer.setFillColor(NO_ROAD_COLOR);
+                else {
+                    renderer.setFillTexture(roadTex);
+                    renderer.rotateTexture(state == HORIZONTAL ? CompassDirection::WEST : CompassDirection::NORTH);
+                }
+
+                Renderer::get()->drawSquare(coord, 1.0f);
             }
 
         }
@@ -68,6 +77,7 @@ void SceneRenderer::render ()
     auto& pigs = const_cast<std::vector<Pig>&>(scene->pigs); //TODO this is an abomination!
     Truck& truck = *scene->truck;
 
+    renderer.rotateTexture(CompassDirection::NORTH);
     //draw player
     renderer.setFillTexture(playerTex);
     renderer.drawSquare(player.getPos(), player.getWidth());

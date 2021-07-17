@@ -15,7 +15,7 @@ inline constexpr int clockwiseDirectionAngle(CompassDirection d) {
             return 90;
         case CompassDirection::SOUTH:
             return 180;
-        case CompassDirection::WEST:
+        default:
             return 270;
     }
 }

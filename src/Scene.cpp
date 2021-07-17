@@ -53,10 +53,6 @@ void Scene::updateGame()
 {
     float deltaTime = TimeManager::get() ->deltaTime();
     //roadmap click
-    if (Input::get()->mouseHasClicked()) {
-        glm::vec2 mouseWorldPos = MouseManager::get()->getWorldMousePos();
-        glm::vec2i intMouseWorldPos = glm::vec2i((int)mouseWorldPos.x, (int)mouseWorldPos.y);
-    }
 
     if (Input::get()->getKeyStatus(GLFW_KEY_K) == GLFW_PRESS)
         player->setPos(MouseManager::get()->getWorldMousePos());

@@ -32,7 +32,7 @@ class Renderer: public Singleton {
 
     static const char* vertexShaderSource;
     static const char* fragmentShaderSource;
-    
+
 public:
     Renderer();
     ~Renderer();
@@ -45,6 +45,8 @@ public:
 
     void setFillTexture(TexId textureId);
     void setFillColor(const Color& color);
+
+    void rotateTexture(CompassDirection);
 
     void drawRectangle(const glm::vec2& pos, const glm::vec2& dims);
     void drawSquare(const glm::vec2& pos,float sideLength);

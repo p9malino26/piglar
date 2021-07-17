@@ -50,3 +50,31 @@ BoardPos getClosestPosWithRoad(const TileMap& tileMap, const BoardPos& pos)
     }
 
 }
+
+bool contactsRoads(const TileMap& roadMap, const BoardPos& pos, CompassDirection direction) {
+    auto getFieldStateNoThrow = [&roadMap] (const BoardPos& pos) {
+        if (roadMap.isPositionOutside(pos)) return false;
+
+        return (bool)roadMap.getFieldState(pos);
+    };
+
+    return getFieldStateNoThrow(pos + directionVec(compassDirFromRelative(direction, RelativeDirection::LEFT))) ||
+           getFieldStateNoThrow(pos + directionVec(compassDirFromRelative(direction, RelativeDirection::RIGHT))) ||
+           getFieldStateNoThrow(pos + directionVec(direction));
+
+}
+
+void fillLineUntilTouchingRoad(TileMap &roadMap, const BoardPos& start, CompassDirection direction) {
+    auto pos = start;
+    CellType roadState = compassToRoadOrientation(direction);
+    for(;;) {
+        if (roadMap.isPositionOutside(pos)) break;
+        roadMap.setFieldState(pos, roadState);
+        pos += directionVec(direction);
+        if (contactsRoads(roadMap, pos, direction))
+        {
+            roadMap.setFieldState(pos, roadState);
+            break;
+        }
+    }
+}

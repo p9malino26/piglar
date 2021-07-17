@@ -19,7 +19,7 @@ namespace Generator {
          * Prepares a tree inside. Returns the rectangular width and height of the tree
          */
         glm::vec2i generate();
-        void writeTo(TileMap& roadMap, glm::vec2i startPos, bool orientation);
+        void writeTo(TileMap& roadMap, glm::vec2i startPos, bool flip);
 
         std::unique_ptr<TileMap> treeData;
         ~TreeGenerator();

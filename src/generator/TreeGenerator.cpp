@@ -3,11 +3,11 @@
 #include "../util/Random.h"
 #include "treeGenData.h"
 #include "TreeGenerator.h"
+#include "TreeGenParams.h"
 
 #define CONSTANT(EXPR) \
 static constexpr EXPR;
 
-#include "TreeGenParams.h"
 
 namespace Generator {
 
@@ -23,14 +23,14 @@ namespace Generator {
 
 
         //for initial line:
-        roadmap.setLine(startpos, CompassDirection::NORTH, mainRoadLength, true);
+        roadmap.setLine(startpos, CompassDirection::NORTH, mainRoadLength, VERTICAL);
 
         auto genBranch = [&roadmap, &params](bool direction, const glm::vec2i& pos) -> int{
 
             int linelength = Random::get()->randInt(params.branchRoadLengthRange.first, params.branchRoadLengthRange.second); // branch length
             auto startPos = pos;
             startPos.x += direction ? 1 : -1;
-            roadmap.setLine(startPos, direction ? CompassDirection::EAST : CompassDirection::WEST, linelength, 1);
+            roadmap.setLine(startPos, direction ? CompassDirection::EAST : CompassDirection::WEST, linelength, HORIZONTAL);
             return linelength;
 
         };
@@ -105,7 +105,7 @@ namespace Generator {
 
 
 
-    void TreeGenerator::writeTo(TileMap& roadMap, glm::vec2i startPos, bool orientation)
+    void TreeGenerator::writeTo(TileMap& roadMap, glm::vec2i startPos, bool flip)
     {
         //write#
 
@@ -118,11 +118,15 @@ namespace Generator {
             for(treePos.y = 0; treePos.y < dims.y; treePos.y++)
             {
                 //find out different coordinates
-                auto tmp = treePosToBufferAndGlobal(orientation, startPos, treePos, dims.x, params->branchRoadLengthRange.second, lastGenData->maxLBranchLength);
+                auto tmp = treePosToBufferAndGlobal(flip, startPos, treePos, dims.x, params->branchRoadLengthRange.second, lastGenData->maxLBranchLength);
                 glm::vec2i& bufferPos = tmp.first;
                 glm::vec2i& globalPos = tmp.second;
 
-                roadMap.setFieldState(globalPos, treeData->getFieldState(bufferPos));
+                auto srcState = treeData->getFieldState(bufferPos);
+                auto destState = srcState;
+                if (destState != NO_ROAD)
+                    destState = CellType(flip ? 3 - srcState : srcState);
+                roadMap.setFieldState(globalPos, destState);
             }
         }
         treeData->clear();

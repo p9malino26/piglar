@@ -25,6 +25,8 @@ const char* Renderer::fragmentShaderSource = "res/shaders/fragmentShader.glsl";
 static Camera* camera;
 static Display* display;
 
+constexpr float RIGHT_ANGLE = glm::radians(90.f);
+
 void getLinesForRectangle(std::list<Line>& lineList, const PosRectangle& square);
 
 constexpr glm::mat4 ID4 = glm::mat4(1);
@@ -152,6 +154,15 @@ void Renderer::setFillColor(const Color &color)
 void Renderer::activate() {
     vao->bind();
     shader->use();
+}
+
+void Renderer::rotateTexture(CompassDirection direction) {
+    static constexpr glm::vec2 offset(-0.5f, -0.5f);
+    auto matrix = glm::mat4(1.f);
+    matrix = glm::translate(matrix, glm::vec3(-offset, 0.f));
+    matrix = glm::rotate(matrix, -((float) direction) * RIGHT_ANGLE, glm::vec3(0.f,0.f, 1.f));
+    matrix = glm::translate(matrix, glm::vec3(offset, 0.f));
+    shader->uniformMat4("textureTransform", matrix);
 }
 
 
