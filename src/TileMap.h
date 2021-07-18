@@ -14,33 +14,33 @@
 
 //all rendering function deprecated
 
-enum TileState {NO_ROAD=0, HORIZONTAL=1, VERTICAL=2};
+enum TileState {NO_ROAD=0, HORIZONTAL=1, VERTICAL, HOUSE};
 
 class TileMap
 {
 public:
     //enum State {OFF, ON};
-
+    friend void forEachOnLine(TileMap& tileMap, const BoardPos& startPos, CompassDirection direction, int length, std::function<void(TileState&)> tileFunc);
 
     TileMap(int width, int height);
     inline ~TileMap() {delete[] data;}
     
     inline int getWidth() const {return width;}
     inline int getHeight() const {return height;}
-    inline glm::vec2i getSize() const {return {width, height};}
+    inline BoardPos getSize() const {return {width, height};}
 
-    inline bool isPositionOutside(const glm::vec2i& coord) const
+    inline bool isPositionOutside(const BoardPos& coord) const
     {
         return coord.x >= getWidth() || coord.y >= getHeight() ||
                 coord.x < 0 || coord.y < 0;
     }
     
-    inline void setTileState(const glm::vec2i& coord, TileState state)
+    inline void setTileState(const BoardPos& coord, TileState state)
     {
         data[getIndexFromCoord(coord)] = state;
     }
 
-    inline TileState getTileState(const glm::vec2i& coord) const //TODO rename to boardpos
+    inline TileState getTileState(const BoardPos& coord) const //TODO rename to boardpos
     {
         return data[getIndexFromCoord(coord)];
     }
@@ -54,19 +54,18 @@ private:
 
     TileState* data;
 
+    inline TileState& getTile(const BoardPos& coord) {return data[getIndexFromCoord(coord)];}
 
-    inline void ensurePositionIsInside(const glm::vec2i& coord) const
+    inline void ensurePositionIsInside(const BoardPos& coord) const
     {
         if(isPositionOutside(coord)) throw std::runtime_error("[ERROR] Attempt to access roadmap co-ordinate outside the range.");
     }
 
-    inline int getIndexFromCoord(const glm::vec2i& coord) const
+    inline int getIndexFromCoord(const BoardPos& coord) const
     {
         ensurePositionIsInside(coord);
         return width * coord.y + coord.x;
     }
 
-    
-    
 };
 

@@ -1,6 +1,10 @@
-priority 1:
+priority 0:
 
-road aesthetics
+enable cheats
+write manual
+create own textures
+cite sources
+submit!
 
 priority 2:
 better terrain

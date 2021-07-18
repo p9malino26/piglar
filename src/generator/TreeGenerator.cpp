@@ -11,7 +11,11 @@ static constexpr EXPR;
 
 
 namespace Generator {
-
+    void genHouses(TileMap& tileMap, const BoardPos& startPos, CompassDirection direction, int length, Fraction houseProbability)
+    {
+        std::function<void(TileState&)> makeHouse = [&houseProbability] (TileState& tile) { if (Random::get()->fractionChance(houseProbability)) tile = HOUSE; };
+        forEachOnLine(tileMap, startPos, direction, length, makeHouse);
+    }
 
     TreeGenData generateTree(TileMap& roadmap, const glm::vec2i& startpos, const TreeGenParams& params)
     {
@@ -26,12 +30,29 @@ namespace Generator {
         //for initial line:
         setLine(roadmap, startpos, CompassDirection::NORTH, mainRoadLength);
 
-        auto genBranch = [&roadmap, &params](bool direction, const glm::vec2i& pos) -> int{
+        int maxLHouseLine=0, maxRHouseLine=0;
+
+        auto genBranch = [&roadmap, &params, &maxLHouseLine, &maxRHouseLine](bool leftBranch, const glm::vec2i& pos) -> int{
 
             int linelength = Random::get()->randInt(params.branchRoadLengthRange.first, params.branchRoadLengthRange.second); // branch length
             auto startPos = pos;
-            startPos.x += direction ? 1 : -1;
-            setLine(roadmap, startPos, direction ? CompassDirection::EAST : CompassDirection::WEST, linelength);
+            startPos.x += leftBranch ? 1 : -1;
+            CompassDirection direction =leftBranch ? CompassDirection::EAST : CompassDirection::WEST;
+            setLine(roadmap, startPos, direction, linelength);
+
+            //generate houses
+            int& maxHouseLineThisSide = leftBranch ? maxLHouseLine: maxRHouseLine;
+
+            auto genHousesSp = [&roadmap, &startPos, &params, linelength, direction] (bool isBelow) {
+                genHouses(roadmap, BoardPos(startPos.x, startPos.y + (isBelow ? -1 : 1)), direction, linelength, params.houseProbability);
+            };
+            if (startPos.y - 1 > maxHouseLineThisSide)
+                if (Random::get()->fiftyFifty()) genHousesSp(true);
+
+            if (pos.y >= roadmap.getHeight() && Random::get()->fiftyFifty()) {
+                genHousesSp(false);
+                maxHouseLineThisSide = startPos.y + 1;
+            }
             return linelength;
 
         };
@@ -56,8 +77,9 @@ namespace Generator {
                 maxRBranchLength = std::max(branchLength, maxRBranchLength);
             }
 
+            int maxHouseLine = std::max(maxLHouseLine, maxRHouseLine);
             //end steps:
-            pos.y += Random::get()->randInt(params.branchStepRange.first, params.branchStepRange.second);
+            pos.y += Random::get()->randInt(std::max(maxHouseLine + 1 - pos.y, params.branchStepRange.first), params.branchStepRange.second);
         }
 
         TreeGenData returnData;
@@ -125,8 +147,12 @@ namespace Generator {
 
                 auto srcState = treeData->getTileState(bufferPos);
                 auto destState = srcState;
-                if (destState != NO_ROAD)
-                    destState = TileState(flip ? 3 - srcState : srcState);
+                if (flip) {
+                    if (destState == HORIZONTAL)
+                        destState = VERTICAL;
+                    else if (destState == VERTICAL)
+                        destState = HORIZONTAL;
+                }
                 roadMap.setTileState(globalPos, destState);
             }
         }

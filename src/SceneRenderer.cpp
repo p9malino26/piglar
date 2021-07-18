@@ -50,7 +50,11 @@ namespace  {
 
                 if (state == NO_ROAD)
                     renderer.setFillColor(NO_ROAD_COLOR);
-                else {
+                else if (state == HOUSE)
+                {
+                    renderer.setFillColor(Color(1.f, 1.f, 0.f));
+                } else
+                {
                     renderer.setFillTexture(roadTex);
                     renderer.rotateTexture(state == HORIZONTAL ? CompassDirection::WEST : CompassDirection::NORTH);
                 }
