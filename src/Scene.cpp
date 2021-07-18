@@ -14,6 +14,7 @@
 #include "Player.h"
 #include "Truck.h"
 #include "MechanicsConfig.h"
+#include "Game.h"
 
 Scene* Scene::instance;
 
@@ -54,11 +55,13 @@ void Scene::updateGame()
     float deltaTime = TimeManager::get() ->deltaTime();
     //roadmap click
 
-    if (Input::get()->getKeyStatus(GLFW_KEY_K) == GLFW_PRESS)
-        player->setPos(MouseManager::get()->getWorldMousePos());
+    if (Game::get()->isCheatsEnabled()) {
+        if (Input::get()->getKeyStatus(GLFW_KEY_K) == GLFW_PRESS)
+            player->setPos(MouseManager::get()->getWorldMousePos());
 
-    if (Input::get()->getKeyStatus(GLFW_KEY_T) == GLFW_PRESS)
-        for (Pig& p: pigs) {p.setPos(player->getPos());};
+        if (Input::get()->getKeyStatus(GLFW_KEY_T) == GLFW_PRESS)
+            for (Pig &p: pigs) { p.setPos(player->getPos()); };
+    }
     //move player
 
     glm::vec2 playerMoveDir(0.f, 0.f);

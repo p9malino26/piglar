@@ -24,7 +24,7 @@ template <typename T>
 static bool parse(T& dest, const std::string& key, T(*convFunc)(const std::string&))
 {
     if (!data->contains(key)) {
-        std::cerr << "Warning: label " << key << " not found!\n";
+        std::cerr << "[WARNING] Config parser: label " << key << " not found, using default value!\n";
         return false;
     }
 
@@ -41,7 +41,7 @@ static void parseMechanics(MechanicsConfig& config)
     parse(config.playerSpeed, "player_speed", toFloat);
     parse(config.pigToPlayerSpeedRatio, "pig_player_speed_ratio", toFloat);
     parse(config.pigDetectionRange, "pig_detection_range", toFloat);
-
+    parse(config.cheats, "cheats", toBool);
 }
 
 static void parseTerGen(Generator::TreeGenParams& config)
@@ -64,7 +64,6 @@ static void parseCamera(CameraConfig& config)
     parse(config.zoomSpeed, "zoom_speed", toFloat);
     parse(config.moveSpeed, "move_speed", toFloat);
     parse(config.initialZoom, "initial_zoom", toFloat);
-    parse(config.allowDetachCamera, "allow_detach_camera", toBool);
 }
 
 void loadConfigFromFile(GameConfig& config, const std::string& fName)

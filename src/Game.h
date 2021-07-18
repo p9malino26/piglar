@@ -4,6 +4,8 @@
 
 #include <memory>
 
+#include "util/singleton.h"
+
 class Camera;
 class CameraManager;
 class MouseManager;
@@ -14,7 +16,7 @@ class Renderer;
 class TextManager;
 class FTLabel;
 
-class Game: public Application
+class Game: public Application, Singleton
 {
     std::unique_ptr<Camera> camera;
     std::unique_ptr<CameraManager> cameraManager;
@@ -30,7 +32,13 @@ class Game: public Application
     std::unique_ptr<FTLabel> pigsLabel;
 
     void processFrame() override;
+
+    bool cheats;
 public:
     explicit Game(const GameConfig& config, unsigned int seed);
     ~Game();
+
+    inline bool isCheatsEnabled() {return cheats; }
+
+SINGLETON(Game)
 };

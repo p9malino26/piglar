@@ -11,5 +11,5 @@ struct MechanicsConfig
     float pigDetectionRange = 7.f;
     float playerSpeed = 7.f;
     float pigToPlayerSpeedRatio = 0.7f;
-    //...
+    bool cheats = false;
 };

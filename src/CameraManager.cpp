@@ -7,6 +7,7 @@
 #include "TimeManager.h"
 #include "Input.h"
 #include "MouseManager.h"
+#include "Game.h"
 #include "Scene.h"
 
 CameraManager::CameraManager(Camera* camera, const CameraConfig& config)
@@ -22,7 +23,7 @@ void CameraManager::update()
     float distanceMoved = m_config->moveSpeed * TimeManager::get()->deltaTime();
 
     //update mode
-    if (Input::get()->getKeyEvent(GLFW_KEY_C) == GLFW_PRESS && m_config->allowDetachCamera) {
+    if (Input::get()->getKeyEvent(GLFW_KEY_C) == GLFW_PRESS && Game::get()->isCheatsEnabled()) {
         setMode(CameraMode(1 - (int) m_mode));
         std::cout << "Camera mode: " << m_mode << std::endl;
     }

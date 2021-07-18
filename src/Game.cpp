@@ -15,7 +15,9 @@
 
 #include "GameConfig.h"
 #include "TextManager.h"
+#include "MechanicsConfig.h"
 
+Game* Game::instance;
 
 Game::Game(const GameConfig& config, unsigned int seed)
     :Application("Piglar!!", 800, 600),
@@ -23,8 +25,10 @@ Game::Game(const GameConfig& config, unsigned int seed)
       camera(new Camera()),
       cameraManager(new CameraManager(camera.get(), *config.cameraConfig)),
     scene( new Scene(*config.mechanicsConfig, *config.generatorConfig)),
-    renderer(new Renderer())
+    renderer(new Renderer()),
+    cheats(config.mechanicsConfig->cheats)
 {
+    instance = this;
     Random::init(seed);
 
     camera->setPosition(scene->getPlayerPos());

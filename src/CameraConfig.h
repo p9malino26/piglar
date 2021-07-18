@@ -12,6 +12,5 @@ struct CameraConfig
     float moveSpeed = 4.2f;
     float zoomSpeed = 5.0f;
     float initialZoom = 0.1f;
-    bool allowDetachCamera = false;
     std::pair<float, float> zoomRange = {0.01f, 0.8f};
 };
