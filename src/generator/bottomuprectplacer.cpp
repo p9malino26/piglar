@@ -46,7 +46,7 @@ std::optional<Pos> BottomUpRectPlacer::placeRectangle(const Rectangle &rect)
 
         if (minimumLine.length < rectLines.bottom.length)
         {
-            seclude(contactingLines);
+            emptySpaces.push_back(seclude(contactingLines));
             continue;
         }
 
@@ -173,9 +173,11 @@ MinimumAreaInfo BottomUpRectPlacer::getMinimumAreaLines()
 }
 
 //seclude
-void BottomUpRectPlacer::seclude(MinimumAreaInfo& contactingLines)
+std::pair<Pos, Rectangle> BottomUpRectPlacer::seclude(MinimumAreaInfo& contactingLines)
 {
+    std::pair<Pos, Rectangle> spaceInfo;
     auto& minimumLine = contactingLines.minimumLine;
+    spaceInfo.first = minimumLine->pos;
     int yVal = height;
 
     auto updateLineHeight = [this, &yVal](std::optional<LinePtr>& maybeLine) {
@@ -190,6 +192,9 @@ void BottomUpRectPlacer::seclude(MinimumAreaInfo& contactingLines)
 
     updateLineHeight(contactingLines.leftOfMinimum);
     updateLineHeight(contactingLines.rightOfMinimum);
+    spaceInfo.second.width =  minimumLine->length;
+    spaceInfo.second.height = yVal - minimumLine->pos.y;
+
     minimumLine->pos.y = yVal;
 
     auto leftHorizonal = minimumLine, rightHorizontal = minimumLine;
@@ -216,29 +221,12 @@ void BottomUpRectPlacer::seclude(MinimumAreaInfo& contactingLines)
 
     }
 
-
-    //old stuff
-    /*int touchingLinesInfo = checkForSplitLines(minimumAreaInfo.minimumLine);
-    if (~touchinfLinesInfo & 2)
-        auto beforeLeft = minimumAreaInfo
-    //--
-    LinePtr touchingLine;
-    if (minimumAreaInfo.leftOfMinimum.has_value())
-    {
-        LinePtr& leftOfMinimum = minimumAreaInfo.leftOfMinimum.value();
-        if (minimumAreaInfo.rightOfMinimum.has_value())
-            touchingLine = leftOfMinimum->pos.y <= tip(*minimumAreaInfo.rightOfMinimum.value()->pos.y) ? leftOfMinimum : minimumAreaInfo.rightOfMinimum;
-        else
-            touchingLine = leftOfMinimum;
-    } else if (minimumAreaInfo.rightOfMinimum.has_value())
-        touchingLine = minimumAreaInfo.rightOfMinimum.value();
-
-    if (touchingLine == minimumAreaInfo.leftOfMinimum.value_or(envelope.end()))
-        //todo finish
-    envelope.erase(touchingLine);
-    checkForSplitLines(minimumAreaInfo.minimumLine);*/
+    return spaceInfo;
 }
 
+    std::vector<std::pair<Pos, Rectangle>> BottomUpRectPlacer::getEmptySpaces() {
+        return emptySpaces;
+    }
 
 
 }

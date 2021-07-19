@@ -53,10 +53,11 @@ namespace  {
                 else if (state == HOUSE)
                 {
                     renderer.setFillColor(Color(1.f, 1.f, 0.f));
-                } else
-                {
+                } else if (isRoad(state)){
                     renderer.setFillTexture(roadTex);
                     renderer.rotateTexture(state == HORIZONTAL ? CompassDirection::WEST : CompassDirection::NORTH);
+                } else {
+                    continue;
                 }
 
                 Renderer::get()->drawSquare(coord, 1.0f);

@@ -14,13 +14,13 @@
 
 //all rendering function deprecated
 
-enum TileState {NO_ROAD=0, HORIZONTAL=1, VERTICAL, HOUSE};
+enum TileState {NO_ROAD=0, HORIZONTAL=1, VERTICAL, HOUSE, GREEN_SPACE};
+inline bool isRoad(TileState state) {return state == HORIZONTAL || state == VERTICAL; }
 
 class TileMap
 {
 public:
     //enum State {OFF, ON};
-    friend void forEachOnLine(TileMap& tileMap, const BoardPos& startPos, CompassDirection direction, int length, std::function<void(TileState&)> tileFunc);
 
     TileMap(int width, int height);
     inline ~TileMap() {delete[] data;}
@@ -45,6 +45,7 @@ public:
         return data[getIndexFromCoord(coord)];
     }
 
+    inline TileState& getTile(const BoardPos& coord) {return data[getIndexFromCoord(coord)];}
     inline void clear() {std::memset(data, NO_ROAD, sizeof(TileState) * width * height);}
 
 private:
@@ -54,7 +55,6 @@ private:
 
     TileState* data;
 
-    inline TileState& getTile(const BoardPos& coord) {return data[getIndexFromCoord(coord)];}
 
     inline void ensurePositionIsInside(const BoardPos& coord) const
     {

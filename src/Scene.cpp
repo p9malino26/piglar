@@ -23,11 +23,11 @@ std::vector<RealPos> spawnEvenly(int width, int height, int count);
 inline BoardPos getRandomSpawnPos(int w, int h) {return BoardPos(Random::get()->randInt(0,w - 1), Random::get()->randInt(0,h - 1)); }
 
 Scene::Scene(const MechanicsConfig& mechanicsConfig, const TreeGenParams& genConfig)
-    :roadMap(new MainTileMap(mechanicsConfig.tileMapSize, mechanicsConfig.tileMapSize)), roadMapGen(new Generator::RoadMapGen(roadMap.get(), genConfig)),
+    :roadMap(new MainTileMap(mechanicsConfig.tileMapSize, mechanicsConfig.tileMapSize)),
     player(new Player(mechanicsConfig.playerSpeed)), truck(new Truck), pigCount(mechanicsConfig.pigsCount)
 {
     instance = this;
-    roadMapGen->generate();
+    Generator::generateTerrain(*roadMap, genConfig);
     player->setPos(getClosestPosWithRoad(*roadMap, getRandomSpawnPos(roadMap->getWidth(), roadMap->getHeight())));
     truck->setPos (getClosestPosWithRoad(*roadMap, getRandomSpawnPos(roadMap->getWidth(), roadMap->getHeight()))); //TODO neaten
     Pig::init(mechanicsConfig.pigToPlayerSpeedRatio, mechanicsConfig.pigDetectionRange);

@@ -29,8 +29,6 @@ class Scene: public Singleton
     std::unique_ptr<Truck> truck;
     std::vector<Pig> pigs;
 
-    std::unique_ptr<Generator::RoadMapGen> roadMapGen;
-
     bool m_won = false;
     TimePoint startTime;
     TimePoint endTime;

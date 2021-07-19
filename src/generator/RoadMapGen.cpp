@@ -17,18 +17,12 @@
 
 
 namespace Generator {
-
-    RoadMapGen::RoadMapGen(TileMap* roadMap, const TreeGenParams& params)
-        :roadMap(roadMap), rpr(new BottomUpRectPlacer(roadMap->getWidth(), roadMap->getHeight())), treeGen(new TreeGenerator(params))
+    std::vector<std::pair<Pos, Rectangle>> generateRoadsAndHouses(TileMap& tileMap, const TreeGenParams& params)
     {
-    }
+        BottomUpRectPlacer rpr(tileMap.getWidth(), tileMap.getHeight());
+        TreeGenerator treeGen(params);
 
-    void RoadMapGen::generate()
-    {
-
-        auto& treeGen = *this->treeGen;
-
-        NeighbouringInfo& surroundingNeighbours = rpr->getNeighbouringSpaceInfo();
+        NeighbouringInfo& surroundingNeighbours = rpr.getNeighbouringSpaceInfo();
         for (;;)
         {
             //generate
@@ -42,16 +36,16 @@ namespace Generator {
                 dims = glm::swap(dims);
 
             //see if it fits
-            std::optional<glm::vec2i> optPlacePos = rpr->placeRectangle(reinterpret_cast<Rectangle&>(dims));
+            std::optional<glm::vec2i> optPlacePos = rpr.placeRectangle(reinterpret_cast<Rectangle&>(dims));
 
             //if yes
             if (optPlacePos.has_value())
             {
                 //write tree to roadmap
                 auto& placePos = optPlacePos.value();
-                treeGen.writeTo(*roadMap, placePos, orientation);
+                treeGen.writeTo(tileMap, placePos, orientation);
 
-                auto connectToOther = [this, &placePos] (CompassDirection direction, int limit)
+                auto connectToOther = [&tileMap, &placePos] (CompassDirection direction, int limit)
                 {
                     auto startPos = placePos;
                     if (limit == 0) return;
@@ -64,8 +58,8 @@ namespace Generator {
                         startPos.x += offset;
 
 
-                    fillLineUntilTouchingRoad(*roadMap, startPos, direction);
-                    fillLineUntilTouchingRoad(*roadMap, startPos, opposite(direction));
+                    fillLineUntilTouchingRoad(tileMap, startPos, direction);
+                    fillLineUntilTouchingRoad(tileMap, startPos, opposite(direction));
 
                 };
 
@@ -75,16 +69,25 @@ namespace Generator {
 
 
             } else
-            break;
+                break;
+        }
+
+        return rpr.getEmptySpaces();
+    }
+
+    template <typename RectList>
+    void generateGreenAreas(TileMap& tileMap, const RectList& greenAreaRects) {
+        for (const std::pair<BoardPos, Rectangle>& info: greenAreaRects)
+        {
+            forEachInRegion(tileMap, info.first, info.second, [] (TileState& tileState) {if (tileState != HORIZONTAL && tileState != VERTICAL) tileState = GREEN_SPACE;});
+
         }
     }
 
-
-
-    RoadMapGen::~RoadMapGen()
+    void generateTerrain(TileMap& tileMap, const TreeGenParams& params)
     {
+        std::vector<std::pair<BoardPos, Rectangle>> greenSpaceInfo = generateRoadsAndHouses(tileMap, params);
+        generateGreenAreas(tileMap, greenSpaceInfo);
     }
-
-
 
 }

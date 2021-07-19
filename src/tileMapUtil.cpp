@@ -5,6 +5,7 @@
 #include "tileMapUtil.h"
 
 #include "util/compassUtil.h"
+#include "generator/Rectangle.h"
 
 
 bool isOnRoad(const TileMap& tileMap, const RealPos& pos)
@@ -12,7 +13,7 @@ bool isOnRoad(const TileMap& tileMap, const RealPos& pos)
     BoardPos intpos = realToTile(pos);
     if (tileMap.isPositionOutside(intpos)) return false;
     auto state = tileMap.getTileState(intpos);
-    return state != NO_ROAD && state != HOUSE;
+    return isRoad(state);
 }
 
 inline BoardPos realToTile(const RealPos& pos)
@@ -27,7 +28,7 @@ BoardPos clampToNearestTile(const RealPos& pos)
 
 BoardPos getClosestPosWithRoad(const TileMap& tileMap, const BoardPos& pos)
 {
-    if (tileMap.getTileState(pos)) return pos;
+    if (isRoad(tileMap.getTileState(pos))) return pos;
 
     const BoardPos* directions = &NORTH_VEC;
     BoardPos checkDirections[] = {NORTH_VEC, EAST_VEC, SOUTH_VEC, WEST_VEC};
@@ -44,7 +45,7 @@ BoardPos getClosestPosWithRoad(const TileMap& tileMap, const BoardPos& pos)
             if (!tileMap.isPositionOutside(d))
             {
                 canGoFurther = true;
-                if (tileMap.getTileState(d)) return d;
+                if (isRoad(tileMap.getTileState(d))) return d;
                 d += directions[i];
             }
         }
@@ -93,5 +94,15 @@ void forEachOnLine(TileMap& tileMap, const glm::vec2i& startPos, CompassDirectio
     for (int i = 0; i < length; i++, varPos+=theDirectionVec)
     {
         tileFunc(tileMap.getTile(varPos));
+    }
+}
+
+void forEachInRegion(TileMap& tileMap, const BoardPos& rectPos, const Rectangle& rect, TileFunc tileFunc)
+{
+    int farY = rectPos.y + rect.height;
+    for(auto varPos = rectPos; varPos.y < farY; ++varPos.y)
+    {
+        TileState* start = &tileMap.getTile(varPos);
+        std::for_each(start, start + rect.width, tileFunc);
     }
 }

@@ -25,9 +25,12 @@ public:
     inline NeighbouringInfo& getNeighbouringSpaceInfo() { return neighbouringSpaceInfo;}
     //debug
     void consistencyCheck();
+
+    std::vector<std::pair<Pos, Rectangle>> getEmptySpaces();
 private:
     int width, height;
     std::list<Line> envelope;
+    std::vector<std::pair<Pos, Rectangle>> emptySpaces;
     NeighbouringInfo neighbouringSpaceInfo;
 
     Pos placeRectangleFinal( MinimumAreaInfo& contactingLines, RectLinesInfo& rectLines);
@@ -35,7 +38,7 @@ private:
     void checkForSplitLines(LinePtr line);
     std::optional<LinePtr> checkForSplitLines(LinePtr left, LinePtr right);
     MinimumAreaInfo getMinimumAreaLines();
-    void seclude(MinimumAreaInfo& minimumAreaInfo);
+    std::pair<Pos, Rectangle> seclude(MinimumAreaInfo& minimumAreaInfo);
 
 
 };
