@@ -18,6 +18,7 @@ TexId playerTex;
 TexId truckTex;
 TexId winTex;
 TexId roadTex;
+TexId forestTex;
 
 static constexpr glm::vec3 NO_ROAD_COLOR(0.35f, 0.59f, 0.6f);
 
@@ -29,6 +30,7 @@ SceneRenderer::SceneRenderer(const Scene* scene)
     truckTex = Renderer::get()->initTexture("res/textures/truck.jpeg");
     winTex = Renderer::get()->initTexture("res/textures/you-win.jpeg");
     roadTex = Renderer::get()->initTexture("res/textures/road.png");
+    forestTex = Renderer::get()->initTexture("res/textures/forest.jpeg");
 }
 
 SceneRenderer::~SceneRenderer()
@@ -76,6 +78,12 @@ void SceneRenderer::render ()
 {
     auto& renderer = *Renderer::get();
     renderer.activate();
+
+    //draw forest
+    renderer.setWorldCoords(false);
+    renderer.setFillTexture(forestTex);
+    renderer.drawBackground(glm::vec2(1.f));
+
     renderer.setWorldCoords(true);
     drawRoadMap(*(this->scene->getRoadMap()));
     auto& player = *scene->player;

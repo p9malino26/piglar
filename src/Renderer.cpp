@@ -107,6 +107,7 @@ void Renderer::drawLine(const Line &line) //deprecated
 Renderer::~Renderer() {
 }
 
+
 void Renderer::drawRectangle(const glm::vec2& pos, const glm::vec2& dims)
 {
     glm::mat4 modelMatrix(1.0f);
@@ -163,6 +164,18 @@ void Renderer::rotateTexture(CompassDirection direction) {
     matrix = glm::rotate(matrix, -((float) direction) * RIGHT_ANGLE, glm::vec3(0.f,0.f, 1.f));
     matrix = glm::translate(matrix, glm::vec3(offset, 0.f));
     shader->uniformMat4("textureTransform", matrix);
+}
+
+void Renderer::drawBackground(const glm::vec2& scale) {
+    auto texTransform = glm::mat4(1.f);
+    //texTransform = glm::scale(texTransform, glm::vec3 (0.3f / Camera::get()->getZoom()));
+    texTransform = glm::scale(texTransform, {2,2,1});
+    texTransform = glm::translate(texTransform, {-1,-1, 0});
+    texTransform = glm::scale(texTransform, glm::vec3(scale, 1.f));
+    texTransform = glm::inverse(Display::get()->getProjectionMatrix() * Camera::get()->getViewMatrix()) * texTransform;
+    shader->uniformMat4("textureTransform", texTransform);
+
+    drawRectangle({-1.f, -1.f}, {2.f, 2.f});
 }
 
 

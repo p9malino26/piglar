@@ -43,6 +43,7 @@ public:
 
     TexId initTexture(const std::string& fname);
 
+    void drawBackground(const glm::vec2& scale);
     void setFillTexture(TexId textureId);
     void setFillColor(const Color& color);
 
