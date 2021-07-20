@@ -184,7 +184,7 @@ void Renderer::setChromaKeyEnable(bool val) {
 }
 
 void Renderer::setChromaKey(const Color & color) {
-    shader->uniformVec3("chromaColor", color);
+    shader->uniformVec3("chromaReplace", color);
 }
 
 void getLinesForRectangle(std::list<Line>& lineList, const PosRectangle& square){

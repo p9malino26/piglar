@@ -20,8 +20,10 @@ TexId truckTex;
 TexId winTex;
 TexId roadTex;
 TexId forestTex;
+TexId houseTex;
 
-static constexpr glm::vec3 NO_ROAD_COLOR(0.35f, 0.59f, 0.6f);
+static constexpr glm::vec3 NO_ROAD_COLOR(0.25f, 0.59f, 0.6f),
+HOUSE_GROUND_COLOR(0.4f, 0.51f, 0.51f);
 
 
 inline Color getRandomColor()
@@ -33,8 +35,9 @@ inline Color getRandomColor()
 SceneRenderer::SceneRenderer(const Scene& scene)
     : scene(scene), tileMap(*scene.getRoadMap()), getHouseColor([] (int x) {return getRandomColor();})
 {
-    pigTex = Renderer::get()->initTexture("res/textures/cartoonpig.jpeg");
+    pigTex = Renderer::get()->initTexture("res/textures/pig.png");
     playerTex = Renderer::get()->initTexture("res/textures/awesome-face.jpeg");
+    houseTex = Renderer::get()->initTexture("res/textures/house.png");
     truckTex = Renderer::get()->initTexture("res/textures/truck.jpeg");
     winTex = Renderer::get()->initTexture("res/textures/you-win.jpeg");
     roadTex = Renderer::get()->initTexture("res/textures/road.png");
@@ -48,9 +51,9 @@ SceneRenderer::~SceneRenderer()
 void initDrawHouse(const Color& color)
 {
     //Renderer::get()->setFillColor(Color(1.f, 1.f, 0.f));
-    //Renderer::get()->setChromaKeyEnable(true);
-    //Renderer::get()->setChromaKey(color);
-    Renderer::get()->setFillColor(color);
+    Renderer::get()->setFillTexture(houseTex);
+    Renderer::get()->setChromaKeyEnable(true);
+    Renderer::get()->setChromaKey(color);
 }
 
 void SceneRenderer::drawTileMap()
@@ -64,11 +67,15 @@ void SceneRenderer::drawTileMap()
             //set color white by default
             auto coord = glm::vec2i(x, y);
             auto state = tileMap.getTileState(coord);
+            renderer.setChromaKeyEnable(false);
+            renderer.rotateTexture(CompassDirection::NORTH);
 
             if (state == NO_ROAD)
                 renderer.setFillColor(NO_ROAD_COLOR);
             else if (state == HOUSE)
             {
+                Renderer::get()->setFillColor(HOUSE_GROUND_COLOR);
+                Renderer::get()->drawSquare(coord, 1.0f);
                 initDrawHouse(getHouseColor(pos2Index(tileMap.getWidth(), coord)));
             } else if (isRoad(state)){
                 renderer.setFillTexture(roadTex);
