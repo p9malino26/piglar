@@ -178,6 +178,14 @@ void Renderer::drawBackground(const glm::vec2& scale) {
     drawRectangle({-1.f, -1.f}, {2.f, 2.f});
 }
 
+void Renderer::setChromaKeyEnable(bool val) {
+    shader->uniformInt("chromaKey", val);
+
+}
+
+void Renderer::setChromaKey(const Color & color) {
+    shader->uniformVec3("chromaColor", color);
+}
 
 void getLinesForRectangle(std::list<Line>& lineList, const PosRectangle& square){
     auto varPos = square.pos;

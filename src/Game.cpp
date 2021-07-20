@@ -32,7 +32,7 @@ Game::Game(const GameConfig& config, unsigned int seed)
     Random::init(seed);
 
     camera->setPosition(scene->getPlayerPos());
-    sceneRenderer = std::make_unique<SceneRenderer>(scene.get());
+    sceneRenderer = std::make_unique<SceneRenderer>(*scene.get());
 
     //init fonts and labels
     std::shared_ptr<GLFont> glFont;

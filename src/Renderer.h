@@ -51,6 +51,9 @@ public:
 
     void drawRectangle(const glm::vec2& pos, const glm::vec2& dims);
     void drawSquare(const glm::vec2& pos,float sideLength);
+
+    void setChromaKeyEnable(bool);
+    void setChromaKey(const Color&);
     //deprecated
     void drawRectangleWithLines(const PosRectangle& rect, const glm::vec3& rectColor, const glm::vec3& lineColor);
     void drawLine(const Line &line);

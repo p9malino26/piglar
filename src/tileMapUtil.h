@@ -18,3 +18,4 @@ void setLine(TileMap& tileMap, const glm::vec2i& startPos, CompassDirection dire
 void forEachOnLine(TileMap& tileMap, const glm::vec2i& startPos, CompassDirection direction, int length, std::function<void(TileState&)> tileFunc);
 void forEachInRegion(TileMap& tileMap, const BoardPos& rectPos, const Rectangle& rectDims, TileFunc tileFunc);
 inline TileState compassToRoadOrientation(CompassDirection compassDirection) { return TileState(1 + ((int)compassDirection + 1) % 2); }
+inline int pos2Index(int width, const BoardPos& pos) { return width * pos.y + pos.x; }
