@@ -14,7 +14,9 @@ float SquareEntity::getHeight() const {
 }
 
 void SquareEntity::move(const RealPos& delta) {
-    RealPos clampedDelta(std::clamp(delta.x, 0.f, getWidth() / 2), std::clamp(delta.y, 0.f, getHeight() / 2));
+    /*auto xLim = 0.49f;//getWidth() / 2.f;
+    auto yLim = 0.49f;//getHeight() / 2.f;
+    RealPos clampedDelta(std::clamp(delta.x, -xLim, xLim), std::clamp(delta.y, -yLim, yLim));*/
     auto finalDelta = getCollisionResolutionDelta(*MainTileMap::get(), *this, delta);
     changePos(finalDelta);
 }
