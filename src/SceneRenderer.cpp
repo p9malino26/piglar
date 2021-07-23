@@ -103,7 +103,7 @@ void SceneRenderer::render ()
     //draw forest
     renderer.setWorldCoords(false);
     renderer.setFillTexture(forestTex);
-    renderer.drawBackground(glm::vec2(1.f));
+    renderer.drawBackground(glm::vec2(4.f));
 
     renderer.setWorldCoords(true);
     drawTileMap();

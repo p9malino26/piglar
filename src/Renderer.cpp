@@ -114,23 +114,19 @@ void Renderer::drawRectangle(const glm::vec2& pos, const glm::vec2& dims)
     modelMatrix = glm::translate(modelMatrix, glm::vec3(pos, 0.0f));
     modelMatrix = glm::scale(modelMatrix, glm::vec3(dims.x, dims.y, 1.0f));
 
+    const auto& viewMatrix = camera->getViewMatrix();
+    const auto& projMatrix = display->getProjectionMatrix();
+
+    shader->uniformMat4("view", viewMatrix);
+    shader->uniformMat4("proj", projMatrix);
+
     shader->uniformMat4("model", modelMatrix);
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
 void Renderer::setWorldCoords(bool isWorld) {
-    if (isWorld) {
-        const auto& viewMatrix = camera->getViewMatrix();
-        const auto& projMatrix = display->getProjectionMatrix();
-
-        shader->uniformMat4("view", viewMatrix);
-        shader->uniformMat4("proj", projMatrix);
-
-    } else {
-        shader->uniformMat4("view", ID4);
-        shader->uniformMat4("proj", ID4);
-    }
+    shader->uniformInt("isWorld", isWorld);
 }
 
 TexId Renderer::initTexture(const std::string &fname)
@@ -167,15 +163,12 @@ void Renderer::rotateTexture(CompassDirection direction) {
 }
 
 void Renderer::drawBackground(const glm::vec2& scale) {
-    auto texTransform = glm::mat4(1.f);
-    //texTransform = glm::scale(texTransform, glm::vec3 (0.3f / Camera::get()->getZoom()));
-    texTransform = glm::scale(texTransform, {2,2,1});
-    texTransform = glm::translate(texTransform, {-1,-1, 0});
-    texTransform = glm::scale(texTransform, glm::vec3(scale, 1.f));
-    texTransform = glm::inverse(Display::get()->getProjectionMatrix() * Camera::get()->getViewMatrix()) * texTransform;
-    shader->uniformMat4("textureTransform", texTransform);
+    shader->uniformMat4("textureTransform", glm::scale(ID4, glm::vec3(scale, 1.f)));
+    setWorldCoords(false);
+    shader->uniformInt("transformToCamera", true);
 
     drawRectangle({-1.f, -1.f}, {2.f, 2.f});
+    shader->uniformInt("transformToCamera", false);
 }
 
 void Renderer::setChromaKeyEnable(bool val) {
