@@ -12,7 +12,7 @@ class Player: public SquareEntity {
     float speed;
 public:
 
-    explicit Player(float speed) : SquareEntity(RealPos(0), 0.7f), speed(speed) {
+    explicit Player(float speed) : SquareEntity(RealPos(0), 0.9f), speed(speed) {
         instance = this;
     }
 

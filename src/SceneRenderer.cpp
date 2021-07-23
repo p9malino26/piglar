@@ -36,12 +36,12 @@ SceneRenderer::SceneRenderer(const Scene& scene)
     : scene(scene), tileMap(*scene.getRoadMap()), getHouseColor([] (int x) {return getRandomColor();})
 {
     pigTex = Renderer::get()->initTexture("res/textures/pig.png");
-    playerTex = Renderer::get()->initTexture("res/textures/awesome-face.jpeg");
+    playerTex = Renderer::get()->initTexture("res/textures/player.png");
     houseTex = Renderer::get()->initTexture("res/textures/house.png");
-    truckTex = Renderer::get()->initTexture("res/textures/truck.jpeg");
+    truckTex = Renderer::get()->initTexture("res/textures/truck.png");
     winTex = Renderer::get()->initTexture("res/textures/you-win.jpeg");
     roadTex = Renderer::get()->initTexture("res/textures/road.png");
-    forestTex = Renderer::get()->initTexture("res/textures/forest.jpeg");
+    forestTex = Renderer::get()->initTexture("res/textures/green.png");
 }
 
 SceneRenderer::~SceneRenderer()
@@ -117,7 +117,7 @@ void SceneRenderer::render ()
     renderer.drawSquare(player.getPos(), player.getWidth());
 
     //draw pigs
-    auto drawPig = [&renderer, this] (SquareEntity& p)
+    auto drawPig = [&renderer] (SquareEntity& p)
     {
         renderer.drawSquare(p.getPos(), p.getWidth());
     };
@@ -129,11 +129,6 @@ void SceneRenderer::render ()
     renderer.setFillTexture(truckTex);
     drawEntity(truck);
 
-    if (scene.isWon()) {
-        renderer.setWorldCoords(false);
-        renderer.setFillTexture(winTex);
-        renderer.drawSquare(RealPos(-0.5f, -0.5f), 1.f);
-    }
 
 }
 

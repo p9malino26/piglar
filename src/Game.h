@@ -28,8 +28,6 @@ class Game: public Application, Singleton
     std::unique_ptr<MouseManager> mouseManager;
 
     std::unique_ptr<TextManager> textManager;
-    std::unique_ptr<FTLabel> timerLabel;
-    std::unique_ptr<FTLabel> pigsLabel;
 
     void processFrame() override;
 

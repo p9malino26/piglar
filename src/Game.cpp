@@ -19,6 +19,11 @@
 
 Game* Game::instance;
 
+std::unique_ptr<FTLabel> timerLabel;
+std::unique_ptr<FTLabel> pigsLabel;
+std::unique_ptr<FTLabel> winLabel;
+
+
 Game::Game(const GameConfig& config, unsigned int seed)
     :Application("Piglar!!", 800, 600),
     mouseManager(new MouseManager()),
@@ -47,6 +52,7 @@ Game::Game(const GameConfig& config, unsigned int seed)
     pigsLabel = textManager->newLabel();
     pigsLabel->setPosition(0, 30);
 
+    winLabel = textManager->newLabel();
 
 }
 
@@ -64,10 +70,16 @@ void Game::processFrame()
     //glUseProgram(0);
     sceneRenderer->render();
     timerLabel->setText(getTimeString(scene->getTimeDuration()));
-    timerLabel->render();
 
     pigsLabel->setText(std::string("Pigs caught: ") + to_string(scene->getPigsCaughtCount()) + '/' + to_string(scene->getPigsCount()));
-    pigsLabel->render();
+
+    if (scene->isWon())
+    {
+        winLabel->setText("All pigs caught!");
+        winLabel->setPosition(Display::get()->width() / 2, Display::get()->height() / 2);
+        winLabel->setAlignment(FTLabel::FontFlags::CenterAligned);
+        winLabel->setPixelSize(200);
+    }
 }
 
 Game::~Game()
