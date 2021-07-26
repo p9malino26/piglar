@@ -44,7 +44,8 @@ void Input::update()
     mouseClicked = false;
 
     //set all keys (keyboard and mouse) to zero
-    std::memset(keys.get(), 0, (keysSize + mouseKeysSize) * sizeof(int));
+    std::memset(keys, 0, keysSize * sizeof(int));
+    std::memset(mouseKeys, 0, mouseKeysSize * sizeof(int));
     glfwPollEvents();
 
     updateMousePos();
@@ -80,6 +81,11 @@ RealPos Input::getDragDelta() {
     if (m_dragging)
         return getMouseDelta();
     else return RealPos(0.f);
+}
+
+Input::~Input() {
+    delete[] keys;
+    delete[] mouseKeys;
 }
 
 

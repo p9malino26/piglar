@@ -19,8 +19,8 @@ private:
     bool has_scrolled;
     static const int keysSize = 349;
     static const int mouseKeysSize = 8;
-    std::unique_ptr<int[]> keys;
-    std::unique_ptr<int[]> mouseKeys;
+    int* keys;
+    int* mouseKeys;
     RealPos lastMousePos;
     RealPos currentMousePos;
     bool mouseClicked;
@@ -43,6 +43,8 @@ public:
 
 SINGLETON(Input)
     static void init(GLFWwindow* window);
+
+    ~Input();
 };
 
 
