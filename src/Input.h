@@ -18,15 +18,15 @@ private:
     bool has_scrolled;
     static const int keysSize = 349;
     static const int mouseKeysSize = 8;
-    int keys[keysSize];
-    int mouseKeys[mouseKeysSize];
-
-    Input(GLFWwindow* window);
-    glm::vec2 updateMousePos();
+    std::unique_ptr<int[]> keys;
+    std::unique_ptr<int[]> mouseKeys;
     RealPos lastMousePos;
     RealPos currentMousePos;
     bool mouseClicked;
     bool m_dragging = false;
+
+    Input(GLFWwindow* window);
+    void updateMousePos();
 public:
 
     void update();

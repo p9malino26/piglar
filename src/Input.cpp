@@ -17,8 +17,11 @@ void mouse_callback(GLFWwindow* window, int button, int action, int mods)
 };
 
 Input::Input(GLFWwindow* _window)
+:keys(new int[keysSize]), mouseKeys(new int[mouseKeysSize])
 {
+    instance = this;
     window = _window;
+
 }
 
 void Input::init(GLFWwindow* window)
@@ -41,7 +44,7 @@ void Input::update()
     mouseClicked = false;
 
     //set all keys (keyboard and mouse) to zero
-    std::memset(keys, 0, (keysSize + mouseKeysSize) * sizeof(int));
+    std::memset(keys.get(), 0, (keysSize + mouseKeysSize) * sizeof(int));
     glfwPollEvents();
 
     updateMousePos();
@@ -54,7 +57,7 @@ void Input::update()
         m_dragging = false;
 }
 
-glm::vec2 Input::updateMousePos()
+void Input::updateMousePos()
 {
     double x,y;
     glfwGetCursorPos(window, &x, &y);
