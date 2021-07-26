@@ -7,3 +7,7 @@ TileMap::TileMap(int width, int height)
 {
     clear();
 }
+
+TileMap::~TileMap() {
+    delete[] data;
+}

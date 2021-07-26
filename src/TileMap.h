@@ -23,7 +23,7 @@ public:
     //enum State {OFF, ON};
 
     TileMap(int width, int height);
-    inline ~TileMap() {delete[] data;}
+    ~TileMap();
     
     inline int getWidth() const {return width;}
     inline int getHeight() const {return height;}
