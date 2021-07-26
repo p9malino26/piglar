@@ -1,23 +1,18 @@
-
 CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 PROJECT(piglar)
-set( CMAKE_EXPORT_COMPILE_COMMANDS ON   )
-SET (CMAKE_CXX_COMPILER "/usr/bin/g++")
-SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -std=c++20 -Wall")
+SET (CMAKE_CXX_STANDARD 20)
+SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -Wall")
 SET (source_dir "${PROJECT_SOURCE_DIR}/src")
 SET (vendor_dir "${source_dir}/vendor")
+SET (CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 
 INCLUDE_DIRECTORIES(
 "${vendor_dir}/glad/include"
 "${vendor_dir}/stb_image"
 "${vendor_dir}/inipp"
 "${vendor_dir}/GLFont/"
-"/home/patryk/programs/freetype-2.9.1/include/"
 )
 
-LINK_DIRECTORIES(
-        "$HOME/programs/freetype-2.9.1/build"
-)
 
 FILE(GLOB source_files
 "${source_dir}/main.cpp"
@@ -67,7 +62,6 @@ FILE(GLOB source_files
 )
 
 FILE(GLOB vendor_files
-
         "${vendor_dir}/glad/src/glad.c"
         "${vendor_dir}/stb_image/stb_image/stb_image.cpp"
         "${vendor_dir}/GLFont/GLFont/GLFont.cpp"
@@ -76,11 +70,12 @@ FILE(GLOB vendor_files
         "${vendor_dir}/GLFont/GLFont/FontAtlas.cpp"
         )
 
-FILE(GLOB test_files
-    "${source_dir}/test/spawnEvenly.cpp"
-    "${source_dir}/util/spawnEvenly.cpp"
-)
+find_package(GLFW3 REQUIRED)
+find_package(Freetype REQUIRED)
+find_package(Threads REQUIRED)
 
-LINK_LIBRARIES(-lglfw -lGL -lpthread -lX11 -lXrandr -lXi -ldl -lfreetype)
+include_directories(${GLFW3_INCLUDE_DIR} ${FREETYPE_INCLUDE_DIR_ft2build})
+
+LINK_LIBRARIES(${GLFW3_LIBRARY} -lGL -lpthread -lX11 -lXrandr -lXi -ldl -lfreetype Threads::Threads)
 
 ADD_EXECUTABLE(piglar ${source_files} ${vendor_files})
