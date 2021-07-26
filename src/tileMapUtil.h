@@ -10,7 +10,7 @@ class Rectangle;
 typedef std::function<void(TileState&)> TileFunc;
 
 bool isOnRoad(const TileMap& tileMap, const RealPos& pos);
-inline BoardPos realToTile(const RealPos& pos);
+BoardPos realToTile(const RealPos& pos);
 BoardPos clampToNearestTile(const RealPos& pos);
 BoardPos getClosestPosWithRoad(const TileMap& tileMap, const BoardPos& pos);
 void fillLineUntilTouchingRoad(TileMap &roadMap, const BoardPos& start, CompassDirection direction);

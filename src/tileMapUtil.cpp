@@ -16,7 +16,7 @@ bool isOnRoad(const TileMap& tileMap, const RealPos& pos)
     return isRoad(state);
 }
 
-inline BoardPos realToTile(const RealPos& pos)
+BoardPos realToTile(const RealPos& pos)
 {
     return {std::floor(pos.x), std::floor(pos.y)};//wasbug
 }
