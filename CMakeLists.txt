@@ -1,6 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 PROJECT(piglar)
 SET (CMAKE_CXX_STANDARD 20)
+SET (CMAKE_CXX_COMPILER "/usr/bin/g++")
 SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -Wall")
 SET (source_dir "${PROJECT_SOURCE_DIR}/src")
 SET (vendor_dir "${source_dir}/vendor")
@@ -76,6 +77,6 @@ find_package(Threads REQUIRED)
 
 include_directories(${GLFW3_INCLUDE_DIR} ${FREETYPE_INCLUDE_DIR_ft2build})
 
-LINK_LIBRARIES(${GLFW3_LIBRARY} -lGL -lpthread -lX11 -lXrandr -lXi -ldl -lfreetype Threads::Threads)
+LINK_LIBRARIES(-lglfw -lGL -lpthread -lX11 -lXrandr -lXi -ldl -lfreetype -lpthread)
 
 ADD_EXECUTABLE(piglar ${source_files} ${vendor_files})

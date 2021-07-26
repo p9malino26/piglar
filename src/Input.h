@@ -2,6 +2,7 @@
 #define INPUT_H
 
 #include <GLFW/glfw3.h>
+#include <memory>
 
 #include "vectors.h"
 #include "util/singleton.h"
