@@ -5,8 +5,7 @@
 #include "tileMapUtil.h"
 
 #include "util/compassUtil.h"
-#include "generator/Rectangle.h"
-
+#include "util/Rectangle.h"
 
 bool isOnRoad(const TileMap& tileMap, const RealPos& pos)
 {

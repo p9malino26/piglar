@@ -1,16 +1,15 @@
 #include <iostream>
-#include "../TileMap.h"
-#include "../util/Random.h"
+#include "../../TileMap.h"
+#include "../../util/Random.h"
 #include "treeGenData.h"
 #include "TreeGenerator.h"
-#include "TreeGenParams.h"
-#include "../tileMapUtil.h"
+#include "../../TreeGenParams.h"
+#include "../../tileMapUtil.h"
 
 #define CONSTANT(EXPR) \
 static constexpr EXPR;
 
 
-namespace Generator {
     void genHouses(TileMap& tileMap, const BoardPos& startPos, CompassDirection direction, int length, Fraction houseProbability)
     {
         std::function<void(TileState&)> makeHouse = [&houseProbability] (TileState& tile) { if (Random::get()->fractionChance(houseProbability)) tile = HOUSE; };
@@ -161,5 +160,3 @@ namespace Generator {
     }
 
     TreeGenerator::~TreeGenerator() {};
-
-}

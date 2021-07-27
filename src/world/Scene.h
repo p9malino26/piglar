@@ -11,8 +11,7 @@ class Player;
 class Pig;
 class Truck;
 
-namespace Generator { class RoadMapGen; class TreeGenParams;}
-using namespace Generator;
+class TreeGenParams;
 
 class MechanicsConfig;
 

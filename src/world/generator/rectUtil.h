@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Rectangle.h"
-#include "../util/line.h"
+#include "../../util/Rectangle.h"
+#include "../../util/line.h"
 
 
 struct RectLinesInfo

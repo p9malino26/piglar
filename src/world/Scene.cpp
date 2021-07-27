@@ -2,7 +2,7 @@
 #include "Scene.h"
 #include "../Input.h"
 
-#include "../generator/RoadMapGen.h"
+#include "generator/RoadMapGen.h"
 #include "../MouseManager.h"
 #include "../TimeManager.h"
 
@@ -27,7 +27,7 @@ Scene::Scene(const MechanicsConfig& mechanicsConfig, const TreeGenParams& genCon
     player(new Player(mechanicsConfig.playerSpeed)), truck(new Truck), pigCount(mechanicsConfig.pigsCount)
 {
     instance = this;
-    Generator::generateTerrain(*roadMap, genConfig);
+    generateTerrain(*roadMap, genConfig);
 
     static auto getRandomSpawnPos = [&] () {return getClosestPosWithRoad(*roadMap, ::getRandomSpawnPos(roadMap->getWidth(), roadMap->getHeight())); };
     player->setPos(getRandomSpawnPos());

@@ -38,10 +38,10 @@ FILE(GLOB source_files
 "${source_dir}/TextManager.cpp"
 "${source_dir}/util/timeUtil.cpp"
 
-"${source_dir}/generator/BottomUpRectPlacer.cpp"
-"${source_dir}/generator/TreeGenerator.cpp"
-"${source_dir}/generator/RoadMapGen.cpp"
-"${source_dir}/generator/rectUtil.cpp"
+"${source_dir}/world/generator/BottomUpRectPlacer.cpp"
+"${source_dir}/world/generator/TreeGenerator.cpp"
+"${source_dir}/world/generator/RoadMapGen.cpp"
+"${source_dir}/world/generator/rectUtil.cpp"
 
 
 "${source_dir}/Input.cpp"

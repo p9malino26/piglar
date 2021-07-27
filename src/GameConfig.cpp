@@ -4,11 +4,11 @@
 
 #include "GameConfig.h"
 
-#include "generator/TreeGenParams.h"
+#include "TreeGenParams.h"
 #include "MechanicsConfig.h"
 #include "CameraConfig.h"
 
-GameConfig::GameConfig() : generatorConfig(new Generator::TreeGenParams),
+GameConfig::GameConfig() : generatorConfig(new TreeGenParams),
                                        mechanicsConfig(new MechanicsConfig),
                                        cameraConfig(new CameraConfig)
 {}

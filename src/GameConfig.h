@@ -6,13 +6,13 @@
 
 #include <memory>
 
-namespace Generator {class TreeGenParams; };
+class TreeGenParams;
 class MechanicsConfig;
 class CameraConfig;
 
 struct GameConfig
 {
-    std::unique_ptr<Generator::TreeGenParams> generatorConfig;
+    std::unique_ptr<TreeGenParams> generatorConfig;
     std::unique_ptr<MechanicsConfig> mechanicsConfig;
     std::unique_ptr<CameraConfig> cameraConfig;
 

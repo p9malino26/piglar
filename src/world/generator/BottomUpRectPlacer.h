@@ -1,16 +1,15 @@
 #pragma once
 
 #include <list>
-#include "Rectangle.h"
-#include "../util/line.h"
-#include "../util/vectors.h"
+#include "../../util/Rectangle.h"
+#include "../../util/line.h"
+#include "../../util/vectors.h"
 #include <optional>
 
 
 typedef std::list<Line>::iterator LinePtr;
 
 class RectLinesInfo;
-namespace Generator {
 
 class MinimumAreaInfo;
 
@@ -41,4 +40,3 @@ private:
 
 
 };
-}

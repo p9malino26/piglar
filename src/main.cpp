@@ -3,7 +3,7 @@
 #include "Game.h"
 #include "GameConfig.h"
 
-#include "generator/TreeGenParams.h"
+#include "TreeGenParams.h"
 #include "MechanicsConfig.h"
 #include "CameraConfig.h"
 

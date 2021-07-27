@@ -3,11 +3,10 @@
 
 #include "BottomUpRectPlacer.h"
 #include "rectUtil.h"
-#include "../util/lineUtil.h"
+#include "../../util/lineUtil.h"
 
-#include "../util/lineConsistencyCheck.h"
+#include "../../util/lineConsistencyCheck.h"
 
-namespace Generator {
 
 struct MinimumAreaInfo
 {
@@ -226,6 +225,3 @@ std::pair<BoardPos, Rectangle> BottomUpRectPlacer::seclude(MinimumAreaInfo& cont
     std::vector<std::pair<BoardPos, Rectangle>> BottomUpRectPlacer::getEmptySpaces() {
         return emptySpaces;
     }
-
-
-}

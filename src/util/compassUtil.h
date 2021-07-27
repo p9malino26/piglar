@@ -31,7 +31,7 @@ inline constexpr int directionNumber(CompassDirection dir) {return (int)dir; }
 inline constexpr CompassDirection opposite (CompassDirection direction) {return CompassDirection((int(direction) + 2) % 4);}
 glm::vec2i rotatePoint(const glm::vec2i& pos, int direction);
 
-inline constexpr CompassDirection rotateAcw(CompassDirection dir, int factor) // todo rename
+inline constexpr CompassDirection rotateAcw(CompassDirection dir, int factor)
 {
     return CompassDirection( ( (int)dir - factor + 4) % 4);
 }

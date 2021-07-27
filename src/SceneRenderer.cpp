@@ -4,7 +4,7 @@
 #include "tileMapUtil.h"
 #include "world/Scene.h"
 #include "Renderer.h"
-#include "generator/BottomUpRectPlacer.h"
+#include "world/generator/BottomUpRectPlacer.h"
 
 
 #include "world/SquareEntity.h"

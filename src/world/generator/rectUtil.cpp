@@ -1,6 +1,6 @@
 #include "rectUtil.h"
 
-#include "../util/vectors.h"
+#include "../../util/vectors.h"
 
 RectLinesInfo getRectLines(const Rectangle& rect) {
     RectLinesInfo toReturn;

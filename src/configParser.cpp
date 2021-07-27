@@ -8,7 +8,7 @@
 #include <cassert>
 #include <inipp/inipp.h>
 
-#include "generator/TreeGenParams.h"
+#include "TreeGenParams.h"
 #include "MechanicsConfig.h"
 #include "CameraConfig.h"
 
@@ -44,7 +44,7 @@ static void parseMechanics(MechanicsConfig& config)
     parse(config.cheats, "cheats", toBool);
 }
 
-static void parseTerGen(Generator::TreeGenParams& config)
+static void parseTerGen(TreeGenParams& config)
 {
     parse(config.branchRoadLengthRange.first, "branch_len_min", toInt);
     parse(config.branchRoadLengthRange.second, "branch_len_max", toInt);

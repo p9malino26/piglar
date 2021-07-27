@@ -2,21 +2,20 @@
 
 #include <optional>
 
-#include "TreeGenParams.h"
+#include "../../TreeGenParams.h"
 #include "TreeGenerator.h"
 
-#include "../TileMap.h"
-#include "../tileMapUtil.h"
+#include "../../TileMap.h"
+#include "../../tileMapUtil.h"
 
 #include "BottomUpRectPlacer.h"
 
-#include "../util/Random.h"
-#include "../util/compassUtil.h"
+#include "../../util/Random.h"
+#include "../../util/compassUtil.h"
 
 //prototypes
 
 
-namespace Generator {
     std::vector<std::pair<BoardPos, Rectangle>> generateRoadsAndHouses(TileMap& tileMap, const TreeGenParams& params)
     {
         BottomUpRectPlacer rpr(tileMap.getWidth(), tileMap.getHeight());
@@ -90,4 +89,3 @@ namespace Generator {
         generateGreenAreas(tileMap, greenSpaceInfo);
     }
 
-}

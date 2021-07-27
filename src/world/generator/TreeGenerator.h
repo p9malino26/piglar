@@ -1,11 +1,10 @@
 #pragma once
 
 #include <memory>
-#include "../util/vectors.h"
+#include "../../util/vectors.h"
 
 class TileMap;
 
-namespace Generator {
     class TreeGenParams;
     class TreeGenData;
 
@@ -27,6 +26,3 @@ namespace Generator {
         const TreeGenParams* params;
         std::unique_ptr<TreeGenData> lastGenData;
     };
-}
-
-
