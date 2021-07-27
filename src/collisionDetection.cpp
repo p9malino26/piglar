@@ -53,7 +53,7 @@ inline std::vector<Boundary> getCloseBoundariesForPoint(const TileMap& tileMap, 
     std::vector<Boundary> toReturn;
 
     BoardPos onTile = realToTile(pos);
-    BoardPos clampedPoint = clampToNearestTile(pos); // todo
+    BoardPos clampedPoint = clampToNearestTile(pos);
 
     //check horizontal boundaries
     if(clampedPoint.y == onTile.y)

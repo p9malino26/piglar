@@ -1,12 +1,5 @@
 #pragma once
 
-//#define GLEW_STATIC
-
-/**
- * @todo write docs
- */
-
-
 #include "VertexBuffer.h"
 #include "VertexArray.h"
 #include "IndexBuffer.h"

@@ -69,7 +69,6 @@ Renderer::Renderer()
     setWorldCoords(true);
 }
 
-//@todo sort out implementation
 void Renderer::drawSquare (const glm::vec2& pos, float sideLength)
 {
     drawRectangle(pos, {sideLength, sideLength});
@@ -86,8 +85,6 @@ void Renderer::drawRectangleWithLines(const PosRectangle& rect, const glm::vec3&
 
 void Renderer::drawLine(const Line &line) //deprecated
 {
-    //TODO this contains duplicated code and needs tidying
-
     glm::mat4 modelMatrix(1.0f);
     //model matrix: scale for length, rotate and place
     //place

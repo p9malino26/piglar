@@ -8,12 +8,6 @@
 #include <iostream>
 #include <exception>
 
-
-/**
- * @todo write docs
- */
-
-
 class Shader
 {
 public:

@@ -2,7 +2,7 @@
 
 template <typename T> bool between(T a, T b, T x) {return x >= a && x < b; };
 
-bool entitiesTouch(const Entity& e1, const Entity& e2) //TODO make const
+bool entitiesTouch(const Entity& e1, const Entity& e2)
 {
     const auto& pos1 = e1.getPos(), pos2 = e2.getPos();
     return (between(pos1.x, pos1.x + e1.getWidth(), pos2.x) || between(pos2.x, pos2.x + e2.getWidth(), pos1.x))

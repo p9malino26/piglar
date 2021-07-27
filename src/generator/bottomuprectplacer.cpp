@@ -68,7 +68,6 @@ void BottomUpRectPlacer::consistencyCheck()
 }
 
 
-//todo remove const
 Pos BottomUpRectPlacer::placeRectangleFinal( MinimumAreaInfo& contactingLines,  RectLinesInfo& rectLines)
 {
     auto lineTransform = [&contactingLines](Line& l) {

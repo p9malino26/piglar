@@ -28,8 +28,10 @@ Scene::Scene(const MechanicsConfig& mechanicsConfig, const TreeGenParams& genCon
 {
     instance = this;
     Generator::generateTerrain(*roadMap, genConfig);
-    player->setPos(getClosestPosWithRoad(*roadMap, getRandomSpawnPos(roadMap->getWidth(), roadMap->getHeight())));
-    truck->setPos (getClosestPosWithRoad(*roadMap, getRandomSpawnPos(roadMap->getWidth(), roadMap->getHeight()))); //TODO neaten
+
+    static auto getRandomSpawnPos = [&] () {return getClosestPosWithRoad(*roadMap, ::getRandomSpawnPos(roadMap->getWidth(), roadMap->getHeight())); };
+    player->setPos(getRandomSpawnPos());
+    truck->setPos (getRandomSpawnPos());
     Pig::init(mechanicsConfig.pigToPlayerSpeedRatio, mechanicsConfig.pigDetectionRange);
 
     std::vector<RealPos> pigPosns = spawnEvenly(roadMap->getWidth(), roadMap->getHeight(), mechanicsConfig.pigsCount);

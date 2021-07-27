@@ -27,7 +27,6 @@ std::vector<RealPos> spawnEvenly(int width, int height, int count)
         }
     }
 
-    assert (h == n_hor - 1); // TODO redundant?
     int remaining = count - h * n_ver;
 
     for(int v = 0; v < remaining; ++v )

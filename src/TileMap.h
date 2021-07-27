@@ -1,9 +1,5 @@
 #pragma once
 
-/**
- * @todo write docs
- */
-
 #include <vector>
 #include <utility>
 #include <algorithm>
@@ -40,7 +36,7 @@ public:
         data[getIndexFromCoord(coord)] = state;
     }
 
-    inline TileState getTileState(const BoardPos& coord) const //TODO rename to boardpos
+    inline TileState getTileState(const BoardPos& coord) const
     {
         return data[getIndexFromCoord(coord)];
     }

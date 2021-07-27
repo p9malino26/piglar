@@ -1,10 +1,5 @@
 #pragma once
 
-//#define GLEW_STATIC
-
-/**
- * @todo write docs
- */
 class VertexArray
 {
 public:

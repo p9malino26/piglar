@@ -90,7 +90,7 @@ void SceneRenderer::drawTileMap()
     }
 }
 
-void drawEntity(Entity& entity) // TODO Entity constness
+void drawEntity(const Entity& entity)
 {
     Renderer::get()->drawRectangle(entity.getPos(), entity.getDims());
 }
@@ -108,7 +108,7 @@ void SceneRenderer::render ()
     renderer.setWorldCoords(true);
     drawTileMap();
     auto& player = *scene.player;
-    auto& pigs = const_cast<std::vector<Pig>&>(scene.pigs); //TODO this is an abomination!
+    auto& pigs = scene.pigs;
     Truck& truck = *scene.truck;
 
     renderer.rotateTexture(CompassDirection::NORTH);
@@ -117,19 +117,17 @@ void SceneRenderer::render ()
     renderer.drawSquare(player.getPos(), player.getWidth());
 
     //draw pigs
-    auto drawPig = [&renderer] (SquareEntity& p)
+    auto drawPig = [&renderer] (const SquareEntity& p)
     {
         renderer.drawSquare(p.getPos(), p.getWidth());
     };
 
     renderer.setFillTexture(pigTex);
-    for (auto& pig: pigs) drawPig(pig);
+    for (const auto& pig: pigs) drawPig(pig);
 
     //draw truck
     renderer.setFillTexture(truckTex);
     drawEntity(truck);
-
-
 }
 
 const RealPos& Scene::getPlayerPos() {
