@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <stdexcept>
 
-#include "vectors.h"
+#include "util/vectors.h"
 #include "util/CompassDirection.h"
 
 //all rendering function deprecated

@@ -39,17 +39,16 @@ FILE(GLOB source_files
 "${source_dir}/TextManager.cpp"
 "${source_dir}/util/timeUtil.cpp"
 
-"${source_dir}/generator/bottomuprectplacer.cpp"
+"${source_dir}/generator/BottomUpRectPlacer.cpp"
 "${source_dir}/generator/TreeGenerator.cpp"
 "${source_dir}/generator/RoadMapGen.cpp"
-"${source_dir}/generator/rotateLine.cpp"
 "${source_dir}/generator/rectUtil.cpp"
 
 
 "${source_dir}/Input.cpp"
 "${source_dir}/TimeManager.cpp"
-"${source_dir}/util/util.cpp"
-"${source_dir}/util/lineFunc.cpp"
+"${source_dir}/util/lineUtil.cpp"
+"${source_dir}/util/compassUtil.cpp"
 "${source_dir}/util/Random.cpp"
 "${source_dir}/util/spawnEvenly.cpp"
 

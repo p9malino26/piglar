@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "vectors.h"
+#include "util/vectors.h"
 #include "util/CachedFunction.h"
 
 class Scene;

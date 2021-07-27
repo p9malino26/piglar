@@ -5,7 +5,7 @@
 #include "Renderer.h"
 
 #include "Camera.h"
-#include "GLMIncludes.h"
+#include "util/vectors.h"
 #include "opengl/Display.h"
 
 #include "util/line.h"

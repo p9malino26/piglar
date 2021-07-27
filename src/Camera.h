@@ -1,7 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "GLMIncludes.h"
+#include "util/vectors.h"
 #include "util/singleton.h"
 
 class Camera: public Singleton

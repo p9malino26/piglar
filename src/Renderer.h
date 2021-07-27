@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-#include "vectors.h"
+#include "util/vectors.h"
 
 #include "util/CompassDirection.h"
 #include "util/PosRectangle.h"

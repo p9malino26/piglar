@@ -8,7 +8,7 @@
 #include "../TileMap.h"
 #include "../tileMapUtil.h"
 
-#include "bottomuprectplacer.h"
+#include "BottomUpRectPlacer.h"
 
 #include "../util/Random.h"
 #include "../util/compassUtil.h"

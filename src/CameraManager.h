@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GLMIncludes.h"
+#include "util/vectors.h"
 
 class Camera;
 class CameraConfig;

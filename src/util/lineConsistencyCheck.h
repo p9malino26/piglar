@@ -1,6 +1,6 @@
 #pragma once
 
-#include "lineFunc.h"
+#include "lineUtil.h"
 
 template<class InputIt>
 void lineConsistencyCheck(InputIt first, InputIt end)

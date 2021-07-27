@@ -1,7 +1,5 @@
-//this file contains all the definitions of Util.
-
+#include "compassUtil.h"
 //COMPASS
-#include "compassVec.h"
 
 const glm::vec2i NORTH_VEC =   glm::vec2i(0, 1);
 const glm::vec2i EAST_VEC  =   glm::vec2i(1, 0);
@@ -41,6 +39,22 @@ CompassDirection compassDirFromRelative ( CompassDirection compDir, RelativeDire
         case CompassDirection::WEST:
             if (relDir == RelativeDirection::RIGHT) return CompassDirection::NORTH;
             else return CompassDirection::SOUTH;
+    }
+}
+
+glm::vec2i rotatePoint(const glm::vec2i& pos, int direction)
+{
+    direction = (direction + 4) % 4;
+    switch (direction)
+    {
+        case 1:
+            return {-pos.y, pos.x};
+        case 2:
+            return {-pos.x, -pos.y};
+        case 3:
+            return {pos.y, -pos.x};
+        default:
+            return pos;
     }
 }
 

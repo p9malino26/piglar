@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "vectors.h"
+#include "util/vectors.h"
 
 struct CameraConfig
 {

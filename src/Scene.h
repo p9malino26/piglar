@@ -4,7 +4,7 @@
 #include <chrono>
 #include <set>
 #include "util/singleton.h"
-#include "vectors.h"
+#include "util/vectors.h"
 
 class TileMap;
 class Player;

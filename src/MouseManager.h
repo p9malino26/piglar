@@ -1,8 +1,8 @@
 #pragma once
 
-#include "GLMIncludes.h"
+#include "util/vectors.h"
 #include "util/singleton.h"
-#include "vectors.h"
+#include "util/vectors.h"
 
 class Display;
 class Camera;

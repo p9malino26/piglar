@@ -1,6 +1,6 @@
 #include <vector>
 
-#include "../vectors.h"
+#include "vectors.h"
 
 std::vector<RealPos> spawnEvenly(int width, int height, int count)
 {

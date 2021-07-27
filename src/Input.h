@@ -4,7 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <memory>
 
-#include "vectors.h"
+#include "util/vectors.h"
 #include "util/singleton.h"
 
 class Input: public Singleton

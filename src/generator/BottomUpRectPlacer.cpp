@@ -1,9 +1,9 @@
 #include <algorithm>
 #include <utility>
 
-#include "bottomuprectplacer.h"
+#include "BottomUpRectPlacer.h"
 #include "rectUtil.h"
-#include "../util/lineFunc.h"
+#include "../util/lineUtil.h"
 
 #include "../util/lineConsistencyCheck.h"
 

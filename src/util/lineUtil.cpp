@@ -1,10 +1,16 @@
 #include <optional>
-#include "lineFunc.h"
+#include "line.h"
 #include "compassUtil.h"
 
 glm::vec2i tip(const Line& l)
 {
     return l.pos + directionVec(l.direction) * l.length;
+}
+
+//TODO move!
+Line rotateLine(const Line& line, int direction)
+{
+    return Line(rotatePoint(line.pos, direction), line.length, rotateAcw(line.direction, direction));
 }
 
 

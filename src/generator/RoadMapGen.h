@@ -4,7 +4,7 @@
 
 class TileMap;
 
-namespace Generator{
+namespace Generator{ // todo get rid of namespace
     class TreeGenParams;
     void generateTerrain(TileMap&, const TreeGenParams& params);
 }

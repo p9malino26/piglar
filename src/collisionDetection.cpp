@@ -3,7 +3,7 @@
 //
 #include "tileMapUtil.h"
 #include "Entity.h"
-#include "util/compassVec.h"
+#include "util/compassUtil.h"
 
 
 struct Boundary
