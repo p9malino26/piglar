@@ -1,8 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 PROJECT(piglar)
 SET (CMAKE_CXX_STANDARD 20)
-SET (CMAKE_CXX_COMPILER "/usr/bin/g++")
-SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -Wall")
+SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -g")
 SET (source_dir "${PROJECT_SOURCE_DIR}/src")
 SET (vendor_dir "${source_dir}/vendor")
 SET (CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
@@ -72,11 +71,13 @@ FILE(GLOB vendor_files
         )
 
 find_package(GLFW3 REQUIRED)
+find_package(OpenGL REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(Threads REQUIRED)
+find_package(GLM REQUIRED)
 
-include_directories(${GLFW3_INCLUDE_DIR} ${FREETYPE_INCLUDE_DIR_ft2build})
+include_directories(${GLFW3_INCLUDE_DIR} ${FREETYPE_INCLUDE_DIR_ft2build} ${GLM_INCLUDE_DIR})
 
-LINK_LIBRARIES(-lglfw -lGL -lpthread -lX11 -lXrandr -lXi -ldl -lfreetype -lpthread)
+LINK_LIBRARIES( ${OPENGL_LIBRARIES} ${GLFW3_LIBRARY} Threads::Threads ${CMAKE_DL_LIBS} ${FREETYPE_LIBRARIES})
 
 ADD_EXECUTABLE(piglar ${source_files} ${vendor_files})
