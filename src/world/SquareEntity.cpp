@@ -3,7 +3,7 @@
 //
 
 #include "SquareEntity.h"
-#include "MainTileMap.h"
+#include "../MainTileMap.h"
 
 float SquareEntity::getWidth() const {
     return m_sideLength;

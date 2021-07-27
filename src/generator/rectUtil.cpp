@@ -1,8 +1,10 @@
 #include "rectUtil.h"
 
+#include "../util/vectors.h"
+
 RectLinesInfo getRectLines(const Rectangle& rect) {
     RectLinesInfo toReturn;
-    glm::vec2i varPos{0,0};
+    BoardPos varPos{0,0};
     //left
     toReturn.left = {varPos, rect.height, CompassDirection::NORTH};
     //top

@@ -7,11 +7,11 @@
 class Camera: public Singleton
 {
     float zoom; // how much you are actually scaling
-    glm::vec2 position;
+    RealPos position;
 
 public:
     Camera();
-    Camera(const glm::vec2& position, float zoom);
+    Camera(const RealPos& position, float zoom);
 
     inline void changeXpos(float delta)
     {
@@ -27,14 +27,14 @@ public:
 
     void clampZoom(float low, float high);
 
-    inline const glm::vec2& getPosition() {return position; }
+    inline const RealPos& getPosition() {return position; }
 
-    inline void setPosition(const glm::vec2& _position)
+    inline void setPosition(const RealPos& _position)
     {
         position = _position;
     }
 
-    inline void changePosition(const glm::vec2& delta)
+    inline void changePosition(const RealPos& delta)
     {
         position += delta;
     }

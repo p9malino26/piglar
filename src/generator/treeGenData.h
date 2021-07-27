@@ -2,7 +2,7 @@
 
 namespace Generator {
     struct TreeGenData {
-        glm::vec2i dims;
+        BoardPos dims;
         int maxLBranchLength, maxRBranchLength;
     };
 }

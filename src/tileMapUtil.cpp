@@ -66,7 +66,7 @@ bool contactsRoads(const TileMap& roadMap, const BoardPos& pos, CompassDirection
 
 }
 
-void setLine(TileMap& tileMap, const glm::vec2i& startPos, CompassDirection direction, int length)
+void setLine(TileMap& tileMap, const BoardPos& startPos, CompassDirection direction, int length)
 {
     TileState state = compassToRoadOrientation(direction);
     forEachOnLine(tileMap, startPos, direction, length, [&state](TileState& tile) {tile = state; });
@@ -87,10 +87,10 @@ void fillLineUntilTouchingRoad(TileMap &roadMap, const BoardPos& start, CompassD
     }
 }
 
-void forEachOnLine(TileMap& tileMap, const glm::vec2i& startPos, CompassDirection direction, int length, std::function<void(TileState&)> tileFunc)
+void forEachOnLine(TileMap& tileMap, const BoardPos& startPos, CompassDirection direction, int length, std::function<void(TileState&)> tileFunc)
 {
-    glm::vec2i theDirectionVec = directionVec(direction);
-    glm::vec2i varPos = startPos;
+    BoardPos theDirectionVec = directionVec(direction);
+    BoardPos varPos = startPos;
     for (int i = 0; i < length; i++, varPos+=theDirectionVec)
     {
         tileFunc(tileMap.getTile(varPos));

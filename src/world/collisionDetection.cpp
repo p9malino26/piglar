@@ -1,9 +1,9 @@
 //
 // Created by patryk on 21/06/2021.
 //
-#include "tileMapUtil.h"
+#include "../tileMapUtil.h"
 #include "Entity.h"
-#include "util/compassUtil.h"
+#include "../util/compassUtil.h"
 
 
 struct Boundary

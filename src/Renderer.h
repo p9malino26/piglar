@@ -43,14 +43,14 @@ public:
 
     TexId initTexture(const std::string& fname);
 
-    void drawBackground(const glm::vec2& scale);
+    void drawBackground(const RealPos& scale);
     void setFillTexture(TexId textureId);
     void setFillColor(const Color& color);
 
     void rotateTexture(CompassDirection);
 
-    void drawRectangle(const glm::vec2& pos, const glm::vec2& dims);
-    void drawSquare(const glm::vec2& pos,float sideLength);
+    void drawRectangle(const RealPos& pos, const RealPos& dims);
+    void drawSquare(const RealPos& pos,float sideLength);
 
     void setChromaKeyEnable(bool);
     void setChromaKey(const Color&);

@@ -8,7 +8,7 @@
 #include "Input.h"
 #include "MouseManager.h"
 #include "Game.h"
-#include "Scene.h"
+#include "world/Scene.h"
 
 CameraManager::CameraManager(Camera* camera, const CameraConfig& config)
     : m_camera(camera), m_config(&config)

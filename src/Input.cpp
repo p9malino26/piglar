@@ -63,7 +63,7 @@ void Input::updateMousePos()
     double x,y;
     glfwGetCursorPos(window, &x, &y);
     lastMousePos = currentMousePos;
-    currentMousePos = glm::vec2(static_cast<float>(x), static_cast<float>(y));
+    currentMousePos = RealPos(static_cast<float>(x), static_cast<float>(y));
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)

@@ -6,7 +6,7 @@
 #include "Camera.h"
 #include "CameraManager.h"
 #include "MouseManager.h"
-#include "Scene.h"
+#include "world/Scene.h"
 #include "SceneRenderer.h"
 #include "Renderer.h"
 #include "util/Random.h"

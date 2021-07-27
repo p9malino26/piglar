@@ -11,7 +11,7 @@ Camera::Camera()
     instance = this;
 }
 
-Camera::Camera(const glm::vec2& position, float zoom)
+Camera::Camera(const RealPos& position, float zoom)
     :position(position), zoom(zoom)
 {
     

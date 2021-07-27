@@ -69,7 +69,7 @@ Renderer::Renderer()
     setWorldCoords(true);
 }
 
-void Renderer::drawSquare (const glm::vec2& pos, float sideLength)
+void Renderer::drawSquare (const RealPos& pos, float sideLength)
 {
     drawRectangle(pos, {sideLength, sideLength});
 }
@@ -105,7 +105,7 @@ Renderer::~Renderer() {
 }
 
 
-void Renderer::drawRectangle(const glm::vec2& pos, const glm::vec2& dims)
+void Renderer::drawRectangle(const RealPos& pos, const RealPos& dims)
 {
     glm::mat4 modelMatrix(1.0f);
     modelMatrix = glm::translate(modelMatrix, glm::vec3(pos, 0.0f));
@@ -151,7 +151,7 @@ void Renderer::activate() {
 }
 
 void Renderer::rotateTexture(CompassDirection direction) {
-    static constexpr glm::vec2 offset(-0.5f, -0.5f);
+    static constexpr RealPos offset(-0.5f, -0.5f);
     auto matrix = glm::mat4(1.f);
     matrix = glm::translate(matrix, glm::vec3(-offset, 0.f));
     matrix = glm::rotate(matrix, -((float) direction) * RIGHT_ANGLE, glm::vec3(0.f,0.f, 1.f));
@@ -159,7 +159,7 @@ void Renderer::rotateTexture(CompassDirection direction) {
     shader->uniformMat4("textureTransform", matrix);
 }
 
-void Renderer::drawBackground(const glm::vec2& scale) {
+void Renderer::drawBackground(const RealPos& scale) {
     shader->uniformMat4("textureTransform", glm::scale(ID4, glm::vec3(scale, 1.f)));
     setWorldCoords(false);
     shader->uniformInt("transformToCamera", true);

@@ -17,7 +17,7 @@ MouseManager::MouseManager()
 }
 
 
-glm::vec2 MouseManager::getWorldMousePos()
+RealPos MouseManager::getWorldMousePos()
 {
     return mouseToWorld(Input::get()->getMousePos());
 }

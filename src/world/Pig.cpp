@@ -3,10 +3,10 @@
 //
 
 #include "Pig.h"
-#include "util/Random.h"
+#include "../util/Random.h"
 #include "Player.h"
-#include "MainTileMap.h"
-#include "TimeManager.h"
+#include "../MainTileMap.h"
+#include "../TimeManager.h"
 
 float Pig::speed;
 float Pig::detectionRange;

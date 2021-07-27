@@ -3,8 +3,8 @@
 #include <vector>
 #include <chrono>
 #include <set>
-#include "util/singleton.h"
-#include "util/vectors.h"
+#include "../util/singleton.h"
+#include "../util/vectors.h"
 
 class TileMap;
 class Player;

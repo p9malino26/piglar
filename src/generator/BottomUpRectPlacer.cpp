@@ -32,7 +32,7 @@ inline int getLineHeight(std::optional<LinePtr> maybeLinePtr) {
     return height;
 }
 
-std::optional<Pos> BottomUpRectPlacer::placeRectangle(const Rectangle &rect)
+std::optional<BoardPos> BottomUpRectPlacer::placeRectangle(const Rectangle &rect)
 {
     RectLinesInfo rectLines = getRectLines(rect);
 
@@ -68,7 +68,7 @@ void BottomUpRectPlacer::consistencyCheck()
 }
 
 
-Pos BottomUpRectPlacer::placeRectangleFinal( MinimumAreaInfo& contactingLines,  RectLinesInfo& rectLines)
+BoardPos BottomUpRectPlacer::placeRectangleFinal(MinimumAreaInfo& contactingLines, RectLinesInfo& rectLines)
 {
     auto lineTransform = [&contactingLines](Line& l) {
         //l.pos.x *= rectLines.bottom.length;
@@ -172,9 +172,9 @@ MinimumAreaInfo BottomUpRectPlacer::getMinimumAreaLines()
 }
 
 //seclude
-std::pair<Pos, Rectangle> BottomUpRectPlacer::seclude(MinimumAreaInfo& contactingLines)
+std::pair<BoardPos, Rectangle> BottomUpRectPlacer::seclude(MinimumAreaInfo& contactingLines)
 {
-    std::pair<Pos, Rectangle> spaceInfo;
+    std::pair<BoardPos, Rectangle> spaceInfo;
     auto& minimumLine = contactingLines.minimumLine;
     spaceInfo.first = minimumLine->pos;
     int yVal = height;
@@ -223,7 +223,7 @@ std::pair<Pos, Rectangle> BottomUpRectPlacer::seclude(MinimumAreaInfo& contactin
     return spaceInfo;
 }
 
-    std::vector<std::pair<Pos, Rectangle>> BottomUpRectPlacer::getEmptySpaces() {
+    std::vector<std::pair<BoardPos, Rectangle>> BottomUpRectPlacer::getEmptySpaces() {
         return emptySpaces;
     }
 

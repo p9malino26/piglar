@@ -1,8 +1,8 @@
 #pragma once
 
 #include <memory>
+#include "../util/vectors.h"
 
-#include "../GLMIncludes.h"
 class TileMap;
 
 namespace Generator {
@@ -18,8 +18,8 @@ namespace Generator {
         /**
          * Prepares a tree inside. Returns the rectangular width and height of the tree
          */
-        glm::vec2i generate();
-        void writeTo(TileMap& roadMap, glm::vec2i startPos, bool flip);
+        BoardPos generate();
+        void writeTo(TileMap& roadMap, BoardPos startPos, bool flip);
 
         std::unique_ptr<TileMap> treeData;
         ~TreeGenerator();

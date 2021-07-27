@@ -17,7 +17,7 @@
 
 
 namespace Generator {
-    std::vector<std::pair<Pos, Rectangle>> generateRoadsAndHouses(TileMap& tileMap, const TreeGenParams& params)
+    std::vector<std::pair<BoardPos, Rectangle>> generateRoadsAndHouses(TileMap& tileMap, const TreeGenParams& params)
     {
         BottomUpRectPlacer rpr(tileMap.getWidth(), tileMap.getHeight());
         TreeGenerator treeGen(params);
@@ -26,7 +26,7 @@ namespace Generator {
         for (;;)
         {
             //generate
-            glm::vec2i dims = treeGen.generate();
+            BoardPos dims = treeGen.generate();
             ++dims.x;
             ++dims.y;
 
@@ -36,7 +36,7 @@ namespace Generator {
                 dims = glm::swap(dims);
 
             //see if it fits
-            std::optional<glm::vec2i> optPlacePos = rpr.placeRectangle(reinterpret_cast<Rectangle&>(dims));
+            std::optional<BoardPos> optPlacePos = rpr.placeRectangle(reinterpret_cast<Rectangle&>(dims));
 
             //if yes
             if (optPlacePos.has_value())

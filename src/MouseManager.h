@@ -11,7 +11,7 @@ class MouseManager: public Singleton
 {
 public:
     MouseManager();
-    glm::vec2 getWorldMousePos();
+    RealPos getWorldMousePos();
 
     void update();
     RealPos mouseToWorld(RealPos mouseVec);

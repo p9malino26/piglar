@@ -17,12 +17,12 @@ namespace Generator {
         forEachOnLine(tileMap, startPos, direction, length, makeHouse);
     }
 
-    TreeGenData generateTree(TileMap& roadmap, const glm::vec2i& startpos, const TreeGenParams& params)
+    TreeGenData generateTree(TileMap& roadmap, const BoardPos& startpos, const TreeGenParams& params)
     {
         assert(!roadmap.isPositionOutside(startpos));
 
         int mainRoadLength = Random::get()->randInt(params.mainRoadLengthRange.first, params.mainRoadLengthRange.second);
-        glm::vec2i endPos = startpos;
+        BoardPos endPos = startpos;
         endPos.y += mainRoadLength - 1;
         assert(!roadmap.isPositionOutside(endPos));
 
@@ -32,7 +32,7 @@ namespace Generator {
 
         int maxLHouseLine=0, maxRHouseLine=0;
 
-        auto genBranch = [&roadmap, &params, &maxLHouseLine, &maxRHouseLine](bool leftBranch, const glm::vec2i& pos) -> int{
+        auto genBranch = [&roadmap, &params, &maxLHouseLine, &maxRHouseLine](bool leftBranch, const BoardPos& pos) -> int{
 
             int linelength = Random::get()->randInt(params.branchRoadLengthRange.first, params.branchRoadLengthRange.second); // branch length
             auto startPos = pos;
@@ -59,7 +59,7 @@ namespace Generator {
 
         int maxLBranchLength = 0, maxRBranchLength = 0;
         //for branches:
-        for (glm::vec2i pos = startpos; pos.y <= endPos.y ;)
+        for (BoardPos pos = startpos; pos.y <= endPos.y ;)
         {
             int junctionChoice = Random::get()->randInt(0,2);
             /*
@@ -90,18 +90,18 @@ namespace Generator {
 
     }
 
-    std::pair<glm::vec2i, glm::vec2i> treePosToBufferAndGlobal(
+    std::pair<BoardPos, BoardPos> treePosToBufferAndGlobal(
             bool orientation,
-            const glm::vec2i& placePos,
-            const glm::vec2i& treePos,
+            const BoardPos& placePos,
+            const BoardPos& treePos,
             int treeWidth,
             int bufferMaxBranchLength,
             int maxLBranchLength)
     {
-        glm::vec2i bufferPos = treePos;
+        BoardPos bufferPos = treePos;
         bufferPos.x += bufferMaxBranchLength - maxLBranchLength;
 
-        glm::vec2i globalPos;
+        BoardPos globalPos;
         if(orientation == 1) // horizontal
         {
             globalPos = {treePos.y, -treePos.x + treeWidth - 1};
@@ -120,7 +120,7 @@ namespace Generator {
     {}
 
 
-    glm::vec2i TreeGenerator::generate()
+    BoardPos TreeGenerator::generate()
     {
         *lastGenData = generateTree(*treeData, {params->branchRoadLengthRange.second, 0}, *params);
         return lastGenData->dims;
@@ -128,22 +128,22 @@ namespace Generator {
 
 
 
-    void TreeGenerator::writeTo(TileMap& roadMap, glm::vec2i startPos, bool flip)
+    void TreeGenerator::writeTo(TileMap& roadMap, BoardPos startPos, bool flip)
     {
         //write#
 
 
         //go through every logical tree position
-        const glm::vec2i& dims = lastGenData->dims;
-        glm::vec2i treePos{0,0};
+        const BoardPos& dims = lastGenData->dims;
+        BoardPos treePos{0,0};
         for (; treePos.x < dims.x; treePos.x++)
         {
             for(treePos.y = 0; treePos.y < dims.y; treePos.y++)
             {
                 //find out different coordinates
                 auto tmp = treePosToBufferAndGlobal(flip, startPos, treePos, dims.x, params->branchRoadLengthRange.second, lastGenData->maxLBranchLength);
-                glm::vec2i& bufferPos = tmp.first;
-                glm::vec2i& globalPos = tmp.second;
+                BoardPos& bufferPos = tmp.first;
+                BoardPos& globalPos = tmp.second;
 
                 auto srcState = treeData->getTileState(bufferPos);
                 auto destState = srcState;

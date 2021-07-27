@@ -2,12 +2,12 @@
 
 #include "TileMap.h"
 #include "tileMapUtil.h"
-#include "Scene.h"
+#include "world/Scene.h"
 #include "Renderer.h"
 #include "generator/BottomUpRectPlacer.h"
 
 
-#include "SquareEntity.h"
+#include "world/SquareEntity.h"
 #include "util/Random.h"
 
 class Pig: public SquareEntity {};
@@ -65,7 +65,7 @@ void SceneRenderer::drawTileMap()
         for (int y = 0; y < tileMap.getHeight() ; y++)
         {
             //set color white by default
-            auto coord = glm::vec2i(x, y);
+            auto coord = BoardPos(x, y);
             auto state = tileMap.getTileState(coord);
             renderer.setChromaKeyEnable(false);
             renderer.rotateTexture(CompassDirection::NORTH);
@@ -103,7 +103,7 @@ void SceneRenderer::render ()
     //draw forest
     renderer.setWorldCoords(false);
     renderer.setFillTexture(forestTex);
-    renderer.drawBackground(glm::vec2(4.f));
+    renderer.drawBackground(RealPos(4.f));
 
     renderer.setWorldCoords(true);
     drawTileMap();

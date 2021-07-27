@@ -1,20 +1,20 @@
-#include "MainTileMap.h"
+#include "../MainTileMap.h"
 #include "Scene.h"
-#include "Input.h"
+#include "../Input.h"
 
-#include "generator/RoadMapGen.h"
-#include "MouseManager.h"
-#include "TimeManager.h"
+#include "../generator/RoadMapGen.h"
+#include "../MouseManager.h"
+#include "../TimeManager.h"
 
-#include "util/compassUtil.h"
-#include "util/rangeFor.h"
-#include "tileMapUtil.h"
-#include "util/Random.h"
+#include "../util/compassUtil.h"
+#include "../util/rangeFor.h"
+#include "../tileMapUtil.h"
+#include "../util/Random.h"
 #include "Pig.h"
 #include "Player.h"
 #include "Truck.h"
-#include "MechanicsConfig.h"
-#include "Game.h"
+#include "../MechanicsConfig.h"
+#include "../Game.h"
 
 Scene* Scene::instance;
 
@@ -66,7 +66,7 @@ void Scene::updateGame()
     }
     //move player
 
-    glm::vec2 playerMoveDir(0.f, 0.f);
+    RealPos playerMoveDir(0.f, 0.f);
     if(Input::get()->keyInfo(GLFW_KEY_W, GLFW_PRESS))
         playerMoveDir += NORTH_VEC;
     if(Input::get()->keyInfo(GLFW_KEY_S, GLFW_PRESS))
