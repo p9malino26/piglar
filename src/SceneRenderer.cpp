@@ -17,7 +17,6 @@ class Truck: public Entity {};
 TexId pigTex;
 TexId playerTex;
 TexId truckTex;
-TexId winTex;
 TexId roadTex;
 TexId forestTex;
 TexId houseTex;
@@ -39,7 +38,6 @@ SceneRenderer::SceneRenderer(const Scene& scene)
     playerTex = Renderer::get()->initTexture("res/textures/player.png");
     houseTex = Renderer::get()->initTexture("res/textures/house.png");
     truckTex = Renderer::get()->initTexture("res/textures/truck.png");
-    winTex = Renderer::get()->initTexture("res/textures/you-win.jpeg");
     roadTex = Renderer::get()->initTexture("res/textures/road.png");
     forestTex = Renderer::get()->initTexture("res/textures/green.png");
 }
