@@ -7,7 +7,7 @@
 #include "MechanicsConfig.h"
 #include "CameraConfig.h"
 
-void loadConfigFromFile(GameConfig& config, const std::string& fName);
+bool loadConfigFromFile(GameConfig& config, const std::string& fName);
 
 int main(int argc, char* argv[])
 {
@@ -21,9 +21,12 @@ int main(int argc, char* argv[])
     for(;arg < argc;++arg)
     {
         if (!strcmp(argv[arg], "--config")) {
-            loadConfigFromFile(config,argv[++arg]);
-            std::cout << "[INFO] Loading from config file " << argv[arg] << std::endl;
-            isConfig = true;
+            if (loadConfigFromFile(config,argv[++arg])) {
+                std::cout << "[INFO] Loaded from config file " << argv[arg] << std::endl;
+                isConfig = true;
+            } else {
+                std::cerr << "[ERROR] File " << argv[arg] << " does not exist.\n";
+            }
         }
         else if (!strcmp(argv[arg], "--seed"))
         {

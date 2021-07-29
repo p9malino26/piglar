@@ -66,10 +66,11 @@ static void parseCamera(CameraConfig& config)
     parse(config.initialZoom, "initial_zoom", toFloat);
 }
 
-void loadConfigFromFile(GameConfig& config, const std::string& fName)
+bool loadConfigFromFile(GameConfig& config, const std::string& fName)
 {
     std::ifstream is(fName);
-    assert(is.is_open());
+    if (!is.good()) return false;
+
     inipp::Ini<char> ini;
     ini.parse(is);
 
