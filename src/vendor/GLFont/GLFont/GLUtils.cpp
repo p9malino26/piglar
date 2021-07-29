@@ -33,7 +33,6 @@ void GLUtils::loadShader(const std::string& shaderSource, GLenum shaderType, uns
     shader = shaderStr.c_str();
 
     // Compile shader
-    printf("Compiling shader\n");
     glShaderSource(shaderId,        // Shader handle
         1,               // Number of files
         &shader,  // Shader source code
@@ -48,7 +47,6 @@ void GLUtils::loadShader(const std::string& shaderSource, GLenum shaderType, uns
     fprintf(stdout, "%s\n", &errorMessage[0]);
 
     // Link the program
-    fprintf(stdout, "Linking program\n");
     glAttachShader(programId, shaderId);
     glLinkProgram(programId);
 
