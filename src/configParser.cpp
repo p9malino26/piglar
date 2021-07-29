@@ -82,5 +82,5 @@ bool loadConfigFromFile(GameConfig& config, const std::string& fName)
 
     data = &ini.sections["Camera"];
     parseCamera(*config.cameraConfig);
-
+    return true;
 }

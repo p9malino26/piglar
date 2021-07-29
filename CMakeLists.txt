@@ -74,7 +74,7 @@ find_package(Freetype REQUIRED)
 find_package(Threads REQUIRED)
 find_package(GLM REQUIRED)
 
-include_directories(${GLFW3_INCLUDE_DIR} ${FREETYPE_INCLUDE_DIR_ft2build} ${GLM_INCLUDE_DIR})
+include_directories(${GLFW3_INCLUDE_DIR} ${FREETYPE_INCLUDE_DIRS} ${GLM_INCLUDE_DIR})
 
 LINK_LIBRARIES( ${OPENGL_LIBRARIES} ${GLFW3_LIBRARY} Threads::Threads ${CMAKE_DL_LIBS} ${FREETYPE_LIBRARIES})
 
