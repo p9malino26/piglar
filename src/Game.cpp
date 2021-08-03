@@ -29,12 +29,12 @@ Game::Game(const GameConfig& config, unsigned int seed)
     mouseManager(new MouseManager()),
       camera(new Camera()),
       cameraManager(new CameraManager(camera.get(), *config.cameraConfig)),
-    scene( new Scene(*config.mechanicsConfig, *config.generatorConfig)),
     renderer(new Renderer()),
     cheats(config.mechanicsConfig->cheats)
 {
     instance = this;
     Random::init(seed);
+    scene = std::make_unique<Scene>(*config.mechanicsConfig, *config.generatorConfig);
 
     camera->setPosition(scene->getPlayerPos());
     sceneRenderer = std::make_unique<SceneRenderer>(*scene.get());
