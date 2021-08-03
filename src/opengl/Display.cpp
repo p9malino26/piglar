@@ -41,8 +41,8 @@ Display::Display(const std::string& title, int width, int height, int contextVer
         //m_states = m_states | DISPLAY_GLFW_WINDOW_GOOD;
         std::cout << "[INFO] Starting OpenGL context.\n";
         glfwMakeContextCurrent(m_window);
-
-
+        std::cout << "[INFO] Context started successfully.\n";
+        
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         {
             std::cout << "Failed to initialize GLAD" << std::endl;
@@ -52,21 +52,7 @@ Display::Display(const std::string& title, int width, int height, int contextVer
         glViewport(0, 0, m_width, m_height);
         
         std::cout << "[INFO] Context initialized successfully: " <<  glGetString(GL_VERSION) << std::endl;
-        glEnable(GL_DEBUG_OUTPUT);
-        auto debugCallback = [](GLenum source,
-                 GLenum type,
-                 GLuint id,
-                 GLenum severity,
-                 GLsizei length,
-                 const GLchar* message,
-                 const void* userParam)
-                 {
-                     fprintf( stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
-           ( type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : "" ),
-            type, severity, message );
-                 };
 
-        glDebugMessageCallback(debugCallback, nullptr);
 
     }catch (std::exception& e)
     {
