@@ -1,4 +1,4 @@
-#Background
+# Background
 This is my first major programming project in C++, which I've done to exercise my programming skills for games. This is also my first go at random terrain generation.
 
 The objective of the game is to round up all the pigs and take them to the truck in the shortest amount of time. When you are close enough to a pig, it will follow you. Initially, the pigs are scattered randomly across the board.
@@ -36,7 +36,7 @@ For example, on Linux:
 `./piglar --seed 7 --config config.txt`
 
 # Gameplay
-##Controls
+## Controls
 
 * Move player: w/a/s/d
 * Close window: ESC
@@ -47,7 +47,7 @@ For example, on Linux:
 * Teleport player to cursor (cheat mode only): K
 * Teleport all pigs to player (cheat mode only): T
 
-##Configuration
+## Configuration
 
 The file config.txt contains various customizable options for various parts of the game, which you can fiddle with. For example, you can increase the difficulty of the game by decreasing the pig speed!
 Each option is described in the file.
