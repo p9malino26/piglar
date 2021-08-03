@@ -49,7 +49,7 @@ BoardPos getClosestPosWithRoad(const TileMap& tileMap, const BoardPos& pos)
             }
         }
     }
-
+    return getClosestPosWithRoad(tileMap, pos - BoardPos(1,1));
 }
 
 bool contactsRoads(const TileMap& roadMap, const BoardPos& pos, CompassDirection direction) {
