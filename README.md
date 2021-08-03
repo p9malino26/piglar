@@ -1,3 +1,4 @@
+# The Pig Game
 # Background
 This is my first major programming project in C++, which I've done to exercise my programming skills for games. This is also my first go at random terrain generation.
 
